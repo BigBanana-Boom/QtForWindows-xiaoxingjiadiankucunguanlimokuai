@@ -1,0 +1,25 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Image/BrokenRice.png</file>
+        <file>Image/maximized.png</file>
+        <file>Image/minimized.png</file>
+        <file>Image/normalized.png</file>
+        <file>Image/add.png</file>
+        <file>Image/search.png</file>
+        <file>Qss/SeperateLine.qss</file>
+        <file>Sql/CreateDoneTable.sql</file>
+        <file>Sql/CreateInRepoInfoTable.sql</file>
+        <file>Sql/CreateInRepoTable.sql</file>
+        <file>Sql/CreateOutRepoTable.sql</file>
+        <file>Sql/CreateRepoInfoTable.sql</file>
+        <file>Sql/CreateRepoTable.sql</file>
+        <file>Sql/CreateRepoChangeTable.sql</file>
+        <file>Sql/InitDoneTable.sql</file>
+        <file>Sql/InitInRepoInfoTable.sql</file>
+        <file>Sql/InitInRepoTable.sql</file>
+        <file>Sql/InitOutRepoTable.sql</file>
+        <file>Sql/InitRepoInfoTable.sql</file>
+        <file>Sql/InitRepoTable.sql</file>
+        <file>Sql/InitRepoChangeTable.sql</file>
+    </qresource>
+</RCC>
