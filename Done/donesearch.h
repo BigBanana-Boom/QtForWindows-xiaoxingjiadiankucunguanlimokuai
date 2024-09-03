@@ -1,7 +1,7 @@
 #ifndef DONESEARCH_H
 #define DONESEARCH_H
 
-#include "chinesesort.h"
+#include "MethodClass/chinesesort.h"
 #include <QComboBox>
 #include <QDateTime>
 #include <QDateTimeEdit>

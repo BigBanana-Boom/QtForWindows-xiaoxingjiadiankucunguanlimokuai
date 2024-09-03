@@ -1,7 +1,7 @@
 #ifndef INREPOREMOVE_H
 #define INREPOREMOVE_H
 
-#include "refreshrepotableid.h"
+#include "MethodClass/refreshrepotableid.h"
 #include "CustomWidget/inreporemovedialog.h"
 #include "CustomWidget/simpledialog.h"
 #include <QCollator>

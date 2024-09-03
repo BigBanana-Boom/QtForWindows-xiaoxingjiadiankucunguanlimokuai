@@ -2,7 +2,7 @@
 #define DONEREMOVEDIALOG2_H
 
 #include "qframelessdialog.h"
-#include "refreshrepotableid.h"
+#include "MethodClass/refreshrepotableid.h"
 #include "CustomButton/dialoggradientbutton.h"
 #include "CustomButton/exitgradientbutton.h"
 #include <QDialog>

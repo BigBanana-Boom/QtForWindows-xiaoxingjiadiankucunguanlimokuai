@@ -1,8 +1,8 @@
 #ifndef OUTREPOADD_H
 #define OUTREPOADD_H
 
-#include "chinesesort.h"
-#include "refreshrepotableid.h"
+#include "MethodClass/chinesesort.h"
+#include "MethodClass/refreshrepotableid.h"
 #include "CustomWidget/outrepoadddialog.h"
 #include "CustomWidget/simpledialog.h"
 #include <QCollator>

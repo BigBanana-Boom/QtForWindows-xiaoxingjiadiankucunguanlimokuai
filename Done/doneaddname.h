@@ -1,7 +1,7 @@
 #ifndef DONEADDNAME_H
 #define DONEADDNAME_H
 
-#include "chinesesort.h"
+#include "MethodClass/chinesesort.h"
 #include <QApplication>
 #include <QComboBox>
 #include <QDebug>

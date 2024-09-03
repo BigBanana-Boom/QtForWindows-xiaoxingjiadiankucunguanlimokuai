@@ -1,7 +1,7 @@
 #ifndef INREPOCHANGE_H
 #define INREPOCHANGE_H
 
-#include "refreshrepotableid.h"
+#include "MethodClass/refreshrepotableid.h"
 #include "CustomWidget/inrepochangedialog.h"
 #include "CustomWidget/simpledialog.h"
 #include <QCollator>

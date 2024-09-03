@@ -1,7 +1,7 @@
 #ifndef OUTREPOREMOVE_H
 #define OUTREPOREMOVE_H
 
-#include "refreshrepotableid.h"
+#include "MethodClass/refreshrepotableid.h"
 #include "CustomWidget/outreporemovedialog.h"
 #include "CustomWidget/simpledialog.h"
 #include <QCollator>

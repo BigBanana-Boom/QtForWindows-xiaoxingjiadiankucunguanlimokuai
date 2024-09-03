@@ -1,8 +1,8 @@
 #ifndef INREPOADD_H
 #define INREPOADD_H
 
-#include "chinesesort.h"
-#include "refreshrepotableid.h"
+#include "MethodClass/chinesesort.h"
+#include "MethodClass/refreshrepotableid.h"
 #include "CustomWidget/inrepoadddialog.h"
 #include "CustomWidget/simpledialog.h"
 #include <QCollator>

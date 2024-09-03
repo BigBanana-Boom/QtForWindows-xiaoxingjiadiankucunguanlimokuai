@@ -1,7 +1,7 @@
 #ifndef OUTREPOSEARCH_H
 #define OUTREPOSEARCH_H
 
-#include "chinesesort.h"
+#include "MethodClass/chinesesort.h"
 #include <QComboBox>
 #include <QDateTime>
 #include <QDateTimeEdit>

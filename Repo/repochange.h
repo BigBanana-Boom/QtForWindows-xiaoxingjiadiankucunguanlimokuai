@@ -1,7 +1,7 @@
 #ifndef REPOCHANGE_H
 #define REPOCHANGE_H
 
-#include "refreshrepotableid.h"
+#include "MethodClass/refreshrepotableid.h"
 #include "CustomWidget/repochangedialog.h"
 #include "CustomWidget/simpledialog.h"
 #include <QCollator>

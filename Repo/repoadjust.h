@@ -1,8 +1,8 @@
 #ifndef REPOADJUST_H
 #define REPOADJUST_H
 
-#include "refreshrepotableid.h"
-#include "chinesesort.h"
+#include "MethodClass/refreshrepotableid.h"
+#include "MethodClass/chinesesort.h"
 #include "CustomWidget/repoadjustdialog.h"
 #include "CustomWidget/simpledialog.h"
 #include <QCollator>

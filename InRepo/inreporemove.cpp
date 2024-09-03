@@ -65,18 +65,6 @@ InRepoRemove::InRepoRemove(QWidget *parent,
     sqlgroup->append("SELECT 入库数量 FROM 入库表 WHERE 入库编号 = ?");
     /* WHERE ...编号 = ?，很精确了，不用再排序 */
     sqlgroup->append("DELETE FROM 入库表 WHERE 入库编号 = ?");
-    sqlgroup->append("CREATE TABLE IF NOT EXISTS 临时入库表 ( "
-                     "入库编号 INTEGER PRIMARY KEY AUTOINCREMENT, "
-                     "入库时间 DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, "
-                     "入库位置 TEXT NOT NULL, "
-                     "入库类别 TEXT NOT NULL, "
-                     "入库名称 TEXT NOT NULL, "
-                     "入库数量 INTEGER NOT NULL)");
-    sqlgroup->append("INSERT INTO 临时入库表 "
-                     "(入库时间, 入库位置, 入库类别, 入库名称, 入库数量) "
-                     "SELECT 入库时间, 入库位置, 入库类别, 入库名称, 入库数量 FROM 入库表");
-    sqlgroup->append("DROP TABLE 入库表");
-    sqlgroup->append("ALTER TABLE 临时入库表 RENAME TO 入库表");
     /* 数据库操作语句，不需要排序 */
     sqlgroup->append("SELECT 存放数量 FROM 库存表 "
                      "WHERE 存放位置 = ? AND 库存类别 = ? AND 库存名称 = ?");
@@ -378,7 +366,7 @@ void InRepoRemove::ProcessTable() {
     tableWidget01->clear();
     tableWidget01->setRowCount(0);
     tableWidget01->setColumnCount(4);
-    query->prepare(sqlgroup->at(14));
+    query->prepare(sqlgroup->at(10));
     query->addBindValue(*currentproductcategory);
     query->addBindValue(*currentproductname);
     query->addBindValue(*currentrepo);
@@ -433,7 +421,7 @@ void InRepoRemove::showMessage()
         simpledialog->exec();
         delete simpledialog;
     } else {
-        query->prepare(sqlgroup->at(11));
+        query->prepare(sqlgroup->at(7));
         query->addBindValue(*currentrepo);
         query->addBindValue(*currentproductcategory);
         query->addBindValue(*currentproductname);
@@ -497,26 +485,22 @@ void InRepoRemove::SubmitRemoveOperation() {
     query->prepare(sqlgroup->at(6));
     query->addBindValue(*currentID);
     query->exec();
-    query->exec(sqlgroup->at(7));
-    query->exec(sqlgroup->at(8));
-    query->exec(sqlgroup->at(9));
-    query->exec(sqlgroup->at(10));
     // 更新库存表******************************************************************************
-    query->prepare(sqlgroup->at(11));
+    query->prepare(sqlgroup->at(7));
     query->addBindValue(*currentrepo);
     query->addBindValue(*currentproductcategory);
     query->addBindValue(*currentproductname);
     query->exec(); query->next();
     int left = query->value(0).toInt();
     if(left == *currentproductnumber) {
-        query->prepare(sqlgroup->at(12));
+        query->prepare(sqlgroup->at(8));
         query->addBindValue(*currentproductcategory);
         query->addBindValue(*currentproductname);
         query->addBindValue(*currentrepo);
         query->exec();
         RefreshRepoTableID refreshid(db, query);
     } else {
-        query->prepare(sqlgroup->at(13));
+        query->prepare(sqlgroup->at(9));
         query->addBindValue(*currentproductnumber);
         query->addBindValue(*currentrepo);
         query->addBindValue(*currentproductcategory);

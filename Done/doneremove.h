@@ -2,7 +2,7 @@
 #define DONEREMOVE_H
 
 #include "doneremoveoutrepo.h"
-#include "refreshrepotableid.h"
+#include "MethodClass/refreshrepotableid.h"
 #include "CustomWidget/doneremovedialog.h"
 #include "CustomWidget/doneremovedialog2.h"
 #include "CustomWidget/simpledialog.h"

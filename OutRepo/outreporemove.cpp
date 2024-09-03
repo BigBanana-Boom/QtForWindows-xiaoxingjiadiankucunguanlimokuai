@@ -63,18 +63,6 @@ OutRepoRemove::OutRepoRemove(QWidget *parent,
     sqlgroup->append("SELECT 出库数量 FROM 出库表 WHERE 出库编号 = ?");
     /* WHERE ...编号 = ?，很精确了，不用再排序 */
     sqlgroup->append("DELETE FROM 出库表 WHERE 出库编号 = ?");
-    sqlgroup->append("CREATE TABLE IF NOT EXISTS 临时出库表 ( "
-                     "出库编号 INTEGER PRIMARY KEY AUTOINCREMENT, "
-                     "出库时间 DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, "
-                     "出库位置 TEXT NOT NULL, "
-                     "出库类别 TEXT NOT NULL, "
-                     "出库名称 TEXT NOT NULL, "
-                     "出库数量 INTEGER NOT NULL)");
-    sqlgroup->append("INSERT INTO 临时出库表 "
-                     "(出库时间, 出库位置, 出库类别, 出库名称, 出库数量) "
-                     "SELECT 出库时间, 出库位置, 出库类别, 出库名称, 出库数量 FROM 出库表");
-    sqlgroup->append("DROP TABLE 出库表");
-    sqlgroup->append("ALTER TABLE 临时出库表 RENAME TO 出库表");
     /* 数据库操作语句，不需要排序 */
     sqlgroup->append("SELECT 存放数量 FROM 库存表 "
                      "WHERE 存放位置 = ? AND 库存类别 = ? AND 库存名称 = ?");
@@ -377,7 +365,7 @@ void OutRepoRemove::ProcessTable() {
     tableWidget01->clear();
     tableWidget01->setRowCount(0);
     tableWidget01->setColumnCount(4);
-    query->prepare(sqlgroup->at(14));
+    query->prepare(sqlgroup->at(10));
     query->addBindValue(*currentproductcategory);
     query->addBindValue(*currentproductname);
     query->addBindValue(*currentrepo);
@@ -468,19 +456,15 @@ void OutRepoRemove::SubmitRemoveOperation() {
     query->prepare(sqlgroup->at(6));
     query->addBindValue(*currentID);
     query->exec();
-    query->exec(sqlgroup->at(7));
-    query->exec(sqlgroup->at(8));
-    query->exec(sqlgroup->at(9));
-    query->exec(sqlgroup->at(10));
     // 更新出库表***************************************************************************
     // 更新库存表***************************************************************************
-    query->prepare(sqlgroup->at(11));
+    query->prepare(sqlgroup->at(7));
     query->addBindValue(*currentrepo);
     query->addBindValue(*currentproductcategory);
     query->addBindValue(*currentproductname);
     query->exec();
     if(!query->next()) {
-        query->prepare(sqlgroup->at(12));
+        query->prepare(sqlgroup->at(8));
         query->addBindValue(*currentproductcategory);
         query->addBindValue(*currentproductname);
         query->addBindValue(*currentrepo);
@@ -488,7 +472,7 @@ void OutRepoRemove::SubmitRemoveOperation() {
         query->exec();
         RefreshRepoTableID refreshid(db, query);
     } else {
-        query->prepare(sqlgroup->at(13));
+        query->prepare(sqlgroup->at(9));
         query->addBindValue(*currentproductnumber);
         query->addBindValue(*currentrepo);
         query->addBindValue(*currentproductcategory);

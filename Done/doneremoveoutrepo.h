@@ -1,7 +1,7 @@
 #ifndef DONEREMOVEOUTREPO_H
 #define DONEREMOVEOUTREPO_H
 
-#include "refreshrepotableid.h"
+#include "MethodClass/refreshrepotableid.h"
 #include <QApplication>
 #include <QComboBox>
 #include <QDateTime>

@@ -1,7 +1,7 @@
 #ifndef REPOMODIFY_H
 #define REPOMODIFY_H
 
-#include "refreshrepotableid.h"
+#include "MethodClass/refreshrepotableid.h"
 #include "xlsxdocument.h"
 #include <QCollator>
 #include <QComboBox>

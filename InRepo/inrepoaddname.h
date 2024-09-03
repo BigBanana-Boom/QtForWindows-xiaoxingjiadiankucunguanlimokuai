@@ -1,7 +1,7 @@
 #ifndef INREPOADDNAME_H
 #define INREPOADDNAME_H
 
-#include "chinesesort.h"
+#include "MethodClass/chinesesort.h"
 #include <QApplication>
 #include <QComboBox>
 #include <QDebug>

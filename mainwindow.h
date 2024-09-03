@@ -14,7 +14,7 @@
 #include "ModifyRepo/modifyrepo.h"
 #include "OutRepo/outrepo.h"
 #include "Repo/repo.h"
-#include "refreshrepotableid.h"
+#include "MethodClass/refreshrepotableid.h"
 
 class MainWindow : public QFramelessMainWindow
 {

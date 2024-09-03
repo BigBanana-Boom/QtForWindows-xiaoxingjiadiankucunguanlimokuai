@@ -1,8 +1,8 @@
 #ifndef DONEADD_H
 #define DONEADD_H
 
-#include "chinesesort.h"
-#include "refreshrepotableid.h"
+#include "MethodClass/chinesesort.h"
+#include "MethodClass/refreshrepotableid.h"
 #include "CustomWidget/doneadddialog.h"
 #include "CustomWidget/simpledialog.h"
 #include <QCollator>

@@ -1,7 +1,7 @@
 #ifndef DONECHANGE_H
 #define DONECHANGE_H
 
-#include "refreshrepotableid.h"
+#include "MethodClass/refreshrepotableid.h"
 #include "CustomWidget/donechangedialog.h"
 #include "CustomWidget/simpledialog.h"
 #include <QCollator>

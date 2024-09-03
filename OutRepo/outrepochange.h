@@ -1,7 +1,7 @@
 #ifndef OUTREPOCHANGE_H
 #define OUTREPOCHANGE_H
 
-#include "refreshrepotableid.h"
+#include "MethodClass/refreshrepotableid.h"
 #include "CustomWidget/outrepochangedialog.h"
 #include "CustomWidget/simpledialog.h"
 #include <QCollator>

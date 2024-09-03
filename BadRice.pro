@@ -67,11 +67,11 @@ SOURCES += \
     Repo/repoadjust.cpp \
     Repo/repochange.cpp \
     Repo/reposearch.cpp \
+    MethodClass/chinesesort.cpp \
+    MethodClass/refreshrepotableid.cpp \
     ModifyRepo/modifyrepo.cpp \
-    chinesesort.cpp \
     main.cpp \
-    mainwindow.cpp \
-    refreshrepotableid.cpp
+    mainwindow.cpp
 # C++源文件####################################################
 
 # 头文件#######################################################
@@ -122,10 +122,10 @@ HEADERS += \
     Repo/repoadjust.h \
     Repo/repochange.h \
     Repo/reposearch.h \
+    MethodClass/chinesesort.h \
+    MethodClass/refreshrepotableid.h \
     ModifyRepo/modifyrepo.h \
-    chinesesort.h \
-    mainwindow.h \
-    refreshrepotableid.h
+    mainwindow.h
 # 头文件#######################################################
 
 # 资源文件#####################################################
