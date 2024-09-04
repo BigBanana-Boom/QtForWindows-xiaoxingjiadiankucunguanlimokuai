@@ -567,7 +567,106 @@ void DoneRemove::showMessage2()
             // 新对象****************************************************************************
             // 新对象的信号和槽*****************************************************************
             connect(doneremovedialog2, &DoneRemoveDialog2::accepted, this, [this]() {
-                SubmitRemoveOperation2();
+                /*
+                 * 这原本是SubmitRemoveOperation2函数的所有内容，但考虑到在成员函数内部
+                 * 使用new本就不是一个好习惯，更别提其它的事情，所以为了最大限度减少内存错误，
+                 * 最大限度上提高系统稳定性，将SubmitRemoveOperation2函数的所有内容，移动
+                 * 到了这里。
+                 */
+                // 更新数据表***************************************************************************
+                // 更新已定表***************************************************************************
+                query->prepare(sqlgroup->at(5));
+                query->addBindValue(*currentID);
+                query->exec();
+                query->exec(sqlgroup->at(6));
+                query->exec(sqlgroup->at(7));
+                query->exec(sqlgroup->at(8));
+                query->exec(sqlgroup->at(9));
+                // 更新已定表***************************************************************************
+                int length = repoandcurrentnumv->size();
+                for(int i = 0; i < length; i++) {
+                    if((*repoandcurrentnumv)[i].currentnum.toInt() == 0) {}
+                    else {
+                        QString currentrepo = (*repoandcurrentnumv)[i].repo;
+                        int outnumber = (*repoandcurrentnumv)[i].currentnum.toInt();
+                        // 更新出库表***********************************************************************
+                        query->prepare(sqlgroup->at(13));
+                        query->addBindValue(QDateTime::currentDateTime());
+                        query->addBindValue(currentrepo);
+                        query->addBindValue(*currentproductcategory);
+                        query->addBindValue(*currentproductname);
+                        query->addBindValue(outnumber);
+                        query->exec();
+                        // 更新出库表***********************************************************************
+                        // 更新库存表***********************************************************************
+                        query->prepare(sqlgroup->at(14));
+                        query->addBindValue(currentrepo);
+                        query->addBindValue(*currentproductcategory);
+                        query->addBindValue(*currentproductname);
+                        query->exec();
+                        query->next();
+                        if(outnumber == query->value(0).toInt()) {
+                            query->prepare(sqlgroup->at(15));
+                            query->addBindValue(currentrepo);
+                            query->addBindValue(*currentproductcategory);
+                            query->addBindValue(*currentproductname);
+                            query->exec();
+                            RefreshRepoTableID refreshid(db, query);
+                        } else {
+                            query->prepare(sqlgroup->at(16));
+                            query->addBindValue(outnumber);
+                            query->addBindValue(currentrepo);
+                            query->addBindValue(*currentproductcategory);
+                            query->addBindValue(*currentproductname);
+                            query->exec();
+                        }
+                        // 更新库存表***********************************************************************
+                    }
+                }
+                // 更新数据表***************************************************************************
+                // 放出信号******************************************************************************
+                // mainwindow下的done, outrepo, inrepo, repo, repoinfo, inrepoinfo表级信号
+                emit RefreshDoneTableSignal();
+                emit RefreshOutRepoTableSignal();
+                emit RefreshInRepoTableSignal();
+                emit RefreshRepoTableSignal();
+                emit RefreshRepoInfoTableSignal();
+                emit RefreshInRepoInfoTableSignal();
+                // mainwindow下的done, outrepo, inrepo, repo, repoinfo, inrepoinfo表级信号
+                // done下的doneadd, 已定, donechange, donesearch窗口信号
+                emit RefreshDoneAddSignal();
+                emit RefreshDoneRemoveSignal();
+                emit RefreshDoneChangeSignal();
+                emit RefreshDoneSearchSignal();
+                // done下的doneadd, 已定, donechange, donesearch窗口信号
+                // outrepo下的outrepoadd, outreporemove, outrepochange, outreposearch窗口信号
+                emit RefreshOutRepoAddSignal();
+                emit RefreshOutRepoRemoveSignal();
+                emit RefreshOutRepoChangeSignal();
+                emit RefreshOutRepoSearchSignal();
+                // outrepo下的outrepoadd, outreporemove, outrepochange, outreposearch窗口信号
+                // inrepo下的inrepoadd, inreporemove, inrepochange, inreposearch窗口信号
+                emit RefreshInRepoAddSignal();
+                emit RefreshInRepoRemoveSignal();
+                emit RefreshInRepoChangeSignal();
+                emit RefreshInRepoSearchSignal();
+                // inrepo下的inrepoadd, inreporemove, inrepochange, inreposearch窗口信号
+                // repo下的repoadd, reporemove, repochange, reposearch窗口信号
+                emit RefreshRepoAddSignal();
+                emit RefreshRepoRemoveSignal();
+                emit RefreshRepoChangeSignal();
+                emit RefreshRepoSearchSignal();
+                // repo下的repoadd, reporemove, repochange, reposearch窗口信号
+                // 放出信号*****************************************************************************
+                // 更新自己*****************************************************************************
+                RefreshDoneRemoveSlot();
+                // 更新自己*****************************************************************************
+                /*
+                 * 这原本是SubmitRemoveOperation2函数的所有内容，但考虑到在成员函数内部
+                 * 使用new本就不是一个好习惯，更别提其它的事情，所以为了最大限度减少内存错误，
+                 * 最大限度上提高系统稳定性，将SubmitRemoveOperation2函数的所有内容，移动
+                 * 到了这里。
+                 */
             });
             // 新对象的信号和槽*****************************************************************
             // 嗯，坏米饭************************************************************************
@@ -607,94 +706,4 @@ void DoneRemove::showMessage2()
             delete simpledialog;
         }
     }
-}
-void DoneRemove::SubmitRemoveOperation2() {
-    // 更新数据表***************************************************************************
-    // 更新已定表***************************************************************************
-    query->prepare(sqlgroup->at(5));
-    query->addBindValue(*currentID);
-    query->exec();
-    query->exec(sqlgroup->at(6));
-    query->exec(sqlgroup->at(7));
-    query->exec(sqlgroup->at(8));
-    query->exec(sqlgroup->at(9));
-    // 更新已定表***************************************************************************
-    int length = repoandcurrentnumv->size();
-    for(int i = 0; i < length; i++) {
-        if((*repoandcurrentnumv)[i].currentnum.toInt() == 0) {}
-        else {
-            QString currentrepo = (*repoandcurrentnumv)[i].repo;
-            int outnumber = (*repoandcurrentnumv)[i].currentnum.toInt();
-            // 更新出库表***********************************************************************
-            query->prepare(sqlgroup->at(13));
-            query->addBindValue(QDateTime::currentDateTime());
-            query->addBindValue(currentrepo);
-            query->addBindValue(*currentproductcategory);
-            query->addBindValue(*currentproductname);
-            query->addBindValue(outnumber);
-            query->exec();
-            // 更新出库表***********************************************************************
-            // 更新库存表***********************************************************************
-            query->prepare(sqlgroup->at(14));
-            query->addBindValue(currentrepo);
-            query->addBindValue(*currentproductcategory);
-            query->addBindValue(*currentproductname);
-            query->exec();
-            query->next();
-            if(outnumber == query->value(0).toInt()) {
-                query->prepare(sqlgroup->at(15));
-                query->addBindValue(currentrepo);
-                query->addBindValue(*currentproductcategory);
-                query->addBindValue(*currentproductname);
-                query->exec();
-                RefreshRepoTableID refreshid(db, query);
-            } else {
-                query->prepare(sqlgroup->at(16));
-                query->addBindValue(outnumber);
-                query->addBindValue(currentrepo);
-                query->addBindValue(*currentproductcategory);
-                query->addBindValue(*currentproductname);
-                query->exec();
-            }
-            // 更新库存表***********************************************************************
-        }
-    }
-    // 更新数据表***************************************************************************
-    // 放出信号******************************************************************************
-    // mainwindow下的done, outrepo, inrepo, repo, repoinfo, inrepoinfo表级信号
-    emit RefreshDoneTableSignal();
-    emit RefreshOutRepoTableSignal();
-    emit RefreshInRepoTableSignal();
-    emit RefreshRepoTableSignal();
-    emit RefreshRepoInfoTableSignal();
-    emit RefreshInRepoInfoTableSignal();
-    // mainwindow下的done, outrepo, inrepo, repo, repoinfo, inrepoinfo表级信号
-    // done下的doneadd, 已定, donechange, donesearch窗口信号
-    emit RefreshDoneAddSignal();
-    emit RefreshDoneRemoveSignal();
-    emit RefreshDoneChangeSignal();
-    emit RefreshDoneSearchSignal();
-    // done下的doneadd, 已定, donechange, donesearch窗口信号
-    // outrepo下的outrepoadd, outreporemove, outrepochange, outreposearch窗口信号
-    emit RefreshOutRepoAddSignal();
-    emit RefreshOutRepoRemoveSignal();
-    emit RefreshOutRepoChangeSignal();
-    emit RefreshOutRepoSearchSignal();
-    // outrepo下的outrepoadd, outreporemove, outrepochange, outreposearch窗口信号
-    // inrepo下的inrepoadd, inreporemove, inrepochange, inreposearch窗口信号
-    emit RefreshInRepoAddSignal();
-    emit RefreshInRepoRemoveSignal();
-    emit RefreshInRepoChangeSignal();
-    emit RefreshInRepoSearchSignal();
-    // inrepo下的inrepoadd, inreporemove, inrepochange, inreposearch窗口信号
-    // repo下的repoadd, reporemove, repochange, reposearch窗口信号
-    emit RefreshRepoAddSignal();
-    emit RefreshRepoRemoveSignal();
-    emit RefreshRepoChangeSignal();
-    emit RefreshRepoSearchSignal();
-    // repo下的repoadd, reporemove, repochange, reposearch窗口信号
-    // 放出信号*****************************************************************************
-    // 更新自己*****************************************************************************
-    RefreshDoneRemoveSlot();
-    // 更新自己*****************************************************************************
 }

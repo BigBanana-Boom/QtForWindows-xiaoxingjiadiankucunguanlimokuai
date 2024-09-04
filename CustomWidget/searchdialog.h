@@ -6,7 +6,13 @@
 #include "CustomButton/exitgradientbutton.h"
 #include <QDialog>
 #include <QFile>
+#include <QHeaderView>
 #include <QLabel>
+#include <QLineEdit>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QStringList>
+#include <QTableWidget>
 #include <QTextEdit>
 #include <QVBoxLayout>
 
@@ -17,15 +23,25 @@ public:
     explicit SearchDialog(bool resizeEnable = true,
                           bool shadowBorder = true,
                           bool winNativeEvent = true,
-                          QWidget *parent = nullptr);
+                          QWidget *parent = nullptr,
+                          QSqlDatabase *db = nullptr,
+                          QSqlQuery *query = nullptr,
+                          int *retid = nullptr);
     ~SearchDialog();
-    void setDialogContent(QString content);
+    void setTableName(QString name);
 private slots:
     void onCloseButtonClicked();
+    void RefreshDoneTable();
+    void RefreshOutRepoTable();
+    void RefreshInRepoTable();
+    void RefreshRepoTable();
+    void RefreshInRepoInfoTable();
 private:
     // 字体********************************************************************************
     QFont *qfont01;
     QFont *qfont02;
+    QFont *qfont03;
+    QFont *qfont04;
     // 字体********************************************************************************
 
     // 总布局******************************************************************************
@@ -50,9 +66,17 @@ private:
     // 内容器件及内容**********************************************************************
     QWidget *contentWidget;
     QVBoxLayout *contentWidgetVLayout;
+    // 标题*********************************************************************************
+    QLabel *contentWidgetTitle;
+    // 标题*********************************************************************************
     // 第一行******************************************************************************
-    QLabel *rowOneLabel;
+    QLineEdit *qlineedit;
+    DialogGradientButton *yesbutton;
+    QHBoxLayout *rowOneHLayout;
     // 第一行******************************************************************************
+    // 表格********************************************************************************
+    QTableWidget *qtablewidget;
+    // 表格********************************************************************************
     // 内容器件及内容**********************************************************************
 
     // 内容器件与按钮器件之间的分割线****************************************************
@@ -64,6 +88,23 @@ private:
     QHBoxLayout *ButtonHLayout;
     DialogGradientButton *AcceptButton;
     // 按钮器件及内容**********************************************************************
+
+    // 数据库连接***************************************************************************
+    QSqlDatabase *db;
+    QSqlQuery *query;
+    QStringList *sqlgroup;
+    QString *whereclause;
+    QString *whereclausesql;
+    // 数据库连接***************************************************************************
+
+    // 一些细碎的变量***********************************************************************
+    QString *tablename;
+    // 一些细碎的变量***********************************************************************
+
+    // 表格*********************************************************************************
+    QHeaderView *headerView01_row;
+    QHeaderView *headerView01_column;
+    // 表格*********************************************************************************
 };
 
 #endif // SEARCHDIALOG_H

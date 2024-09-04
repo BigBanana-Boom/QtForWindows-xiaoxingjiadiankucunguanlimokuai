@@ -39,7 +39,7 @@ SOURCES += \
     CustomWidget/outreporemovedialog.cpp \
     CustomWidget/repoadjustdialog.cpp \
     CustomWidget/repochangedialog.cpp \
-    #CustomWidget/searchdialog.cpp \
+    CustomWidget/searchdialog.cpp \
     CustomWidget/simpledialog.cpp \
     Done/done.cpp \
     Done/doneadd.cpp \
@@ -97,7 +97,7 @@ HEADERS += \
     CustomWidget/outreporemovedialog.h \
     CustomWidget/repoadjustdialog.h \
     CustomWidget/repochangedialog.h \
-    #CustomWidget/searchdialog.h \
+    CustomWidget/searchdialog.h \
     CustomWidget/simpledialog.h \
     Done/done.h \
     Done/doneadd.h \
