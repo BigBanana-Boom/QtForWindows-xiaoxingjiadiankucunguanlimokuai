@@ -1,10 +1,10 @@
 # QtForWindows-xiaoxingjiadiankucunguanlimokuai
 
-![1](PngForREADME1.png)
+![1](README/PngForREADME1.png)
 
-![2](PngForREADME2.png)
+![2](README/PngForREADME2.png)
 
-![3](PngForREADME3.png)
+![3](README/PngForREADME3.png)
 
 ​	这个项目的名字叫作，QtForWindows-小型家电库存管理模块。我怎么开发的呢？我购买了“逆枫”的Qt无边框程序框架，使用Qt Creator5.12.10这个IDE，基于SQLite数据库和QWidget等组件，开发了这款简单有效的Windows桌面程序。
 

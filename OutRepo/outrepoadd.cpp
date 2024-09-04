@@ -75,6 +75,9 @@ OutRepoAdd::OutRepoAdd(QWidget *parent,
     qlabel01->setFont(*qfont01);
     qcombobox01->setFont(*qfont02);
     qcombobox01->setEditable(false);
+    searchbutton->setIcon(QIcon(":/Image/search.png"));
+    searchbutton->setIconSize(QSize(32, 32));
+    searchbutton->setFixedSize(QSize(40, 40));
     // 样式**********************************************************************************
     // 填充内容******************************************************************************
     qcombobox01->clear();
@@ -135,9 +138,6 @@ OutRepoAdd::OutRepoAdd(QWidget *parent,
     qlabel03->setFont(*qfont01);
     qcombobox03->setFont(*qfont02);
     qcombobox03->setEditable(false);
-    searchbutton->setIcon(QIcon(":/Image/search.png"));
-    searchbutton->setIconSize(QSize(32, 32));
-    searchbutton->setFixedSize(QSize(40, 40));
     // 样式**********************************************************************************
     // 填充内容******************************************************************************
     qcombobox03->clear();

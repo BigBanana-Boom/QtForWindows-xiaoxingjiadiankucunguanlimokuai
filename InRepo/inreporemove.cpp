@@ -34,6 +34,7 @@ InRepoRemove::InRepoRemove(QWidget *parent,
       qlabel05(new QLabel("待删除入库位置：", this)),
       qlabel06(new QLabel("待删除入库数量：", this)),
       qcombobox01(new QComboBox(this)),
+      searchbutton(new QPushButton(this)),
       qreadonlylineedit01(new QLineEdit(this)),
       qreadonlylineedit02(new QLineEdit(this)),
       qreadonlylineedit03(new QLineEdit(this)),
@@ -86,6 +87,9 @@ InRepoRemove::InRepoRemove(QWidget *parent,
     qlabel01->setFont(*qfont01);
     qcombobox01->setFont(*qfont02);
     qcombobox01->setEditable(false);
+    searchbutton->setIcon(QIcon(":/Image/search.png"));
+    searchbutton->setIconSize(QSize(32, 32));
+    searchbutton->setFixedSize(QSize(40, 40));
     // 样式**********************************************************************************
     // 填充内容*****************************************************************************
     qcombobox01->clear();
@@ -174,6 +178,7 @@ InRepoRemove::InRepoRemove(QWidget *parent,
     // 待删除入库名称***********************************************************************
     leftzonerow1->addWidget(qlabel01);
     leftzonerow1->addWidget(qcombobox01, 1);
+    leftzonerow1->addWidget(searchbutton);
     leftzonerow2->addWidget(qlabel02);
     leftzonerow2->addWidget(qreadonlylineedit01, 1);
     leftzonerow3->addWidget(qlabel03);
@@ -257,6 +262,8 @@ InRepoRemove::InRepoRemove(QWidget *parent,
     // 总区域*******************************************************************************
 
     // 信号与槽*****************************************************************************
+    connect(searchbutton, &QPushButton::clicked,
+            this, &InRepoRemove::onSearchButtonClicked);
     connect(qcombobox01, &QComboBox::currentTextChanged,
             this, &InRepoRemove::onCurrentIDChanged);
     connect(yesremove, &QPushButton::clicked, this, &InRepoRemove::showMessage);
@@ -586,4 +593,25 @@ void InRepoRemove::RefreshInRepoRemoveSlot() {
     // 启槽函数*****************************************************************************
     onCurrentIDChanged(QString::number(*currentID));
     // 启槽函数*****************************************************************************
+}
+void InRepoRemove::onSearchButtonClicked() {
+    // 新对象****************************************************************************
+    searchdialog = new SearchDialog(true, true, true, this, db, query, returnid);
+    searchdialog->setDialogTitle("删 除 入 库 · 查 找");
+    searchdialog->setTableName("入库表");
+    // 新对象****************************************************************************
+    // 嗯，坏米饭************************************************************************
+    // 调整位置**************************************************************************
+    QRect parentGeometry = this->window()->window()->geometry();
+    int dialogWidth = searchdialog->width();
+    int dialogHeight = searchdialog->height();
+    int x = (parentGeometry.width() - dialogWidth) / 2 + parentGeometry.x();
+    int y = (parentGeometry.height() - dialogHeight) / 2 + parentGeometry.y();
+    // 调整位置**************************************************************************
+    // 移动对话框***********************************************************************
+    searchdialog->move(x, y);
+    // 移动对话框***********************************************************************
+    // 嗯，坏米饭************************************************************************
+    searchdialog->exec();
+    delete searchdialog;
 }

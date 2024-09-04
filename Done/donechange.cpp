@@ -23,7 +23,8 @@ DoneChange::DoneChange(QWidget *parent, QSqlDatabase *db, QSqlQuery *query)
       qlabel04(new QLabel("待修改已定名称：", this)),
       qlabel05(new QLabel("待修改已定数量：", this)),
       qlabel06(new QLabel("修改后已定数量：", this)),
-      qcombobox00(new QComboBox(this)),
+      qcombobox01(new QComboBox(this)),
+      searchbutton(new QPushButton(this)),
       qreadonlylineedit01(new QLineEdit(this)),
       qreadonlylineedit02(new QLineEdit(this)),
       qreadonlylineedit03(new QLineEdit(this)),
@@ -66,21 +67,24 @@ DoneChange::DoneChange(QWidget *parent, QSqlDatabase *db, QSqlQuery *query)
     // 待修改已定编号***********************************************************************
     // 样式**********************************************************************************
     qlabel01->setFont(*qfont01);
-    qcombobox00->setFont(*qfont02);
-    qcombobox00->setEditable(false);
+    qcombobox01->setFont(*qfont02);
+    qcombobox01->setEditable(false);
+    searchbutton->setIcon(QIcon(":/Image/search.png"));
+    searchbutton->setIconSize(QSize(32, 32));
+    searchbutton->setFixedSize(QSize(40, 40));
     // 样式**********************************************************************************
     // 填充内容*****************************************************************************
-    qcombobox00->clear();
+    qcombobox01->clear();
     query->exec(sqlgroup->at(0));
     if(!query->next()) {
-        qcombobox00->addItem("暂无已定记录");
+        qcombobox01->addItem("暂无已定记录");
         *currentID = 0;
      } else {
-        qcombobox00->addItem(query->value(0).toString());
+        qcombobox01->addItem(query->value(0).toString());
         while (query->next()) {
-            qcombobox00->addItem(query->value(0).toString());
+            qcombobox01->addItem(query->value(0).toString());
         }
-        *currentID = qcombobox00->currentText().toInt();
+        *currentID = qcombobox01->currentText().toInt();
      }
     // 填充内容*****************************************************************************
     // 待修改已定编号***********************************************************************
@@ -203,7 +207,8 @@ DoneChange::DoneChange(QWidget *parent, QSqlDatabase *db, QSqlQuery *query)
 
     // 总布局*******************************************************************************
     leftzonerow1->addWidget(qlabel01);
-    leftzonerow1->addWidget(qcombobox00, 1);
+    leftzonerow1->addWidget(qcombobox01, 1);
+    leftzonerow1->addWidget(searchbutton);
     leftzonerow2->addWidget(qlabel02);
     leftzonerow2->addWidget(qreadonlylineedit01, 1);
     leftzonerow3->addWidget(qlabel03);
@@ -240,7 +245,9 @@ DoneChange::DoneChange(QWidget *parent, QSqlDatabase *db, QSqlQuery *query)
     // 总区域*******************************************************************************
 
     // 信号与槽函数*************************************************************************
-    connect(qcombobox00, &QComboBox::currentTextChanged,
+    connect(searchbutton, &QPushButton::clicked,
+            this, &DoneChange::onSearchButtonClicked);
+    connect(qcombobox01, &QComboBox::currentTextChanged,
             this, &DoneChange::onChangedIDChanged);
     using SpinBoxSignal = void (QSpinBox::*)(int);
     SpinBoxSignal spinBoxSignal = &QSpinBox::valueChanged;
@@ -529,26 +536,47 @@ void DoneChange::SubmitChangeOperation() {
 }
 void DoneChange::RefreshDoneChangeSlot() {
     // 关信号****************************************************************************
-    qcombobox00->blockSignals(true);
+    qcombobox01->blockSignals(true);
     // 关信号****************************************************************************
     // 填充内容*****************************************************************************
-    qcombobox00->clear();
+    qcombobox01->clear();
     query->exec(sqlgroup->at(0));
     if(!query->next()) {
-        qcombobox00->addItem("暂无已定记录");
+        qcombobox01->addItem("暂无已定记录");
         *currentID = 0;
      } else {
-        qcombobox00->addItem(query->value(0).toString());
+        qcombobox01->addItem(query->value(0).toString());
         while (query->next()) {
-            qcombobox00->addItem(query->value(0).toString());
+            qcombobox01->addItem(query->value(0).toString());
         }
-        *currentID = qcombobox00->currentText().toInt();
+        *currentID = qcombobox01->currentText().toInt();
      }
     // 填充内容*****************************************************************************
     // 开信号****************************************************************************
-    qcombobox00->blockSignals(false);
+    qcombobox01->blockSignals(false);
     // 开信号****************************************************************************
     // 启槽函数**************************************************************************
     onChangedIDChanged(QString::number(*currentID));
     // 启槽函数**************************************************************************
+}
+void DoneChange::onSearchButtonClicked() {
+    // 新对象****************************************************************************
+    searchdialog = new SearchDialog(true, true, true, this, db, query, returnid);
+    searchdialog->setDialogTitle("修 改 已 定 · 查 找");
+    searchdialog->setTableName("已定表");
+    // 新对象****************************************************************************
+    // 嗯，坏米饭************************************************************************
+    // 调整位置**************************************************************************
+    QRect parentGeometry = this->window()->window()->geometry();
+    int dialogWidth = searchdialog->width();
+    int dialogHeight = searchdialog->height();
+    int x = (parentGeometry.width() - dialogWidth) / 2 + parentGeometry.x();
+    int y = (parentGeometry.height() - dialogHeight) / 2 + parentGeometry.y();
+    // 调整位置**************************************************************************
+    // 移动对话框***********************************************************************
+    searchdialog->move(x, y);
+    // 移动对话框***********************************************************************
+    // 嗯，坏米饭************************************************************************
+    searchdialog->exec();
+    delete searchdialog;
 }

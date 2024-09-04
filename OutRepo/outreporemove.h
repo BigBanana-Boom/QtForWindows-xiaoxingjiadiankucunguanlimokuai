@@ -3,6 +3,7 @@
 
 #include "MethodClass/refreshrepotableid.h"
 #include "CustomWidget/outreporemovedialog.h"
+#include "CustomWidget/searchdialog.h"
 #include "CustomWidget/simpledialog.h"
 #include <QCollator>
 #include <QComboBox>
@@ -68,6 +69,7 @@ public slots:
 private slots:
     void onCurrentIDChanged(const QString &text);
     void showMessage();
+    void onSearchButtonClicked();
 private:
     // 字体*********************************************************************************
     QFont *qfont01;
@@ -101,6 +103,7 @@ private:
 
     // 左区域*******************************************************************************
     QComboBox *qcombobox01;
+    QPushButton *searchbutton;
     QLineEdit *qreadonlylineedit01;
     QLineEdit *qreadonlylineedit02;
     QLineEdit *qreadonlylineedit03;
@@ -126,6 +129,8 @@ private:
     // 自定义部件***************************************************************************
     OutRepoRemoveDialog *outreporemovedialog;
     SimpleDialog *simpledialog;
+    SearchDialog *searchdialog;
+    int *returnid;
     // 自定义部件***************************************************************************
 
     // 成员变量*****************************************************************************

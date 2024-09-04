@@ -46,17 +46,17 @@ SOURCES += \
     Done/doneremove.cpp \
     Done/donechange.cpp \
     Done/donesearch.cpp \
-    Done/doneaddcategory.cpp \
-    Done/doneaddname.cpp \
+    #Done/doneaddcategory.cpp \
+    #Done/doneaddname.cpp \
     EventFilter/eventfilterformainwindow.cpp \
     InRepo/inrepo.cpp \
     InRepo/inrepoadd.cpp \
     InRepo/inreporemove.cpp \
     InRepo/inrepochange.cpp \
     InRepo/inreposearch.cpp \
-    InRepo/inrepoaddcategory.cpp \
-    InRepo/inrepoaddname.cpp \
-    InRepo/inrepoaddrepo.cpp \
+    #InRepo/inrepoaddcategory.cpp \
+    #InRepo/inrepoaddname.cpp \
+    #InRepo/inrepoaddrepo.cpp \
     OutRepo/outrepo.cpp \
     OutRepo/outrepoadd.cpp \
     OutRepo/outreporemove.cpp \
@@ -104,8 +104,8 @@ HEADERS += \
     Done/doneremove.h \
     Done/donechange.h \
     Done/donesearch.h \
-    Done/doneaddcategory.h \
-    Done/doneaddname.h \
+    #Done/doneaddcategory.h \
+    #Done/doneaddname.h \
     EventFilter/eventfilterformainwindow.h \
     OutRepo/outrepo.h \
     OutRepo/outrepoadd.h \
@@ -117,9 +117,9 @@ HEADERS += \
     InRepo/inreporemove.h \
     InRepo/inrepochange.h \
     InRepo/inreposearch.h \
-    InRepo/inrepoaddcategory.h \
-    InRepo/inrepoaddname.h \
-    InRepo/inrepoaddrepo.h \
+    #InRepo/inrepoaddcategory.h \
+    #InRepo/inrepoaddname.h \
+    #InRepo/inrepoaddrepo.h \
     Repo/repo.h \
     Repo/repomodify.h \
     Repo/repoadjust.h \

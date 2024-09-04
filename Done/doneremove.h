@@ -6,6 +6,7 @@
 #include "CustomStruct/repoandnumber.h"
 #include "CustomWidget/doneremovedialog.h"
 #include "CustomWidget/doneremovedialog2.h"
+#include "CustomWidget/searchdialog.h"
 #include "CustomWidget/simpledialog.h"
 #include <QCollator>
 #include <QComboBox>
@@ -72,6 +73,7 @@ private slots:
     void onCurrentIDChanged(const QString &text);
     void showMessage();
     void showMessage2();
+    void onSearchButtonClicked();
 private:
     // 字体*********************************************************************************
     QFont *qfont01;
@@ -103,6 +105,7 @@ private:
 
     // 左区域*******************************************************************************
     QComboBox *qcombobox01;
+    QPushButton *searchbutton;
     QLineEdit *qreadonlylineedit01;
     QLineEdit *qreadonlylineedit02;
     // 左区域*******************************************************************************
@@ -132,6 +135,9 @@ private:
     DoneRemoveDialog2 *doneremovedialog2;
     QVector<RepoAndCurrentNum> *repoandcurrentnumv;
     QVector<RepoAndNumber> *repoandnumberv;
+
+    SearchDialog *searchdialog;
+    int *returnid;
     // 自定义部件以及变量******************************************************************
 
     // 成员变量*****************************************************************************
