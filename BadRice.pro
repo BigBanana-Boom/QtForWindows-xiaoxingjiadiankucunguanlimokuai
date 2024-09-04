@@ -39,6 +39,7 @@ SOURCES += \
     CustomWidget/outreporemovedialog.cpp \
     CustomWidget/repoadjustdialog.cpp \
     CustomWidget/repochangedialog.cpp \
+    #CustomWidget/searchdialog.cpp \
     CustomWidget/simpledialog.cpp \
     Done/done.cpp \
     Done/doneadd.cpp \
@@ -47,7 +48,6 @@ SOURCES += \
     Done/donesearch.cpp \
     Done/doneaddcategory.cpp \
     Done/doneaddname.cpp \
-    Done/doneremoveoutrepo.cpp \
     EventFilter/eventfilterformainwindow.cpp \
     InRepo/inrepo.cpp \
     InRepo/inrepoadd.cpp \
@@ -82,6 +82,9 @@ HEADERS += \
     CustomButton/normalgradientbutton.h \
     CustomButton/gradientbutton.h \
     CustomButton/gradientbuttonwithsimpleicon.h \
+    CustomStruct/inputzone.h \
+    CustomStruct/repoandcurrentnum.h \
+    CustomStruct/repoandnumber.h \
     CustomWidget/doneadddialog.h \
     CustomWidget/donechangedialog.h \
     CustomWidget/doneremovedialog.h \
@@ -94,6 +97,7 @@ HEADERS += \
     CustomWidget/outreporemovedialog.h \
     CustomWidget/repoadjustdialog.h \
     CustomWidget/repochangedialog.h \
+    #CustomWidget/searchdialog.h \
     CustomWidget/simpledialog.h \
     Done/done.h \
     Done/doneadd.h \
@@ -102,7 +106,6 @@ HEADERS += \
     Done/donesearch.h \
     Done/doneaddcategory.h \
     Done/doneaddname.h \
-    Done/doneremoveoutrepo.h \
     EventFilter/eventfilterformainwindow.h \
     OutRepo/outrepo.h \
     OutRepo/outrepoadd.h \

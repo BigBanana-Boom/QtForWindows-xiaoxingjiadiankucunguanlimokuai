@@ -6,7 +6,7 @@ DoneRemoveDialog2::DoneRemoveDialog2(bool resizeEnable,
                                      QWidget *parent,
                                      int reponum,
                                      int currentproductnumber,
-                                     QVector<int> *ret)
+                                     QVector<RepoAndCurrentNum> *ret)
     : QFramelessDialog(parent, resizeEnable, shadowBorder, winNativeEvent),
     qfont01(new QFont("楷体", 20, QFont::Bold)),
     qfont02(new QFont("楷体", 18, QFont::Bold)),
@@ -161,22 +161,22 @@ DoneRemoveDialog2::DoneRemoveDialog2(bool resizeEnable,
     rowSixLabel->setFont(*qfont03);
     contentWidgetVLayout->addWidget(rowSixLabel);
     for(int i = 0; i < reponum; i++) {
-        InputZoneData inputZoneData;
-        inputZoneData.layout = new QHBoxLayout();
-        inputZoneData.label = new QLabel(this);
-        inputZoneData.label->setFont(*qfont03);
-        inputZoneData.spinBox = new QSpinBox(this);
-        inputZoneData.spinBox->setMinimum(0);
-        inputZoneData.spinBox->setValue(0);
-        inputZoneData.spinBox->setMaximumHeight(30);
-        inputZoneData.spinBox->setFont(*qfont04);
-        inputZoneData.label2 = new QLabel(this);
-        inputZoneData.label2->setFont(*qfont03);
-        inputZoneData.layout->addWidget(inputZoneData.label);
-        inputZoneData.layout->addWidget(inputZoneData.spinBox, 1);
-        inputZoneData.layout->addWidget(inputZoneData.label2);
-        contentWidgetVLayout->addLayout(inputZoneData.layout);
-        inputZones.append(inputZoneData);
+        InputZone inputzone;
+        inputzone.layout = new QHBoxLayout();
+        inputzone.label = new QLabel(this);
+        inputzone.label->setFont(*qfont03);
+        inputzone.spinBox = new QSpinBox(this);
+        inputzone.spinBox->setMinimum(0);
+        inputzone.spinBox->setValue(0);
+        inputzone.spinBox->setMaximumHeight(30);
+        inputzone.spinBox->setFont(*qfont04);
+        inputzone.label2 = new QLabel(this);
+        inputzone.label2->setFont(*qfont03);
+        inputzone.layout->addWidget(inputzone.label);
+        inputzone.layout->addWidget(inputzone.spinBox, 1);
+        inputzone.layout->addWidget(inputzone.label2);
+        contentWidgetVLayout->addLayout(inputzone.layout);
+        inputZones.append(inputzone);
     }
     // 第六行及之后*********************************************************************
     // 倒数第二行***********************************************************************
@@ -239,19 +239,23 @@ DoneRemoveDialog2::DoneRemoveDialog2(bool resizeEnable,
         int length = inputZones.size();
         int sum = 0;
         for(int i = 0; i < length; i++) {
-            ret->append(inputZones[i].spinBox->value());
+            (*ret)[i].currentnum = QString::number(inputZones[i].spinBox->value());
             sum += inputZones[i].spinBox->value();
         }
         if(sum > currentproductnumber) {
             rowLastOneLabel->setText("出库数量大于已定数量！");
-            rowLastOneLabel->setVisible(true);
-            contentWidget->setFixedHeight(contentWidget->height() + 50);
-            this->setFixedHeight(this->height() + 50);
+            if(!rowLastOneLabel->isVisible()) {
+                rowLastOneLabel->setVisible(true);
+                contentWidget->setFixedHeight(contentWidget->height() + 50);
+                this->setFixedHeight(this->height() + 50);
+            }
         } else if(sum < currentproductnumber) {
             rowLastOneLabel->setText("出库数量小于已定数量！");
-            rowLastOneLabel->setVisible(true);
-            contentWidget->setFixedHeight(contentWidget->height() + 50);
-            this->setFixedHeight(this->height() + 50);
+            if(!rowLastOneLabel->isVisible()) {
+                rowLastOneLabel->setVisible(true);
+                contentWidget->setFixedHeight(contentWidget->height() + 50);
+                this->setFixedHeight(this->height() + 50);
+            }
         } else {
             accept();
         }
@@ -292,15 +296,15 @@ void DoneRemoveDialog2::setDoneRemove2Number(QString number) {
     rowFiveContent->setText(number);
 }
 void DoneRemoveDialog2::setDoneRemove2Repo(
-        QVector<QVector<QString>> repovector) {
-    QVector<QVector<QString>>::iterator item = repovector.begin();
-    QVector<InputZoneData>::iterator inputdata = inputZones.begin();
-    while(item != repovector.end() && inputdata != inputZones.end()) {
-        inputdata->label->setText((*item).at(0) + "：");
-        inputdata->spinBox->setMaximum((*item).at(1).toInt());
-        inputdata->label2->setText("库存数量：" + (*item).at(1));
+        QVector<RepoAndNumber> repoandnumberv) {
+    QVector<RepoAndNumber>::iterator item = repoandnumberv.begin();
+    QVector<InputZone>::iterator inputzone = inputZones.begin();
+    while(item != repoandnumberv.end() && inputzone != inputZones.end()) {
+        inputzone->label->setText(item->repo + "：");
+        inputzone->spinBox->setMaximum(item->number.toInt());
+        inputzone->label2->setText("库存数量：" + item->number);
         item++;
-        inputdata++;
+        inputzone++;
     }
 }
 /*

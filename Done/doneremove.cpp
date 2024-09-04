@@ -77,6 +77,19 @@ DoneRemove::DoneRemove(QWidget *parent, QSqlDatabase *db, QSqlQuery *query)
                      "WHERE 库存类别 = ? AND 库存名称 = ? "
                      "ORDER BY 存放位置 DESC");
     /* ORDER BY 存放位置 DESC */
+    sqlgroup->append("INSERT INTO 出库表 "
+                     "(出库时间, 出库位置, 出库类别, 出库名称, 出库数量) "
+                     "VALUES (?, ?, ?, ?, ?)");
+    /* 数据库操作语句，不需要排序 */
+    sqlgroup->append("SELECT 存放数量 FROM 库存表 "
+                     "WHERE 存放位置 = ? AND 库存类别 = ? AND 库存名称 = ?");
+    /* 不需要ORDER BY，因为只有一条记录 */
+    sqlgroup->append("DELETE FROM 库存表 "
+                     "WHERE 存放位置 = ? AND 库存类别 = ? AND 库存名称 = ?");
+    /* 数据库操作语句，不需要排序 */
+    sqlgroup->append("UPDATE 库存表 SET 存放数量 = 存放数量 - ? "
+                     "WHERE 存放位置 = ? AND 库存类别 = ? AND 库存名称 = ?");
+    /* 数据库操作语句，不需要排序 */
     // 数据库语句***************************************************************************    
 
     // 左区域*******************************************************************************
@@ -513,25 +526,36 @@ void DoneRemove::showMessage2()
         query->exec();
         if(query->next() && query->value(0).toInt() >= *currentproductnumber) {
             // 为新对象准备变量*****************************************************************
-            QVector<QVector<QString>> repovector;
+            repoandnumberv = new QVector<RepoAndNumber>;
+            repoandcurrentnumv = new QVector<RepoAndCurrentNum>;
             int reponum;
             query->prepare(sqlgroup->at(12));
             query->addBindValue(*currentproductcategory);
             query->addBindValue(*currentproductname);
             query->exec();
             while(query->next()) {
-                QVector<QString> item;
-                item.append(query->value(0).toString());
-                item.append(query->value(1).toString());
-                repovector.append(item);
+                /* 靠这个来保证doneremovedialog2的打头处的仓库位置，
+                 * 跟doneremovedialog2的qspinbox处的值是相同的。
+                 */
+                RepoAndNumber item;
+                item.repo = query->value(0).toString();
+                item.number = query->value(1).toString();
+                repoandnumberv->append(item);
+
+                RepoAndCurrentNum item2;
+                item2.repo = query->value(0).toString();
+                item2.currentnum = QString::number(0);
+                repoandcurrentnumv->append(item2);
+                /* 靠这个来保证doneremovedialog2的打头处的仓库位置，
+                 * 跟doneremovedialog2的qspinbox处的值是相同的。
+                 */
             }
-            reponum = repovector.size();
+            reponum = repoandnumberv->size();
             // 为新对象准备变量*****************************************************************
             // 新对象****************************************************************************
-            vectorfordoneremovedialog2 = new QVector<int>;
             doneremovedialog2 = new DoneRemoveDialog2(
                         false, true, true, this, reponum,
-                        *currentproductnumber, vectorfordoneremovedialog2);
+                        *currentproductnumber, repoandcurrentnumv);
             doneremovedialog2->setDoneRemove2ID(QString::number(*currentID));
             doneremovedialog2->setDoneRemove2DateTime(
                         currentdatetime->toString("yyyy-MM-dd hh:mm:ss"));
@@ -539,7 +563,7 @@ void DoneRemove::showMessage2()
             doneremovedialog2->setDoneRemove2Name(*currentproductname);
             doneremovedialog2->setDoneRemove2Number(
                         QString::number(*currentproductnumber));
-            doneremovedialog2->setDoneRemove2Repo(repovector);
+            doneremovedialog2->setDoneRemove2Repo(*repoandnumberv);
             // 新对象****************************************************************************
             // 新对象的信号和槽*****************************************************************
             connect(doneremovedialog2, &DoneRemoveDialog2::accepted, this, [this]() {
@@ -559,7 +583,8 @@ void DoneRemove::showMessage2()
             // 移动对话框***********************************************************************
             // 嗯，坏米饭************************************************************************
             doneremovedialog2->exec();
-            delete vectorfordoneremovedialog2;
+            delete repoandnumberv;
+            delete repoandcurrentnumv;
             delete doneremovedialog2;
         } else {
             // 新对象****************************************************************************
@@ -594,12 +619,46 @@ void DoneRemove::SubmitRemoveOperation2() {
     query->exec(sqlgroup->at(8));
     query->exec(sqlgroup->at(9));
     // 更新已定表***************************************************************************
-    // 更新出库表***************************************************************************
-
-    // 更新出库表***************************************************************************
-    // 更新库存表***************************************************************************
-
-    // 更新库存表***************************************************************************
+    int length = repoandcurrentnumv->size();
+    for(int i = 0; i < length; i++) {
+        if((*repoandcurrentnumv)[i].currentnum.toInt() == 0) {}
+        else {
+            QString currentrepo = (*repoandcurrentnumv)[i].repo;
+            int outnumber = (*repoandcurrentnumv)[i].currentnum.toInt();
+            // 更新出库表***********************************************************************
+            query->prepare(sqlgroup->at(13));
+            query->addBindValue(QDateTime::currentDateTime());
+            query->addBindValue(currentrepo);
+            query->addBindValue(*currentproductcategory);
+            query->addBindValue(*currentproductname);
+            query->addBindValue(outnumber);
+            query->exec();
+            // 更新出库表***********************************************************************
+            // 更新库存表***********************************************************************
+            query->prepare(sqlgroup->at(14));
+            query->addBindValue(currentrepo);
+            query->addBindValue(*currentproductcategory);
+            query->addBindValue(*currentproductname);
+            query->exec();
+            query->next();
+            if(outnumber == query->value(0).toInt()) {
+                query->prepare(sqlgroup->at(15));
+                query->addBindValue(currentrepo);
+                query->addBindValue(*currentproductcategory);
+                query->addBindValue(*currentproductname);
+                query->exec();
+                RefreshRepoTableID refreshid(db, query);
+            } else {
+                query->prepare(sqlgroup->at(16));
+                query->addBindValue(outnumber);
+                query->addBindValue(currentrepo);
+                query->addBindValue(*currentproductcategory);
+                query->addBindValue(*currentproductname);
+                query->exec();
+            }
+            // 更新库存表***********************************************************************
+        }
+    }
     // 更新数据表***************************************************************************
     // 放出信号******************************************************************************
     // mainwindow下的done, outrepo, inrepo, repo, repoinfo, inrepoinfo表级信号

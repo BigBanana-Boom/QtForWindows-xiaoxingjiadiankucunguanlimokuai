@@ -1,8 +1,9 @@
 #ifndef DONEREMOVE_H
 #define DONEREMOVE_H
 
-#include "doneremoveoutrepo.h"
 #include "MethodClass/refreshrepotableid.h"
+#include "CustomStruct/repoandcurrentnum.h"
+#include "CustomStruct/repoandnumber.h"
 #include "CustomWidget/doneremovedialog.h"
 #include "CustomWidget/doneremovedialog2.h"
 #include "CustomWidget/simpledialog.h"
@@ -128,8 +129,10 @@ private:
     // 自定义部件以及变量******************************************************************
     DoneRemoveDialog *doneremovedialog;
     SimpleDialog *simpledialog;
+
     DoneRemoveDialog2 *doneremovedialog2;
-    QVector<int> *vectorfordoneremovedialog2;
+    QVector<RepoAndCurrentNum> *repoandcurrentnumv;
+    QVector<RepoAndNumber> *repoandnumberv;
     // 自定义部件以及变量******************************************************************
 
     // 成员变量*****************************************************************************
