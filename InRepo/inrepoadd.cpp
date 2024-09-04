@@ -217,6 +217,8 @@ InRepoAdd::InRepoAdd(QWidget *parent,
     // 总区域*******************************************************************************
 
     // 信号和槽函数************************************************************************
+    connect(searchbutton, &QPushButton::clicked,
+            this, &InRepoAdd::onSearchButtonClicked);
     connect(qcombobox01, &QComboBox::currentTextChanged,
             this, &InRepoAdd::onCurrentCategoryChanged);
     connect(qcombobox02, &QComboBox::currentTextChanged,
@@ -562,4 +564,25 @@ void InRepoAdd::RefreshInRepoAddSlot() {
     // 启槽函数*****************************************************************************
     onCurrentValueChanged(*currentproductnumber);
     // 启槽函数*****************************************************************************
+}
+void InRepoAdd::onSearchButtonClicked() {
+    // 新对象****************************************************************************
+    searchdialog = new SearchDialog(true, true, true, this, db, query, returnid);
+    searchdialog->setDialogTitle("新 增 入 库 · 查 找");
+    searchdialog->setTableName("附表2进货产品表");
+    // 新对象****************************************************************************
+    // 嗯，坏米饭************************************************************************
+    // 调整位置**************************************************************************
+    QRect parentGeometry = this->window()->window()->geometry();
+    int dialogWidth = searchdialog->width();
+    int dialogHeight = searchdialog->height();
+    int x = (parentGeometry.width() - dialogWidth) / 2 + parentGeometry.x();
+    int y = (parentGeometry.height() - dialogHeight) / 2 + parentGeometry.y();
+    // 调整位置**************************************************************************
+    // 移动对话框***********************************************************************
+    searchdialog->move(x, y);
+    // 移动对话框***********************************************************************
+    // 嗯，坏米饭************************************************************************
+    searchdialog->exec();
+    delete searchdialog;
 }

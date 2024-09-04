@@ -4,6 +4,7 @@
 #include "MethodClass/chinesesort.h"
 #include "MethodClass/refreshrepotableid.h"
 #include "CustomWidget/doneadddialog.h"
+#include "CustomWidget/searchdialog.h"
 #include "CustomWidget/simpledialog.h"
 #include <QCollator>
 #include <QComboBox>
@@ -72,6 +73,7 @@ private slots:
     void onCurrentNameChanged(const QString &text);
     void onCurrentValueChanged(int value);
     void showMessage();
+    void onSearchButtonClicked();
 private:
     // 字体*********************************************************************************
     QFont *qfont01;
@@ -122,6 +124,8 @@ private:
     // 自定义部件***************************************************************************
     DoneAddDialog *doneadddialog;
     SimpleDialog *simpledialog;
+    SearchDialog *searchdialog;
+    int *returnid;
     // 自定义部件***************************************************************************
 
     // 成员变量*****************************************************************************

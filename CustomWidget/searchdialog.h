@@ -26,9 +26,10 @@ public:
                           QWidget *parent = nullptr,
                           QSqlDatabase *db = nullptr,
                           QSqlQuery *query = nullptr,
-                          int *retid = nullptr);
+                          int *returnid = nullptr);
     ~SearchDialog();
     void setTableName(QString name);
+    void setDialogTitle(QString title);
 private slots:
     void onCloseButtonClicked();
     void RefreshDoneTable();

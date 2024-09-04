@@ -6,7 +6,7 @@ SearchDialog::SearchDialog(bool resizeEnable,
                            QWidget *parent,
                            QSqlDatabase *db,
                            QSqlQuery *query,
-                           int *retid)
+                           int *returnid)
     : QFramelessDialog(parent, resizeEnable, shadowBorder, winNativeEvent),
       qfont01(new QFont("楷体", 20, QFont::Bold)),
       qfont02(new QFont("楷体", 18, QFont::Bold)),
@@ -119,6 +119,7 @@ SearchDialog::SearchDialog(bool resizeEnable,
     qlineedit->setFont(*qfont04);
     yesbutton->setText("确定");
     yesbutton->setFont(*qfont03);
+    yesbutton->setFixedHeight(40);
     rowOneHLayout->addWidget(qlineedit, 1);
     rowOneHLayout->addWidget(yesbutton);
     contentWidgetVLayout->addLayout(rowOneHLayout);
@@ -141,7 +142,7 @@ SearchDialog::SearchDialog(bool resizeEnable,
     contentWidgetVLayout->setSpacing(8);
     contentWidgetVLayout->setContentsMargins(20, 8, 20, 8);
     // 跟该Pro的其它保持一致***********************************************************
-    contentWidget->setFixedHeight(45);
+    contentWidget->setMinimumHeight(490);
     // 内容器件**************************************************************************
 
     // 内容器件与按钮器件之间的分割线**************************************************
@@ -170,8 +171,8 @@ SearchDialog::SearchDialog(bool resizeEnable,
 
     // 窗口属性**************************************************************************
     framelessHelper()->setTitleBar(titleWidget);
-    setFixedWidth(700);
-    setFixedHeight(204);
+    setMinimumWidth(900);
+    setMinimumHeight(629);
     setWindowIcon(QIcon(":/Image/BrokenRice.png"));
     // 窗口属性**************************************************************************
 
@@ -203,6 +204,17 @@ void SearchDialog::onCloseButtonClicked()
 }
 void SearchDialog::setTableName(QString name) {
     *tablename = name;
+    if(*tablename == "已定表") {
+        RefreshDoneTable();
+    } else if(*tablename == "出库表") {
+        RefreshOutRepoTable();
+    } else if(*tablename == "入库表") {
+        RefreshInRepoTable();
+    } else if(*tablename == "库存表") {
+        RefreshRepoTable();
+    } else {
+        RefreshInRepoInfoTable();
+    }
 }
 void SearchDialog::RefreshDoneTable() {
     // 清理以防止内存泄漏******************************************************************
@@ -515,4 +527,7 @@ void SearchDialog::RefreshInRepoInfoTable() {
     qtablewidget->resizeColumnsToContents();
     qtablewidget->setSortingEnabled(true);
     // 表属性*******************************************************************************
+}
+void SearchDialog::setDialogTitle(QString title) {
+    contentWidgetTitle->setText(title);
 }
