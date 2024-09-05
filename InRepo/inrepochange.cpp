@@ -54,7 +54,7 @@ InRepoChange::InRepoChange(QWidget *parent,
       changedproductnumber(new int)
 {
     // 数据库语句***************************************************************************
-    sqlgroup->append("SELECT 入库编号 FROM 入库表 WHERE 入库时间 > ? "
+    sqlgroup->append("SELECT 入库编号 FROM 入库表 "
                      "ORDER BY 入库编号 DESC");
     /* ORDER BY 入库编号 DESC */
     sqlgroup->append("SELECT 入库时间 FROM 入库表 WHERE 入库编号 = ?");
@@ -98,11 +98,9 @@ InRepoChange::InRepoChange(QWidget *parent,
     // 样式**********************************************************************************
     // 填充内容*****************************************************************************
     qcombobox01->clear();
-    query->prepare(sqlgroup->at(0));
-    query->addBindValue(QDateTime(QDateTime::currentDateTime()).addDays(-7));
-    query->exec();
+    query->exec(sqlgroup->at(0));
     if (!query->next()) {
-        qcombobox01->addItem("暂无一周内入库记录");
+        qcombobox01->addItem("暂无入库记录");
         *currentID = 0;
      } else {
         qcombobox01->addItem(query->value(0).toString());
@@ -149,8 +147,8 @@ InRepoChange::InRepoChange(QWidget *parent,
     query->addBindValue(*currentID);
     query->exec();
     if(*currentID == 0) {
-        qreadonlylineedit02->setText("暂无一周内入库记录");
-        *currentproductcategory = "暂无一周内入库记录";
+        qreadonlylineedit02->setText("暂无入库记录");
+        *currentproductcategory = "暂无入库记录";
     } else {
         while(query->next()) {
             qreadonlylineedit02->setText(query->value(0).toString());
@@ -171,8 +169,8 @@ InRepoChange::InRepoChange(QWidget *parent,
     query->addBindValue(*currentID);
     query->exec();
     if(*currentID == 0) {
-        qreadonlylineedit03->setText("暂无一周内入库记录");
-        *currentproductname = "暂无一周内入库记录";
+        qreadonlylineedit03->setText("暂无入库记录");
+        *currentproductname = "暂无入库记录";
     } else {
         while(query->next()) {
             qreadonlylineedit03->setText(query->value(0).toString());
@@ -212,8 +210,8 @@ InRepoChange::InRepoChange(QWidget *parent,
     query->addBindValue(*currentID);
     query->exec();
     if(*currentID == 0) {
-        qreadonlylineedit04->setText("暂无一周内入库记录");
-        *currentrepo = "暂无一周内入库记录";
+        qreadonlylineedit04->setText("暂无入库记录");
+        *currentrepo = "暂无入库记录";
     } else {
         while(query->next()) {
             qreadonlylineedit04->setText(query->value(0).toString());
@@ -234,7 +232,7 @@ InRepoChange::InRepoChange(QWidget *parent,
     query->addBindValue(*currentID);
     query->exec();
     if(*currentID == 0) {
-        qreadonlylineedit05->setText("暂无一周内入库记录");
+        qreadonlylineedit05->setText("暂无入库记录");
         *currentproductnumber = 0;
     } else {
         while(query->next()) {
@@ -341,8 +339,8 @@ void InRepoChange::onChangedIDChanged(const QString &text) {
     query->addBindValue(*currentID);
     query->exec();
     if(*currentID == 0) {
-        qreadonlylineedit02->setText("暂无一周内入库记录");
-        *currentproductcategory = "暂无一周内入库记录";
+        qreadonlylineedit02->setText("暂无入库记录");
+        *currentproductcategory = "暂无入库记录";
     } else {
         while(query->next()) {
             qreadonlylineedit02->setText(query->value(0).toString());
@@ -356,8 +354,8 @@ void InRepoChange::onChangedIDChanged(const QString &text) {
     query->addBindValue(*currentID);
     query->exec();
     if(*currentID == 0) {
-        qreadonlylineedit03->setText("暂无一周内入库记录");
-        *currentproductname = "暂无一周内入库记录";
+        qreadonlylineedit03->setText("暂无入库记录");
+        *currentproductname = "暂无入库记录";
     } else {
         while(query->next()) {
             qreadonlylineedit03->setText(query->value(0).toString());
@@ -371,8 +369,8 @@ void InRepoChange::onChangedIDChanged(const QString &text) {
     query->addBindValue(*currentID);
     query->exec();
     if(*currentID == 0) {
-        qreadonlylineedit04->setText("暂无一周内入库记录");
-        *currentrepo = "暂无一周内入库记录";
+        qreadonlylineedit04->setText("暂无入库记录");
+        *currentrepo = "暂无入库记录";
     } else {
         while(query->next()) {
             qreadonlylineedit04->setText(query->value(0).toString());
@@ -386,7 +384,7 @@ void InRepoChange::onChangedIDChanged(const QString &text) {
     query->addBindValue(*currentID);
     query->exec();
     if(*currentID == 0) {
-        qreadonlylineedit05->setText("暂无一周内入库记录");
+        qreadonlylineedit05->setText("暂无入库记录");
         *currentproductnumber = 0;
     } else {
         while(query->next()) {
@@ -480,7 +478,7 @@ void InRepoChange::showMessage()
     if(*currentID == 0) {
         // 新对象****************************************************************************
         simpledialog = new SimpleDialog(false, true, true, this);
-        simpledialog->setDialogContent("入库表中暂无一周内记录，无法修改");
+        simpledialog->setDialogContent("入库表中暂无记录，无法修改");
         // 新对象****************************************************************************
         // 嗯，坏米饭************************************************************************
         // 调整位置**************************************************************************
@@ -663,11 +661,9 @@ void InRepoChange::RefreshInRepoChangeSlot() {
     // 关信号****************************************************************************
     // 填充内容*****************************************************************************
     qcombobox01->clear();
-    query->prepare(sqlgroup->at(0));
-    query->addBindValue(QDateTime(QDateTime::currentDateTime()).addDays(-7));
-    query->exec();
+    query->exec(sqlgroup->at(0));
     if (!query->next()) {
-        qcombobox01->addItem("暂无一周内入库记录");
+        qcombobox01->addItem("暂无入库记录");
         *currentID = 0;
      } else {
         qcombobox01->addItem(query->value(0).toString());
