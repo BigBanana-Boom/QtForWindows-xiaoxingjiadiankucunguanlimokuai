@@ -38,6 +38,7 @@ private slots:
     void RefreshRepoTable();
     void RefreshInRepoInfoTable();
     void searchFromTable();
+    void onItemClicked(QTableWidgetItem *item);
 private:
     // 字体********************************************************************************
     QFont *qfont01;
@@ -97,11 +98,9 @@ private:
     QStringList *sqlgroup;
     QString *whereclause;
     QString *whereclausesql;
-    // 数据库连接***************************************************************************
-
-    // 一些细碎的变量***********************************************************************
     QString *tablename;
-    // 一些细碎的变量***********************************************************************
+    int *returnid;
+    // 数据库连接***************************************************************************
 
     // 表格*********************************************************************************
     QHeaderView *headerView01_row;

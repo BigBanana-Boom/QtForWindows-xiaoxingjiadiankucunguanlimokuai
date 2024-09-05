@@ -36,7 +36,8 @@ SearchDialog::SearchDialog(bool resizeEnable,
       sqlgroup(new QStringList()),
       whereclause(new QString()),
       whereclausesql(new QString()),
-      tablename(new QString())
+      tablename(new QString()),
+      returnid(returnid)
 {
     // 数据库语句***************************************************************************
     sqlgroup->append("SELECT * FROM 已定表 ORDER BY 已定编号 DESC");
@@ -177,6 +178,8 @@ SearchDialog::SearchDialog(bool resizeEnable,
     // 窗口属性**************************************************************************
 
     // 信号与槽**************************************************************************
+    connect(qtablewidget, &QTableWidget::itemDoubleClicked,
+            this, &SearchDialog::onItemClicked);
     connect(yesbutton, &QPushButton::clicked,
             this, &SearchDialog::searchFromTable);
     connect(qlineedit, &QLineEdit::textChanged,
@@ -877,4 +880,10 @@ void SearchDialog::searchFromTable() {
         qtablewidget->setSortingEnabled(true);
         // 表属性*******************************************************************************
     }
+}
+void SearchDialog::onItemClicked(QTableWidgetItem *item) {
+    int row = item->row();
+    QString firstColumnValue = qtablewidget->item(row, 0)->text();
+    *returnid = firstColumnValue.toInt();
+    close();
 }

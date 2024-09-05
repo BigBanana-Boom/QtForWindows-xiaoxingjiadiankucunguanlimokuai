@@ -1,12 +1,12 @@
 #ifndef OUTREPO_H
 #define OUTREPO_H
 
-#include "CustomButton/normalgradientbutton.h"
-#include "CustomButton/dropdowngradientbutton.h"
-#include "outrepoadd.h"
-#include "outrepochange.h"
-#include "outreporemove.h"
-#include "outreposearch.h"
+#include "../CustomButton/normalgradientbutton.h"
+#include "../CustomButton/dropdowngradientbutton.h"
+#include "OutRepoAdd/outrepoadd.h"
+#include "OutRepoChange/outrepochange.h"
+#include "OutRepoRemove/outreporemove.h"
+#include "OutRepoSearch/outreposearch.h"
 #include "xlsxdocument.h"
 #include <QAction>
 #include <QCollator>

@@ -3,10 +3,10 @@
 
 #include "CustomButton/normalgradientbutton.h"
 #include "CustomButton/dropdowngradientbutton.h"
-#include "doneadd.h"
-#include "donechange.h"
-#include "doneremove.h"
-#include "donesearch.h"
+#include "DoneAdd/doneadd.h"
+#include "DoneChange/donechange.h"
+#include "DoneRemove/doneremove.h"
+#include "DoneSearch/donesearch.h"
 #include "xlsxdocument.h"
 #include <QAction>
 #include <QCollator>

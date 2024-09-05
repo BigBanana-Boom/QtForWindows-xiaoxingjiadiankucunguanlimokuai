@@ -3,10 +3,10 @@
 
 #include "CustomButton/normalgradientbutton.h"
 #include "CustomButton/dropdowngradientbutton.h"
-#include "inrepoadd.h"
-#include "inrepochange.h"
-#include "inreporemove.h"
-#include "inreposearch.h"
+#include "InRepoAdd/inrepoadd.h"
+#include "InRepoChange/inrepochange.h"
+#include "InRepoRemove/inreporemove.h"
+#include "InRepoSearch/inreposearch.h"
 #include "xlsxdocument.h"
 #include <QCollator>
 #include <QCoreApplication>

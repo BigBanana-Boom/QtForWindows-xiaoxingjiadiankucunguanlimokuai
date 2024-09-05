@@ -27,46 +27,41 @@ SOURCES += \
     CustomButton/normalgradientbutton.cpp \
     CustomButton/gradientbutton.cpp \
     CustomButton/gradientbuttonwithsimpleicon.cpp \
-    CustomWidget/doneadddialog.cpp \
-    CustomWidget/donechangedialog.cpp \
-    CustomWidget/doneremovedialog.cpp \
-    CustomWidget/doneremovedialog2.cpp \
-    CustomWidget/inrepoadddialog.cpp \
-    CustomWidget/inrepochangedialog.cpp \
-    CustomWidget/inreporemovedialog.cpp \
-    CustomWidget/outrepoadddialog.cpp \
-    CustomWidget/outrepochangedialog.cpp \
-    CustomWidget/outreporemovedialog.cpp \
-    CustomWidget/repoadjustdialog.cpp \
-    CustomWidget/repochangedialog.cpp \
     CustomWidget/searchdialog.cpp \
     CustomWidget/simpledialog.cpp \
     Done/done.cpp \
-    Done/doneadd.cpp \
-    Done/doneremove.cpp \
-    Done/donechange.cpp \
-    Done/donesearch.cpp \
-    #Done/doneaddcategory.cpp \
-    #Done/doneaddname.cpp \
+    Done/DoneAdd/doneadd.cpp \
+    Done/DoneAdd/doneadddialog.cpp \
+    Done/DoneRemove/doneremove.cpp \
+    Done/DoneRemove/doneremovedialog.cpp \
+    Done/DoneRemove/doneremovedialog2.cpp \
+    Done/DoneChange/donechange.cpp \
+    Done/DoneChange/donechangedialog.cpp \
+    Done/DoneSearch/donesearch.cpp \
     EventFilter/eventfilterformainwindow.cpp \
     InRepo/inrepo.cpp \
-    InRepo/inrepoadd.cpp \
-    InRepo/inreporemove.cpp \
-    InRepo/inrepochange.cpp \
-    InRepo/inreposearch.cpp \
-    #InRepo/inrepoaddcategory.cpp \
-    #InRepo/inrepoaddname.cpp \
-    #InRepo/inrepoaddrepo.cpp \
+    InRepo/InRepoAdd/inrepoadd.cpp \
+    InRepo/InRepoAdd/inrepoadddialog.cpp \
+    InRepo/InRepoRemove/inreporemove.cpp \
+    InRepo/InRepoRemove/inreporemovedialog.cpp \
+    InRepo/InRepoChange/inrepochange.cpp \
+    InRepo/InRepoChange/inrepochangedialog.cpp \
+    InRepo/InRepoSearch/inreposearch.cpp \
     OutRepo/outrepo.cpp \
-    OutRepo/outrepoadd.cpp \
-    OutRepo/outreporemove.cpp \
-    OutRepo/outrepochange.cpp \
-    OutRepo/outreposearch.cpp \
+    OutRepo/OutRepoAdd/outrepoadd.cpp \
+    OutRepo/OutRepoAdd/outrepoadddialog.cpp \
+    OutRepo/OutRepoRemove/outreporemove.cpp \
+    OutRepo/OutRepoRemove/outreporemovedialog.cpp \
+    OutRepo/OutRepoChange/outrepochange.cpp \
+    OutRepo/OutRepoChange/outrepochangedialog.cpp \
+    OutRepo/OutRepoSearch/outreposearch.cpp \
     Repo/repo.cpp \
-    Repo/repomodify.cpp \
-    Repo/repoadjust.cpp \
-    Repo/repochange.cpp \
-    Repo/reposearch.cpp \
+    Repo/RepoModify/repomodify.cpp \
+    Repo/RepoAdjust/repoadjust.cpp \
+    Repo/RepoAdjust/repoadjustdialog.cpp \
+    Repo/RepoChange/repochange.cpp \
+    Repo/RepoChange/repochangedialog.cpp \
+    Repo/RepoSearch/reposearch.cpp \
     MethodClass/chinesesort.cpp \
     MethodClass/refreshrepotableid.cpp \
     ModifyRepo/modifyrepo.cpp \
@@ -85,46 +80,41 @@ HEADERS += \
     CustomStruct/inputzone.h \
     CustomStruct/repoandcurrentnum.h \
     CustomStruct/repoandnumber.h \
-    CustomWidget/doneadddialog.h \
-    CustomWidget/donechangedialog.h \
-    CustomWidget/doneremovedialog.h \
-    CustomWidget/doneremovedialog2.h \
-    CustomWidget/inrepoadddialog.h \
-    CustomWidget/inrepochangedialog.h \
-    CustomWidget/inreporemovedialog.h \
-    CustomWidget/outrepoadddialog.h \
-    CustomWidget/outrepochangedialog.h \
-    CustomWidget/outreporemovedialog.h \
-    CustomWidget/repoadjustdialog.h \
-    CustomWidget/repochangedialog.h \
     CustomWidget/searchdialog.h \
     CustomWidget/simpledialog.h \
     Done/done.h \
-    Done/doneadd.h \
-    Done/doneremove.h \
-    Done/donechange.h \
-    Done/donesearch.h \
-    #Done/doneaddcategory.h \
-    #Done/doneaddname.h \
+    Done/DoneAdd/doneadd.h \
+    Done/DoneAdd/doneadddialog.h \
+    Done/DoneRemove/doneremove.h \
+    Done/DoneRemove/doneremovedialog.h \
+    Done/DoneRemove/doneremovedialog2.h \
+    Done/DoneChange/donechange.h \
+    Done/DoneChange/donechangedialog.h \
+    Done/DoneSearch/donesearch.h \
     EventFilter/eventfilterformainwindow.h \
     OutRepo/outrepo.h \
-    OutRepo/outrepoadd.h \
-    OutRepo/outreporemove.h \
-    OutRepo/outrepochange.h \
-    OutRepo/outreposearch.h \
+    OutRepo/OutRepoAdd/outrepoadd.h \
+    OutRepo/OutRepoAdd/outrepoadddialog.h \
+    OutRepo/OutRepoRemove/outreporemove.h \
+    OutRepo/OutRepoRemove/outreporemovedialog.h \
+    OutRepo/OutRepoChange/outrepochange.h \
+    OutRepo/OutRepoChange/outrepochangedialog.h \
+    OutRepo/OutRepoSearch/outreposearch.h \
     InRepo/inrepo.h \
-    InRepo/inrepoadd.h \
-    InRepo/inreporemove.h \
-    InRepo/inrepochange.h \
-    InRepo/inreposearch.h \
-    #InRepo/inrepoaddcategory.h \
-    #InRepo/inrepoaddname.h \
-    #InRepo/inrepoaddrepo.h \
+    InRepo/InRepoAdd/inrepoadd.h \
+    InRepo/InRepoAdd/inrepoadddialog.h \
+    InRepo/InRepoRemove/inreporemove.h \
+    InRepo/InRepoRemove/inreporemovedialog.h \
+    InRepo/InRepoChange/inrepochange.h \
+    InRepo/InRepoChange/inrepochangedialog.h \
+    InRepo/InRepoSearch/inreposearch.h \
     Repo/repo.h \
-    Repo/repomodify.h \
-    Repo/repoadjust.h \
-    Repo/repochange.h \
-    Repo/reposearch.h \
+    Repo/RepoModify/repomodify.h \
+    Repo/RepoAdjust/repoadjust.h \
+    Repo/RepoAdjust/repoadjustdialog.h \
+    Repo/RepoChange/repochange.h \
+    Repo/RepoChange/repochangedialog.h \
+    Repo/RepoSearch/reposearch.h \
     MethodClass/chinesesort.h \
     MethodClass/refreshrepotableid.h \
     ModifyRepo/modifyrepo.h \

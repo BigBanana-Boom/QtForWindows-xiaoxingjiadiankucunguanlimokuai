@@ -1,12 +1,12 @@
 #ifndef REPO_H
 #define REPO_H
 
-#include "CustomButton/normalgradientbutton.h"
-#include "CustomButton/dropdowngradientbutton.h"
-#include "repomodify.h"
-#include "repoadjust.h"
-#include "repochange.h"
-#include "reposearch.h"
+#include "../CustomButton/normalgradientbutton.h"
+#include "../CustomButton/dropdowngradientbutton.h"
+#include "RepoModify/repomodify.h"
+#include "RepoAdjust/repoadjust.h"
+#include "RepoChange/repochange.h"
+#include "RepoSearch/reposearch.h"
 #include "xlsxdocument.h"
 #include <QAction>
 #include <QCollator>
