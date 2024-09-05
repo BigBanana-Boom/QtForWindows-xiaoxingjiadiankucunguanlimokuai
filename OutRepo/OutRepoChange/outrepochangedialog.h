@@ -19,6 +19,7 @@ public:
                         bool winNativeEvent = true,
                         QWidget *parent = nullptr);
     ~OutRepoChangeDialog();
+    void setOutRepoChangeTitle(QString title);
     void setOutRepoChangeID(QString id);
     void setOutRepoChangeDateTime(QString datetime);
     void setOutRepoChangeCategory(QString category);

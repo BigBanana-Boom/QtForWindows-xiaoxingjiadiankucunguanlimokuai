@@ -235,6 +235,9 @@ void InRepoRemoveDialog::onCloseButtonClicked()
     close();
     // 关闭窗口***************************************************************************
 }
+void InRepoRemoveDialog::setInRepoRemoveTitle(QString title) {
+    contentWidgetTitle->setText(title);
+}
 void InRepoRemoveDialog::setInRepoRemoveID(QString id) {
     rowOneContent->setText(id);
 }

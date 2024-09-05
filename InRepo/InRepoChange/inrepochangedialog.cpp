@@ -246,6 +246,9 @@ void InRepoChangeDialog::onCloseButtonClicked()
     close();
     // 关闭窗口***************************************************************************
 }
+void InRepoChangeDialog::setInRepoChangeTitle(QString title) {
+    contentWidgetTitle->setText(title);
+}
 void InRepoChangeDialog::setInRepoChangeID(QString id) {
     rowOneContent->setText(id);
 }

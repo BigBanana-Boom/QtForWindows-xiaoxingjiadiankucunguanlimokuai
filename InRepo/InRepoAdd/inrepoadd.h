@@ -135,7 +135,6 @@ private:
     // 自定义部件***************************************************************************
 
     // 成员变量*****************************************************************************
-    QString *currentdatetime;
     QString *currentproductcategory;
     QString *currentproductname;
     QString *currentrepo;

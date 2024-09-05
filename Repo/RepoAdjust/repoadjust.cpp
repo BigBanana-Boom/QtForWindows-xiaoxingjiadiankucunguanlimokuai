@@ -39,8 +39,6 @@ RepoAdjust::RepoAdjust(QWidget *parent,
     db(db),
     query(query),
     sqlgroup(new QStringList()),
-    currentdatetime(new QString(
-                        QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"))),
     currentproductcategory(new QString()),
     currentproductname(new QString()),
     originalrepo(new QString()),
@@ -302,7 +300,6 @@ RepoAdjust::~RepoAdjust() {
     delete qfont02;
     delete qfont03;
     delete sqlgroup;
-    delete currentdatetime;
     delete currentproductcategory;
     delete currentproductname;
     delete originalrepo;
@@ -593,7 +590,8 @@ void RepoAdjust::SubmitAdjustOperation() {
     // 更新数据表***************************************************************************
     // 更新调库表***************************************************************************
     query->prepare(sqlgroup->at(6));
-    query->addBindValue(*currentdatetime);
+    query->addBindValue(QDateTime::currentDateTime()
+                        .toString("yyyy-MM-dd hh:mm:ss"));
     query->addBindValue(*originalrepo);
     query->addBindValue(*currentproductcategory);
     query->addBindValue(*currentproductname);
@@ -604,7 +602,8 @@ void RepoAdjust::SubmitAdjustOperation() {
     query->exec();
 
     query->prepare(sqlgroup->at(6));
-    query->addBindValue(*currentdatetime);
+    query->addBindValue(QDateTime::currentDateTime()
+                        .toString("yyyy-MM-dd hh:mm:ss"));
     query->addBindValue(*laterrepo);
     query->addBindValue(*currentproductcategory);
     query->addBindValue(*currentproductname);
@@ -691,10 +690,6 @@ void RepoAdjust::SubmitAdjustOperation() {
     // 更新自己********************************************************************************
 }
 void RepoAdjust::RefreshRepoAdjustSlot() {
-    // 更新日期*****************************************************************************
-    *currentdatetime = QDateTime::currentDateTime()
-            .toString("yyyy-MM-dd hh:mm:ss");
-    // 更新日期*****************************************************************************
     // 关信号*******************************************************************************
     qcombobox01->blockSignals(true);
     // 关信号*******************************************************************************

@@ -26,6 +26,7 @@ InRepoRemove::InRepoRemove(QWidget *parent,
       rightzonerow1(new QHBoxLayout()),
       rightzonerow2(new QHBoxLayout()),
       rightzonerow3(new QHBoxLayout()),
+      rightzonerow4(new QHBoxLayout()),
       tableWidget01(new QTableWidget(this)),
       qlabel01(new QLabel("待删除入库编号：", this)),
       qlabel02(new QLabel("待删除入库时间：", this)),
@@ -41,6 +42,7 @@ InRepoRemove::InRepoRemove(QWidget *parent,
       qreadonlylineedit04(new QLineEdit(this)),
       qreadonlylineedit05(new QLineEdit(this)),
       yesremove(new QPushButton("确定删除该记录", this)),
+      yesremoveandsync(new QPushButton("删除并且同步", this)),
       db(db),
       query(query),
       sqlgroup(new QStringList()),
@@ -238,14 +240,17 @@ InRepoRemove::InRepoRemove(QWidget *parent,
     // 填充内容*****************************************************************************
     // 待删除入库数量***********************************************************************
     yesremove->setFont(*qfont01);
+    yesremoveandsync->setFont(*qfont01);
     rightzonerow1->addWidget(qlabel05);
     rightzonerow1->addWidget(qreadonlylineedit04, 1);
     rightzonerow2->addWidget(qlabel06);
     rightzonerow2->addWidget(qreadonlylineedit05, 1);
     rightzonerow3->addWidget(yesremove);
+    rightzonerow4->addWidget(yesremoveandsync);
     rightzone->addLayout(rightzonerow1);
     rightzone->addLayout(rightzonerow2);
     rightzone->addLayout(rightzonerow3);
+    rightzone->addLayout(rightzonerow4);
     rightzone->addStretch(1);
     rightzone->setSpacing(8);
     rightzone->setContentsMargins(QMargins(0, 4, 0, 4));
@@ -264,7 +269,10 @@ InRepoRemove::InRepoRemove(QWidget *parent,
             this, &InRepoRemove::onSearchButtonClicked);
     connect(qcombobox01, &QComboBox::currentTextChanged,
             this, &InRepoRemove::onCurrentIDChanged);
-    connect(yesremove, &QPushButton::clicked, this, &InRepoRemove::showMessage);
+    connect(yesremove, &QPushButton::clicked, this,
+            &InRepoRemove::showMessage);
+    connect(yesremoveandsync, &QPushButton::clicked, this,
+            &InRepoRemove::showMessage2);
     // 信号与槽*****************************************************************************
 }
 InRepoRemove::~InRepoRemove() {
@@ -418,8 +426,105 @@ void InRepoRemove::ProcessTable() {
 }
 void InRepoRemove::showMessage()
 {
-    QMessageBox messageBox(this);
-    messageBox.setWindowTitle("删除入库");
+    if(*currentID == 0) {
+        // 新对象****************************************************************************
+        simpledialog = new SimpleDialog(false, true, true, this);
+        simpledialog->setDialogContent("入库表中暂无记录，无法删除");
+        // 新对象****************************************************************************
+        // 嗯，坏米饭************************************************************************
+        // 调整位置**************************************************************************
+        QRect parentGeometry = this->window()->window()->geometry();
+        int dialogWidth = simpledialog->width();
+        int dialogHeight = simpledialog->height();
+        int x = (parentGeometry.width() - dialogWidth) / 2 + parentGeometry.x();
+        int y = (parentGeometry.height() - dialogHeight) / 2 + parentGeometry.y();
+        // 调整位置**************************************************************************
+        // 移动对话框***********************************************************************
+        simpledialog->move(x, y);
+        // 移动对话框***********************************************************************
+        // 嗯，坏米饭************************************************************************
+        simpledialog->exec();
+        delete simpledialog;
+    } else {
+        // 新对象****************************************************************************
+        inreporemovedialog = new InRepoRemoveDialog(false, true, true, this);
+        inreporemovedialog->setInRepoRemoveID(QString::number(*currentID));
+        inreporemovedialog->setInRepoRemoveDateTime(
+                    currentdatetime->toString("yyyy-MM-dd hh:mm:ss"));
+        inreporemovedialog->setInRepoRemoveCategory(*currentproductcategory);
+        inreporemovedialog->setInRepoRemoveName(*currentproductname);
+        inreporemovedialog->setInRepoRemoveRepo(*currentrepo);
+        inreporemovedialog->setInRepoRemoveNumber(
+                    QString::number(*currentproductnumber));
+        // 新对象****************************************************************************
+        // 新对象的信号与槽*****************************************************************
+        connect(inreporemovedialog, &InRepoRemoveDialog::accepted, this, [this]() {
+            SubmitRemoveOperation();
+        });
+        // 新对象的信号与槽*****************************************************************
+        // 嗯，坏米饭************************************************************************
+        // 调整位置**************************************************************************
+        QRect parentGeometry = this->window()->window()->geometry();
+        int dialogWidth = inreporemovedialog->width();
+        int dialogHeight = inreporemovedialog->height();
+        int x = (parentGeometry.width() - dialogWidth) / 2 + parentGeometry.x();
+        int y = (parentGeometry.height() - dialogHeight) / 2 + parentGeometry.y();
+        // 调整位置**************************************************************************
+        // 移动对话框***********************************************************************
+        inreporemovedialog->move(x, y);
+        // 移动对话框***********************************************************************
+        // 嗯，坏米饭************************************************************************
+        inreporemovedialog->exec();
+        delete inreporemovedialog;
+    }
+}
+void InRepoRemove::SubmitRemoveOperation() {
+    // 更新数据表******************************************************************************
+    // 更新入库表******************************************************************************
+    query->prepare(sqlgroup->at(6));
+    query->addBindValue(*currentID);
+    query->exec();
+    // 更新入库表******************************************************************************
+    // 更新数据表******************************************************************************
+    // 放出信号********************************************************************************
+    // mainwindow下的done, outrepo, inrepo, repo, repoinfo, inrepoinfo表级信号
+    emit RefreshDoneTableSignal();
+    emit RefreshOutRepoTableSignal();
+    emit RefreshInRepoTableSignal();
+    emit RefreshRepoTableSignal();
+    emit RefreshRepoInfoTableSignal();
+    emit RefreshInRepoInfoTableSignal();
+    // mainwindow下的done, outrepo, inrepo, repo, repoinfo, inrepoinfo表级信号
+    // done下的doneadd, doneremove, donechange, donesearch窗口信号
+    emit RefreshDoneAddSignal();
+    emit RefreshDoneRemoveSignal();
+    emit RefreshDoneChangeSignal();
+    emit RefreshDoneSearchSignal();
+    // done下的doneadd, doneremove, donechange, donesearch窗口信号
+    // outrepo下的outrepoadd, outreporemove, outrepochange, outreposearch窗口信号
+    emit RefreshOutRepoAddSignal();
+    emit RefreshOutRepoRemoveSignal();
+    emit RefreshOutRepoChangeSignal();
+    emit RefreshOutRepoSearchSignal();
+    // outrepo下的outrepoadd, outreporemove, outrepochange, outreposearch窗口信号
+    // inrepo下的inrepoadd, inreporemove, inrepochange, inreposearch窗口信号
+    emit RefreshInRepoAddSignal();
+    emit RefreshInRepoRemoveSignal();
+    emit RefreshInRepoChangeSignal();
+    emit RefreshInRepoSearchSignal();
+    // inrepo下的inrepoadd, inreporemove, inrepochange, inreposearch窗口信号
+    // repo下的repoadd, reporemove, repochange, reposearch窗口信号
+    emit RefreshRepoAddSignal();
+    emit RefreshRepoRemoveSignal();
+    emit RefreshRepoChangeSignal();
+    emit RefreshRepoSearchSignal();
+    // repo下的repoadd, reporemove, repochange, reposearch窗口信号
+    // 放出信号********************************************************************************
+    // 更新自己****************************************************************************
+    RefreshInRepoRemoveSlot();
+    // 更新自己****************************************************************************
+}
+void InRepoRemove::showMessage2() {
     if(*currentID == 0) {
         // 新对象****************************************************************************
         simpledialog = new SimpleDialog(false, true, true, this);
@@ -467,6 +572,7 @@ void InRepoRemove::showMessage()
         } else {
             // 新对象****************************************************************************
             inreporemovedialog = new InRepoRemoveDialog(false, true, true, this);
+            inreporemovedialog->setInRepoRemoveTitle("删 除 入 库 并 同 步");
             inreporemovedialog->setInRepoRemoveID(QString::number(*currentID));
             inreporemovedialog->setInRepoRemoveDateTime(
                         currentdatetime->toString("yyyy-MM-dd hh:mm:ss"));
@@ -478,7 +584,7 @@ void InRepoRemove::showMessage()
             // 新对象****************************************************************************
             // 新对象的信号与槽*****************************************************************
             connect(inreporemovedialog, &InRepoRemoveDialog::accepted, this, [this]() {
-                SubmitRemoveOperation();
+                SubmitRemoveOperation2();
             });
             // 新对象的信号与槽*****************************************************************
             // 嗯，坏米饭************************************************************************
@@ -498,12 +604,13 @@ void InRepoRemove::showMessage()
         }
     }
 }
-void InRepoRemove::SubmitRemoveOperation() {
+void InRepoRemove::SubmitRemoveOperation2() {
     // 更新数据表******************************************************************************
     // 更新入库表******************************************************************************
     query->prepare(sqlgroup->at(6));
     query->addBindValue(*currentID);
     query->exec();
+    // 更新入库表******************************************************************************
     // 更新库存表******************************************************************************
     query->prepare(sqlgroup->at(7));
     query->addBindValue(*currentrepo);
@@ -526,6 +633,7 @@ void InRepoRemove::SubmitRemoveOperation() {
         query->addBindValue(*currentproductname);
         query->exec();
     }
+    // 更新库存表******************************************************************************
     // 更新数据表******************************************************************************
     // 放出信号********************************************************************************
     // mainwindow下的done, outrepo, inrepo, repo, repoinfo, inrepoinfo表级信号

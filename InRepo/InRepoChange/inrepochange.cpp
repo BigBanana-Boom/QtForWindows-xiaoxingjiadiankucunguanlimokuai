@@ -42,6 +42,7 @@ InRepoChange::InRepoChange(QWidget *parent,
       qreadonlylineedit05(new QLineEdit(this)),
       qspinbox01(new QSpinBox(this)),
       yeschange(new QPushButton("确定修改该记录", this)),
+      yeschangeandsync(new QPushButton("修改并且同步", this)),
       db(db),
       query(query),
       sqlgroup(new QStringList()),
@@ -262,6 +263,7 @@ InRepoChange::InRepoChange(QWidget *parent,
     // 修改后入库数量***********************************************************************
     // 修改提交按钮*************************************************************************
     yeschange->setFont(*qfont01);
+    yeschangeandsync->setFont(*qfont01);
     // 修改提交按钮*************************************************************************
     rightzonerow1->addWidget(qlabel05);
     rightzonerow1->addWidget(qreadonlylineedit04, 1);
@@ -270,6 +272,7 @@ InRepoChange::InRepoChange(QWidget *parent,
     rightzonerow3->addWidget(qlabel07);
     rightzonerow3->addWidget(qspinbox01, 1);
     rightzonerow4->addWidget(yeschange);
+    rightzonerow4->addWidget(yeschangeandsync);
     rightzone->addLayout(rightzonerow1);
     rightzone->addLayout(rightzonerow2);
     rightzone->addLayout(rightzonerow3);
@@ -294,7 +297,10 @@ InRepoChange::InRepoChange(QWidget *parent,
     using SpinBoxSignal = void (QSpinBox::*)(int);
     SpinBoxSignal spinBoxSignal = &QSpinBox::valueChanged;
     connect(qspinbox01, spinBoxSignal, this, &InRepoChange::onChangedValueChanged);
-    connect(yeschange, &QPushButton::clicked, this, &InRepoChange::showMessage);
+    connect(yeschange, &QPushButton::clicked, this,
+            &InRepoChange::showMessage);
+    connect(yeschangeandsync, &QPushButton::clicked, this,
+            &InRepoChange::showMessage2);
     // 信号与槽函数*************************************************************************
 }
 InRepoChange::~InRepoChange() {
@@ -473,8 +479,128 @@ void InRepoChange::ProcessTable() {
 }
 void InRepoChange::showMessage()
 {
-    QMessageBox messageBox(this);
-    messageBox.setWindowTitle("修改入库");
+    if(*currentID == 0) {
+        // 新对象****************************************************************************
+        simpledialog = new SimpleDialog(false, true, true, this);
+        simpledialog->setDialogContent("入库表中暂无记录，无法修改");
+        // 新对象****************************************************************************
+        // 嗯，坏米饭************************************************************************
+        // 调整位置**************************************************************************
+        QRect parentGeometry = this->window()->window()->geometry();
+        int dialogWidth = simpledialog->width();
+        int dialogHeight = simpledialog->height();
+        int x = (parentGeometry.width() - dialogWidth) / 2 + parentGeometry.x();
+        int y = (parentGeometry.height() - dialogHeight) / 2 + parentGeometry.y();
+        // 调整位置**************************************************************************
+        // 移动对话框***********************************************************************
+        simpledialog->move(x, y);
+        // 移动对话框***********************************************************************
+        // 嗯，坏米饭************************************************************************
+        simpledialog->exec();
+        delete simpledialog;
+    } else if (*currentproductnumber == *changedproductnumber) {
+        // 新对象****************************************************************************
+        simpledialog = new SimpleDialog(false, true, true, this);
+        simpledialog->setDialogContent("入库表无变化，修改无效");
+        // 新对象****************************************************************************
+        // 嗯，坏米饭************************************************************************
+        // 调整位置**************************************************************************
+        QRect parentGeometry = this->window()->window()->geometry();
+        int dialogWidth = simpledialog->width();
+        int dialogHeight = simpledialog->height();
+        int x = (parentGeometry.width() - dialogWidth) / 2 + parentGeometry.x();
+        int y = (parentGeometry.height() - dialogHeight) / 2 + parentGeometry.y();
+        // 调整位置**************************************************************************
+        // 移动对话框***********************************************************************
+        simpledialog->move(x, y);
+        // 移动对话框***********************************************************************
+        // 嗯，坏米饭************************************************************************
+        simpledialog->exec();
+        delete simpledialog;
+    } else {
+        // 新对象****************************************************************************
+        inrepochangedialog = new InRepoChangeDialog(false, true, true, this);
+        inrepochangedialog->setInRepoChangeID(QString::number(*currentID));
+        inrepochangedialog->setInRepoChangeDateTime(
+                    currentdatetime->toString("yyyy-MM-dd hh:mm:ss"));
+        inrepochangedialog->setInRepoChangeCategory(*currentproductcategory);
+        inrepochangedialog->setInRepoChangeName(*currentproductname);
+        inrepochangedialog->setInRepoChangeRepo(*currentrepo);
+        inrepochangedialog->setInRepoOriginalNumber(
+                    QString::number(*currentproductnumber));
+        inrepochangedialog->setInRepoChangeNumber(
+                    QString::number(*changedproductnumber));
+        // 新对象****************************************************************************
+        // 新对象的信号与槽*****************************************************************
+        connect(inrepochangedialog, &InRepoChangeDialog::accepted, this, [this]() {
+            SubmitChangeOperation();
+        });
+        // 新对象的信号与槽*****************************************************************
+        // 嗯，坏米饭************************************************************************
+        // 调整位置**************************************************************************
+        QRect parentGeometry = this->window()->window()->geometry();
+        int dialogWidth = inrepochangedialog->width();
+        int dialogHeight = inrepochangedialog->height();
+        int x = (parentGeometry.width() - dialogWidth) / 2 + parentGeometry.x();
+        int y = (parentGeometry.height() - dialogHeight) / 2 + parentGeometry.y();
+        // 调整位置**************************************************************************
+        // 移动对话框***********************************************************************
+        inrepochangedialog->move(x, y);
+        // 移动对话框***********************************************************************
+        // 嗯，坏米饭************************************************************************
+        inrepochangedialog->exec();
+        delete inrepochangedialog;
+    }
+}
+void InRepoChange::SubmitChangeOperation() {
+    // 更新数据表****************************************************************************
+    // 更新入库表***************************************************************************
+    query->prepare(sqlgroup->at(7));
+    query->addBindValue(*changedproductnumber);
+    query->addBindValue(*currentID);
+    query->exec();
+    // 更新入库表***************************************************************************
+    // 更新数据表****************************************************************************
+    // 放出信号******************************************************************************
+    // mainwindow下的done, outrepo, inrepo, repo, repoinfo, inrepoinfo表级信号
+    emit RefreshDoneTableSignal();
+    emit RefreshOutRepoTableSignal();
+    emit RefreshInRepoTableSignal();
+    emit RefreshRepoTableSignal();
+    emit RefreshRepoInfoTableSignal();
+    emit RefreshInRepoInfoTableSignal();
+    // mainwindow下的done, outrepo, inrepo, repo, repoinfo, inrepoinfo表级信号
+    // done下的doneadd, doneremove, donechange, donesearch窗口信号
+    emit RefreshDoneAddSignal();
+    emit RefreshDoneRemoveSignal();
+    emit RefreshDoneChangeSignal();
+    emit RefreshDoneSearchSignal();
+    // done下的doneadd, doneremove, donechange, donesearch窗口信号
+    // outrepo下的outrepoadd, outreporemove, outrepochange, outreposearch窗口信号
+    emit RefreshOutRepoAddSignal();
+    emit RefreshOutRepoRemoveSignal();
+    emit RefreshOutRepoChangeSignal();
+    emit RefreshOutRepoSearchSignal();
+    // outrepo下的outrepoadd, outreporemove, outrepochange, outreposearch窗口信号
+    // inrepo下的inrepoadd, inreporemove, inrepochange, inreposearch窗口信号
+    emit RefreshInRepoAddSignal();
+    emit RefreshInRepoRemoveSignal();
+    emit RefreshInRepoChangeSignal();
+    emit RefreshInRepoSearchSignal();
+    // inrepo下的inrepoadd, inreporemove, inrepochange, inreposearch窗口信号
+    // repo下的repoadd, reporemove, repochange, reposearch窗口信号
+    emit RefreshRepoAddSignal();
+    emit RefreshRepoRemoveSignal();
+    emit RefreshRepoChangeSignal();
+    emit RefreshRepoSearchSignal();
+    // repo下的repoadd, reporemove, repochange, reposearch窗口信号
+    // 放出信号******************************************************************************
+    // 更新自己**************************************************************************
+    RefreshInRepoChangeSlot();
+    // 更新自己**************************************************************************
+}
+void InRepoChange::showMessage2()
+{
     if(*currentID == 0) {
         // 新对象****************************************************************************
         simpledialog = new SimpleDialog(false, true, true, this);
@@ -542,6 +668,7 @@ void InRepoChange::showMessage()
         } else {
             // 新对象****************************************************************************
             inrepochangedialog = new InRepoChangeDialog(false, true, true, this);
+            inrepochangedialog->setInRepoChangeTitle("修 改 入 库 并 同 步");
             inrepochangedialog->setInRepoChangeID(QString::number(*currentID));
             inrepochangedialog->setInRepoChangeDateTime(
                         currentdatetime->toString("yyyy-MM-dd hh:mm:ss"));
@@ -555,7 +682,7 @@ void InRepoChange::showMessage()
             // 新对象****************************************************************************
             // 新对象的信号与槽*****************************************************************
             connect(inrepochangedialog, &InRepoChangeDialog::accepted, this, [this]() {
-                SubmitChangeOperation();
+                SubmitChangeOperation2();
             });
             // 新对象的信号与槽*****************************************************************
             // 嗯，坏米饭************************************************************************
@@ -575,7 +702,7 @@ void InRepoChange::showMessage()
         }
     }
 }
-void InRepoChange::SubmitChangeOperation() {
+void InRepoChange::SubmitChangeOperation2() {
     // 更新数据表****************************************************************************
     // 更新入库表***************************************************************************
     query->prepare(sqlgroup->at(7));

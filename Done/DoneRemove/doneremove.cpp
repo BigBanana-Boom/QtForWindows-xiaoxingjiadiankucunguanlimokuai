@@ -28,7 +28,7 @@ DoneRemove::DoneRemove(QWidget *parent, QSqlDatabase *db, QSqlQuery *query)
       qreadonlylineedit03(new QLineEdit(this)),
       qreadonlylineedit04(new QLineEdit(this)),
       yesremove(new QPushButton("确定删除记录", this)),
-      yesremoveandoutrepo(new QPushButton("出库并且删除", this)),
+      yesremoveandsync(new QPushButton("删除并且同步", this)),
       db(db),
       query(query),
       sqlgroup(new QStringList()),
@@ -225,13 +225,13 @@ DoneRemove::DoneRemove(QWidget *parent, QSqlDatabase *db, QSqlQuery *query)
     // 填充内容*****************************************************************************
     // 待删除已定数量***********************************************************************
     yesremove->setFont(*qfont01);
-    yesremoveandoutrepo->setFont(*qfont01);
+    yesremoveandsync->setFont(*qfont01);
     rightzonerow1->addWidget(qlabel04);
     rightzonerow1->addWidget(qreadonlylineedit03, 1);
     rightzonerow2->addWidget(qlabel05);
     rightzonerow2->addWidget(qreadonlylineedit04, 1);
     rightzonerow3->addWidget(yesremove);
-    rightzonerow3->addWidget(yesremoveandoutrepo);
+    rightzonerow3->addWidget(yesremoveandsync);
     rightzone->addLayout(rightzonerow1);
     rightzone->addLayout(rightzonerow2);
     rightzone->addLayout(rightzonerow3);
@@ -255,7 +255,7 @@ DoneRemove::DoneRemove(QWidget *parent, QSqlDatabase *db, QSqlQuery *query)
             this, &DoneRemove::onCurrentIDChanged);
     connect(yesremove, &QPushButton::clicked,
             this, &DoneRemove::showMessage);
-    connect(yesremoveandoutrepo, &QPushButton::clicked,
+    connect(yesremoveandsync, &QPushButton::clicked,
             this, &DoneRemove::showMessage2);
     // 信号与槽*****************************************************************************
 }

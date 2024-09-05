@@ -72,6 +72,7 @@ public slots:
     void RefreshInRepoChangeSlot();
 private slots:
     void showMessage();
+    void showMessage2();
     void onChangedIDChanged(const QString &text);
     void onChangedValueChanged(int value);
     void onSearchButtonClicked();
@@ -121,6 +122,7 @@ private:
     QLineEdit *qreadonlylineedit05;
     QSpinBox *qspinbox01;
     QPushButton *yeschange;
+    QPushButton *yeschangeandsync;
     // 右区域*******************************************************************************
 
     // 数据库连接***************************************************************************
@@ -131,6 +133,7 @@ private:
 
     // 函数*********************************************************************************
     void SubmitChangeOperation();
+    void SubmitChangeOperation2();
     void ProcessTable();
     // 函数*********************************************************************************
 

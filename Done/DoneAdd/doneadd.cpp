@@ -25,8 +25,6 @@ DoneAdd::DoneAdd(QWidget *parent, QSqlDatabase *db, QSqlQuery *query)
     db(db),
     query(query),
     sqlgroup(new QStringList()),
-    currentdatetime(new QString(
-                        QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"))),
     currentproductcategory(new QString()),
     currentproductname(new QString()),
     currentproductnumber(new int)
@@ -185,7 +183,6 @@ DoneAdd::~DoneAdd() {
     delete qfont02;
     delete qfont03;
     delete sqlgroup;
-    delete currentdatetime;
     delete currentproductcategory;
     delete currentproductname;
     delete currentproductnumber;
@@ -365,7 +362,8 @@ void DoneAdd::SubmitAddOperation() {
     // 更新数据表***************************************************************************
     // 更新已定表***************************************************************************
     query->prepare(sqlgroup->at(4));
-    query->addBindValue(*currentdatetime);
+    query->addBindValue(QDateTime::currentDateTime()
+                        .toString("yyyy-MM-dd hh:mm:ss"));
     query->addBindValue(*currentproductcategory);
     query->addBindValue(*currentproductname);
     query->addBindValue(*currentproductnumber);
@@ -411,9 +409,6 @@ void DoneAdd::SubmitAddOperation() {
     // 更新自己*****************************************************************************
 }
 void DoneAdd::RefreshDoneAddSlot() {
-    // 更新日期*****************************************************************************
-    *currentdatetime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");
-    // 更新日期*****************************************************************************
     // 关信号*******************************************************************************
     qcombobox01->blockSignals(true);
     // 关信号********************************************************************************

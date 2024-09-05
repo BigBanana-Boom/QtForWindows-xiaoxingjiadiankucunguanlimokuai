@@ -119,7 +119,7 @@ private:
     QLineEdit *qreadonlylineedit03;
     QLineEdit *qreadonlylineedit04;
     QPushButton *yesremove;
-    QPushButton *yesremoveandoutrepo;
+    QPushButton *yesremoveandsync;
     // 右区域*******************************************************************************
 
     // 数据库连接***************************************************************************

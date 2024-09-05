@@ -51,11 +51,11 @@ QFramelessHelper::QFramelessHelper(QWidget* w, bool resizeEnable, bool shadowBor
 
     //设置无边框属性，且保留任务栏图标点击切换最小化
     if (m_widget->inherits("QMainWindow")){
-        // qDebug() << "QMainWindow: " << m_widget->windowFlags();
+        qDebug() << "QMainWindow: " << m_widget->windowFlags();
     } else if (m_widget->inherits("QDialog")){
-        // qDebug() << "QDialog: " << m_widget->windowFlags();
+        qDebug() << "QDialog: " << m_widget->windowFlags();
     } else if (m_widget->inherits("QWidget")){
-        // qDebug() << "QWidget: " << m_widget->windowFlags();
+        qDebug() << "QWidget: " << m_widget->windowFlags();
     }
 
 #ifdef Q_OS_WIN
@@ -65,7 +65,7 @@ QFramelessHelper::QFramelessHelper(QWidget* w, bool resizeEnable, bool shadowBor
     m_widget->setWindowFlags ((m_widget->windowFlags() & (~Qt::WindowMinMaxButtonsHint) & (~Qt::Dialog))
                                             | Qt::FramelessWindowHint | Qt::Window);
 
-    // qDebug() << "windowFlags: " << m_widget->windowFlags();
+    qDebug() << "windowFlags: " << m_widget->windowFlags();
 #endif
 
     //安装事件过滤器识别拖动
@@ -185,7 +185,7 @@ void QFramelessHelper::doResizeEvent(QEvent *event)
 #endif
     if (event->type() == QEvent::Resize) {
         QResizeEvent *resizeEvent = (QResizeEvent *)event;
-        // qDebug() << resizeEvent;
+        qDebug() << resizeEvent;
         //重新计算八个描点的区域,描点区域的作用还有就是计算鼠标坐标是否在某一个区域内
         int width = m_widget->width();
         int height = m_widget->height();
@@ -275,8 +275,8 @@ void QFramelessHelper::doResizeEvent(QEvent *event)
         //根据当前鼠标位置,计算XY轴移动了多少
         int offsetX = globalPoint.x() - m_mouseGlobalPoint.x();
         int offsetY = globalPoint.y() - m_mouseGlobalPoint.y();
-//        // qDebug() << "offsetX: " << offsetX;
-//        // qDebug() << "offsetY: " << offsetY;
+//        qDebug() << "offsetX: " << offsetX;
+//        qDebug() << "offsetY: " << offsetY;
 
         //根据按下处的位置判断是否是移动控件还是拉伸控件
         if (m_moveEnable && m_mousePressed) {
@@ -422,7 +422,7 @@ void QFramelessHelper::switchMaximizedNormal()
 bool QFramelessHelper::eventFilter(QObject *watched, QEvent *event)
 {
     if (watched == m_widget) {
-        //// qDebug() << event;
+        //qDebug() << event;
         if (event->type() == QEvent::WindowStateChange) {
             doWindowStateChange(event);
         } else if (event->type() == QEvent::Show) {
@@ -462,7 +462,7 @@ bool QFramelessHelper::nativeEvent(const QByteArray &eventType, void *message, l
             return false;
         }
         MSG *msg = static_cast<MSG *>(message);
-        //// qDebug() << TIMEMS << "nativeEvent" << msg->wParam << msg->message;
+        //qDebug() << TIMEMS << "nativeEvent" << msg->wParam << msg->message;
 
         //不同的消息类型和参数进行不同的处理
         if (msg->message == WM_NCCALCSIZE) {
@@ -476,7 +476,7 @@ bool QFramelessHelper::nativeEvent(const QByteArray &eventType, void *message, l
             short x = LOWORD(msg->lParam);
             short y = HIWORD(msg->lParam);
             QPoint pos = m_widget->mapFromGlobal(QPoint(x, y));            
-            //// qDebug() << "WM_NCHITTEST " << pos;
+            //qDebug() << "WM_NCHITTEST " << pos;
             //判断当前鼠标位置在哪个区域
             bool left = pos.x() < m_padding;
             bool right = pos.x() > m_widget->width() - m_padding;

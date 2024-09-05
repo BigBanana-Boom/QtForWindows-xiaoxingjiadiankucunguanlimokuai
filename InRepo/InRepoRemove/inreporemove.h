@@ -73,6 +73,7 @@ public slots:
 private slots:
     void onCurrentIDChanged(const QString &text);
     void showMessage();
+    void showMessage2();
     void onSearchButtonClicked();
 private:
     // 字体*********************************************************************************
@@ -93,6 +94,7 @@ private:
     QHBoxLayout *rightzonerow1;
     QHBoxLayout *rightzonerow2;
     QHBoxLayout *rightzonerow3;
+    QHBoxLayout *rightzonerow4;
     QTableWidget *tableWidget01;
     // 总布局*******************************************************************************
 
@@ -117,6 +119,7 @@ private:
     QLineEdit *qreadonlylineedit04;
     QLineEdit *qreadonlylineedit05;
     QPushButton *yesremove;
+    QPushButton *yesremoveandsync;
     // 右区域*******************************************************************************
 
     // 数据库连接***************************************************************************
@@ -127,6 +130,7 @@ private:
 
     // 函数*********************************************************************************
     void SubmitRemoveOperation();
+    void SubmitRemoveOperation2();
     void ProcessTable();
     // 函数*********************************************************************************
 

@@ -41,8 +41,6 @@ RepoChange::RepoChange(QWidget *parent,
       db(db),
       query(query),
       sqlgroup(new QStringList()),
-      currentdatetime(new QString(
-                          QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"))),
       currentID(new int),
       currentproductcategory(new QString()),
       currentproductname(new QString()),
@@ -260,7 +258,6 @@ RepoChange::~RepoChange() {
     delete qfont02;
     delete qfont03;
     delete sqlgroup;
-    delete currentdatetime;
     delete currentID;
     delete currentrepo;
     delete currentproductnumber;
@@ -442,7 +439,8 @@ void RepoChange::SubmitChangeOperation() {
     // 更新数据表***************************************************************************
     // 更新调库表***************************************************************************
     query->prepare(sqlgroup->at(7));
-    query->addBindValue(*currentdatetime);
+    query->addBindValue(QDateTime::currentDateTime()
+                        .toString("yyyy-MM-dd hh:mm:ss"));
     query->addBindValue(*currentrepo);
     query->addBindValue(*currentproductcategory);
     query->addBindValue(*currentproductname);
@@ -511,10 +509,6 @@ void RepoChange::SubmitChangeOperation() {
     // 更新自己**************************************************************************
 }
 void RepoChange::RefreshRepoChangeSlot() {
-    // 更新日期*****************************************************************************
-    *currentdatetime = QDateTime::currentDateTime()
-            .toString("yyyy-MM-dd hh:mm:ss");
-    // 更新日期*****************************************************************************
     // 关信号****************************************************************************
     qcombobox01->blockSignals(true);
     // 关信号****************************************************************************
@@ -558,15 +552,11 @@ void RepoChange::onSearchButtonClicked() {
     // 移动对话框***********************************************************************
     searchdialog->move(x, y);
     // 移动对话框***********************************************************************
-    // 嗯，坏米饭************************************************************************
+    // 嗯，坏米饭***********************************************************************
     searchdialog->exec();
 
 
-    // 取自RefreshRepoChange**********************************************************
-    // 更新日期***************************************************************************
-    *currentdatetime = QDateTime::currentDateTime()
-            .toString("yyyy-MM-dd hh:mm:ss");
-    // 更新日期***************************************************************************
+    // 取自RefreshRepoChange*********************************************************
     // 关信号****************************************************************************
     qcombobox01->blockSignals(true);
     // 关信号****************************************************************************

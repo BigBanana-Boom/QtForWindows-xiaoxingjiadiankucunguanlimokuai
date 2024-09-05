@@ -36,8 +36,6 @@ OutRepoAdd::OutRepoAdd(QWidget *parent,
     db(db),
     query(query),
     sqlgroup(new QStringList()),
-    currentdatetime(new QString(
-                        QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"))),
     currentproductcategory(new QString()),
     currentproductname(new QString()),
     currentrepo(new QString()),
@@ -251,7 +249,6 @@ OutRepoAdd::~OutRepoAdd() {
     delete currentproductname;
     delete currentrepo;
     delete currentproductnumber;
-    delete currentdatetime;
     // 删除new对象*************************************************************************
 }
 void OutRepoAdd::onCurrentCategoryChanged(const QString &text){
@@ -475,7 +472,8 @@ void OutRepoAdd::SubmitAddOperation() {
     // 更新数据表***************************************************************************
     // 更新出库表***************************************************************************
     query->prepare(sqlgroup->at(4));
-    query->addBindValue(*currentdatetime);
+    query->addBindValue(QDateTime::currentDateTime()
+                        .toString("yyyy-MM-dd hh:mm:ss"));
     query->addBindValue(*currentrepo);
     query->addBindValue(*currentproductcategory);
     query->addBindValue(*currentproductname);
@@ -545,9 +543,6 @@ void OutRepoAdd::SubmitAddOperation() {
     // 更新自己********************************************************************************
 }
 void OutRepoAdd::RefreshOutRepoAddSlot() {
-    // 更新日期*****************************************************************************
-    *currentdatetime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");
-    // 更新日期*****************************************************************************
     // 关信号*******************************************************************************
     qcombobox01->blockSignals(true);
     // 关信号*******************************************************************************

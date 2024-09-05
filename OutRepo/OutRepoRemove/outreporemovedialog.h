@@ -19,6 +19,7 @@ public:
                                  bool winNativeEvent = true,
                                  QWidget *parent = nullptr);
     ~OutRepoRemoveDialog();
+    void setOutRepoRemoveTitle(QString title);
     void setOutRepoRemoveID(QString id);
     void setOutRepoRemoveDateTime(QString datetime);
     void setOutRepoRemoveCategory(QString category);

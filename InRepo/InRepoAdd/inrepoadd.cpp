@@ -36,8 +36,6 @@ InRepoAdd::InRepoAdd(QWidget *parent,
       db(db),
       query(query),
       sqlgroup(new QStringList()),
-      currentdatetime(new QString(
-                          QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"))),
       currentproductcategory(new QString()),
       currentproductname(new QString()),
       currentrepo(new QString()),
@@ -241,7 +239,6 @@ InRepoAdd::~InRepoAdd() {
     delete currentproductname;
     delete currentrepo;
     delete currentproductnumber;
-    delete currentdatetime;
     // 删除new对象*************************************************************************
 }
 void InRepoAdd::onCurrentCategoryChanged(const QString &text){
@@ -407,7 +404,8 @@ void InRepoAdd::SubmitAddOperation() {
     // 更新数据表***************************************************************************
     // 更新入库表***************************************************************************
     query->prepare(sqlgroup->at(5));
-    query->addBindValue(*currentdatetime);
+    query->addBindValue(QDateTime::currentDateTime()
+                        .toString("yyyy-MM-dd hh:mm:ss"));
     query->addBindValue(*currentrepo);
     query->addBindValue(*currentproductcategory);
     query->addBindValue(*currentproductname);
@@ -477,9 +475,6 @@ void InRepoAdd::SubmitAddOperation() {
     // 更新自己*****************************************************************************
 }
 void InRepoAdd::RefreshInRepoAddSlot() {
-    // 更新日期*****************************************************************************
-    *currentdatetime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");
-    // 更新日期*****************************************************************************
     // 关信号*******************************************************************************
     qcombobox01->blockSignals(true);
     // 关信号*******************************************************************************
