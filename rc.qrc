@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>Image/BrokenRice.png</file>
+        <file>Image/BrokenRice.ico</file>
         <file>Image/maximized.png</file>
         <file>Image/minimized.png</file>
         <file>Image/normalized.png</file>

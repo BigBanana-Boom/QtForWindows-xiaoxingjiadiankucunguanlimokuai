@@ -177,6 +177,10 @@ SearchDialog::SearchDialog(bool resizeEnable,
     // 窗口属性**************************************************************************
 
     // 信号与槽**************************************************************************
+    connect(yesbutton, &QPushButton::clicked,
+            this, &SearchDialog::searchFromTable);
+    connect(qlineedit, &QLineEdit::textChanged,
+            this, &SearchDialog::searchFromTable);
     connect(closebutton, &QPushButton::clicked,
             this, &SearchDialog::onCloseButtonClicked);
     connect(AcceptButton, &QPushButton::clicked, this, [this]() {
@@ -530,4 +534,347 @@ void SearchDialog::RefreshInRepoInfoTable() {
 }
 void SearchDialog::setDialogTitle(QString title) {
     contentWidgetTitle->setText(title);
+}
+void SearchDialog::searchFromTable() {
+    if(*tablename == "已定表") {
+        // 清理以防止内存泄漏******************************************************************
+        for (int row = 0; row < qtablewidget->rowCount(); ++row) {
+            for (int col = 0; col < qtablewidget->columnCount(); ++col) {
+                // 取出项**************************************************************************
+                QTableWidgetItem* item = qtablewidget->takeItem(row, col);
+                // 取出项**************************************************************************
+                if (item) {
+                    // 删除项，释放内存************************************************************
+                    delete item;
+                    // 删除项，释放内存************************************************************
+                }
+            }
+        }
+        // 清理以防止内存泄漏******************************************************************
+        // 表格单元格***************************************************************************
+        qtablewidget->clear();
+        qtablewidget->sortItems(0, Qt::DescendingOrder);
+        qtablewidget->setRowCount(0);
+        qtablewidget->setColumnCount(5);
+        int row = 0;
+        *whereclause = "";
+        *whereclause += " 已定名称 LIKE '%' || ? || '%' ";
+        *whereclausesql = "SELECT * FROM 已定表 WHERE 1 = 1 AND " + *whereclause +
+                " ORDER BY 已定编号 DESC";
+        /* ORDER BY 已定编号 DESC */
+        query->prepare(*whereclausesql);
+        query->addBindValue(qlineedit->text());
+        query->exec();
+        while (query->next()) {
+            qtablewidget->insertRow(qtablewidget->rowCount());
+            for(int i = 0; i < 5; i++) {
+                if(i == 0 || i == 4) {
+                    int value = query->value(i).toInt();
+                    QTableWidgetItem *item= new QTableWidgetItem();
+                    item->setTextAlignment(Qt::AlignmentFlag(Qt::AlignCenter));
+                    item->setData(Qt::DisplayRole, value);
+                    qtablewidget->setItem(row, i, item);
+                } else {
+                    QTableWidgetItem *item= new QTableWidgetItem(query->value(i).toString());
+                    item->setTextAlignment(Qt::AlignmentFlag(Qt::AlignCenter));
+                    qtablewidget->setItem(row, i, item);
+                }
+            }
+            ++row;
+        }
+        // 表格单元格***************************************************************************
+        // 水平表头*****************************************************************************
+        QStringList headers;
+        headers << "已定编号" << "已定时间" << "已定类别" << "已定名称" << "已定数量";
+        qtablewidget->setHorizontalHeaderLabels(headers);
+        headerView01_row = qtablewidget->horizontalHeader();
+        headerView01_row->setFont(*qfont03);
+        headerView01_row->setStyleSheet("");
+        headerView01_row->setStyleSheet(
+                    "QHeaderView::up-arrow {image: none;}"
+                    "QHeaderView::down-arrow {image: none;}");
+        // 水平表头*****************************************************************************
+        // 垂直表头*****************************************************************************
+        headerView01_column = qtablewidget->verticalHeader();
+        headerView01_column->hide();
+        // 垂直表头*****************************************************************************
+        // 表属性*******************************************************************************
+        qtablewidget->setFont(*qfont04);
+        qtablewidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        qtablewidget->resizeColumnsToContents();
+        qtablewidget->setSortingEnabled(true);
+        // 表属性*******************************************************************************
+    } else if(*tablename == "出库表") {
+        // 清理以防止内存泄漏******************************************************************
+        for (int row = 0; row < qtablewidget->rowCount(); ++row) {
+            for (int col = 0; col < qtablewidget->columnCount(); ++col) {
+                // 取出项**************************************************************************
+                QTableWidgetItem* item = qtablewidget->takeItem(row, col);
+                // 取出项**************************************************************************
+                if (item) {
+                    // 删除项，释放内存************************************************************
+                    delete item;
+                    // 删除项，释放内存************************************************************
+                }
+            }
+        }
+        // 清理以防止内存泄漏******************************************************************
+        // 表格单元格***************************************************************************
+        qtablewidget->clear();
+        qtablewidget->sortItems(0, Qt::DescendingOrder);
+        qtablewidget->setRowCount(0);
+        qtablewidget->setColumnCount(6);
+        *whereclause = "";
+        *whereclause += " AND 出库名称 LIKE '%' || ? || '%'";
+        *whereclausesql = "SELECT * FROM 出库表 WHERE 1 = 1" + *whereclause +
+                "ORDER BY 出库编号 DESC";
+        /* ORDER BY 出库编号 DESC */
+        query->prepare(*whereclausesql);
+        query->addBindValue(qlineedit->text());
+        query->exec();
+        int row = 0;
+        while (query->next()) {
+            qtablewidget->insertRow(qtablewidget->rowCount());
+            for(int i = 0; i < 6; i++) {
+                if(i == 0 || i == 5) {
+                    int value = query->value(i).toInt();
+                    QTableWidgetItem *item= new QTableWidgetItem();
+                    item->setTextAlignment(Qt::AlignmentFlag(Qt::AlignCenter));
+                    item->setData(Qt::DisplayRole, value);
+                    qtablewidget->setItem(row, i, item);
+                } else {
+                    QTableWidgetItem *item= new QTableWidgetItem(query->value(i).toString());
+                    item->setTextAlignment(Qt::AlignmentFlag(Qt::AlignCenter));
+                    qtablewidget->setItem(row, i, item);
+                }
+            }
+            ++row;
+        }
+        // 表格单元格***************************************************************************
+        // 水平表头*****************************************************************************
+        QStringList headers;
+        headers << "出库编号" << "出库时间" << "出库类别" <<
+                   "出库名称" << "出库位置" << "出库数量";
+        qtablewidget->setHorizontalHeaderLabels(headers);
+        headerView01_row = qtablewidget->horizontalHeader();
+        headerView01_row->setFont(*qfont03);
+        headerView01_row->setStyleSheet("");
+        headerView01_row->setStyleSheet(
+                    "QHeaderView::up-arrow {image: none;}"
+                    "QHeaderView::down-arrow {image: none;}");
+        // 水平表头*****************************************************************************
+        // 垂直表头*****************************************************************************
+        headerView01_column = qtablewidget->verticalHeader();
+        headerView01_column->hide();
+        // 垂直表头*****************************************************************************
+        // 表属性*******************************************************************************
+        qtablewidget->setFont(*qfont04);
+        qtablewidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        qtablewidget->resizeColumnsToContents();
+        qtablewidget->setSortingEnabled(true);
+        // 表属性*******************************************************************************
+    } else if(*tablename == "入库表") {
+        // 清理以防止内存泄漏******************************************************************
+        for (int row = 0; row < qtablewidget->rowCount(); ++row) {
+            for (int col = 0; col < qtablewidget->columnCount(); ++col) {
+                // 取出项**************************************************************************
+                QTableWidgetItem* item = qtablewidget->takeItem(row, col);
+                // 取出项**************************************************************************
+                if (item) {
+                    // 删除项，释放内存************************************************************
+                    delete item;
+                    // 删除项，释放内存************************************************************
+                }
+            }
+        }
+        // 清理以防止内存泄漏******************************************************************
+        // 表格单元格***************************************************************************
+        qtablewidget->clear();
+        qtablewidget->sortItems(0, Qt::DescendingOrder);
+        qtablewidget->setRowCount(0);
+        qtablewidget->setColumnCount(6);
+        *whereclause = "";
+        *whereclause += " AND 入库名称 LIKE '%' || ? || '%'";
+        *whereclausesql = "SELECT * FROM 入库表 WHERE 1 = 1" + *whereclause +
+                "ORDER BY 入库编号 DESC";
+        /* ORDER BY 入库编号 DESC */
+        query->prepare(*whereclausesql);
+        query->addBindValue(qlineedit->text());
+        query->exec();
+        int row = 0;
+        while (query->next()) {
+            qtablewidget->insertRow(qtablewidget->rowCount());
+            for(int i = 0; i < 6; i++) {
+                if(i == 0 || i == 5) {
+                    int value = query->value(i).toInt();
+                    QTableWidgetItem *item= new QTableWidgetItem();
+                    item->setTextAlignment(Qt::AlignmentFlag(Qt::AlignCenter));
+                    item->setData(Qt::DisplayRole, value);
+                    qtablewidget->setItem(row, i, item);
+                } else {
+                    QTableWidgetItem *item= new QTableWidgetItem(query->value(i).toString());
+                    item->setTextAlignment(Qt::AlignmentFlag(Qt::AlignCenter));
+                    qtablewidget->setItem(row, i, item);
+                }
+            }
+            ++row;
+        }
+        // 表格单元格***************************************************************************
+        // 水平表头*****************************************************************************
+        QStringList headers;
+        headers << "入库编号" << "入库时间" << "入库类别"
+                << "入库名称" << "入库位置" << "入库数量";
+        qtablewidget->setHorizontalHeaderLabels(headers);
+        headerView01_row = qtablewidget->horizontalHeader();
+        headerView01_row->setFont(*qfont03);
+        headerView01_row->setStyleSheet("");
+        headerView01_row->setStyleSheet(
+                    "QHeaderView::up-arrow {image: none;}"
+                    "QHeaderView::down-arrow {image: none;}");
+        // 水平表头*****************************************************************************
+        // 垂直表头*****************************************************************************
+        headerView01_column = qtablewidget->verticalHeader();
+        headerView01_column->hide();
+        // 垂直表头*****************************************************************************
+        // 表属性*******************************************************************************
+        qtablewidget->setFont(*qfont04);
+        qtablewidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        qtablewidget->resizeColumnsToContents();
+        qtablewidget->setSortingEnabled(true);
+        // 表属性*******************************************************************************
+    } else if(*tablename == "库存表") {
+        // 清理以防止内存泄漏******************************************************************
+        for (int row = 0; row < qtablewidget->rowCount(); ++row) {
+            for (int col = 0; col < qtablewidget->columnCount(); ++col) {
+                // 取出项**************************************************************************
+                QTableWidgetItem* item = qtablewidget->takeItem(row, col);
+                // 取出项**************************************************************************
+                if (item) {
+                    // 删除项，释放内存************************************************************
+                    delete item;
+                    // 删除项，释放内存************************************************************
+                }
+            }
+        }
+        // 清理以防止内存泄漏******************************************************************
+        // 表格单元格***************************************************************************
+        qtablewidget->clear();
+        qtablewidget->sortItems(0, Qt::DescendingOrder);
+        qtablewidget->setRowCount(0);
+        qtablewidget->setColumnCount(5);
+        *whereclause = "";
+        *whereclause += " AND 库存名称 LIKE '%' || ? || '%'";
+        *whereclausesql = "SELECT * FROM 库存表 WHERE 1 = 1" + *whereclause +
+                "ORDER BY 库存编号 DESC";
+        query->prepare(*whereclausesql);
+        query->addBindValue(qlineedit->text());
+        query->exec();
+        int row = 0;
+        while (query->next()) {
+            qtablewidget->insertRow(qtablewidget->rowCount());
+            for(int i = 0; i < 5; i++) {
+                if(i == 0 || i == 4) {
+                    int value = query->value(i).toInt();
+                    QTableWidgetItem *item= new QTableWidgetItem();
+                    item->setTextAlignment(Qt::AlignmentFlag(Qt::AlignCenter));
+                    item->setData(Qt::DisplayRole, value);
+                    qtablewidget->setItem(row, i, item);
+                } else {
+                    QTableWidgetItem *item= new QTableWidgetItem(query->value(i).toString());
+                    item->setTextAlignment(Qt::AlignmentFlag(Qt::AlignCenter));
+                    qtablewidget->setItem(row, i, item);
+                }
+            }
+            ++row;
+        }
+        // 表格单元格***************************************************************************
+        // 水平表头*****************************************************************************
+        QStringList headers;
+        headers << "库存编号" << "库存类别" << "库存名称" << "存放位置" << "存放数量";
+        qtablewidget->setHorizontalHeaderLabels(headers);
+        headerView01_row = qtablewidget->horizontalHeader();
+        headerView01_row->setFont(*qfont03);
+        headerView01_row->setStyleSheet("");
+        headerView01_row->setStyleSheet(
+                    "QHeaderView::up-arrow {image: none;}"
+                    "QHeaderView::down-arrow {image: none;}");
+        // 水平表头*****************************************************************************
+        // 垂直表头*****************************************************************************
+        headerView01_column = qtablewidget->verticalHeader();
+        headerView01_column->hide();
+        // 垂直表头*****************************************************************************
+        // 表属性*******************************************************************************
+        qtablewidget->setFont(*qfont04);
+        qtablewidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        qtablewidget->resizeColumnsToContents();
+        qtablewidget->setSortingEnabled(true);
+        // 表属性*******************************************************************************
+    } else if(*tablename == "附表2进货产品表") {
+        // 清理以防止内存泄漏******************************************************************
+        for (int row = 0; row < qtablewidget->rowCount(); ++row) {
+            for (int col = 0; col < qtablewidget->columnCount(); ++col) {
+                // 取出项**************************************************************************
+                QTableWidgetItem* item = qtablewidget->takeItem(row, col);
+                // 取出项**************************************************************************
+                if (item) {
+                    // 删除项，释放内存************************************************************
+                    delete item;
+                    // 删除项，释放内存************************************************************
+                }
+            }
+        }
+        // 清理以防止内存泄漏******************************************************************
+        // 表格单元格***************************************************************************
+        qtablewidget->clear();
+        qtablewidget->sortItems(0, Qt::DescendingOrder);
+        qtablewidget->setRowCount(0);
+        qtablewidget->setColumnCount(3);
+        *whereclause = "";
+        *whereclause += " AND 产品名称 LIKE '%' || ? || '%'";
+        *whereclausesql = "SELECT * FROM 附表2进货产品表 WHERE 1 = 1" + *whereclause +
+                "ORDER BY 产品编号 DESC";
+        query->prepare(*whereclausesql);
+        query->addBindValue(qlineedit->text());
+        query->exec();
+        int row = 0;
+        while (query->next()) {
+            qtablewidget->insertRow(qtablewidget->rowCount());
+            for(int i = 0; i < 3; i++) {
+                if(i == 0 ) {
+                    int value = query->value(i).toInt();
+                    QTableWidgetItem *item= new QTableWidgetItem();
+                    item->setTextAlignment(Qt::AlignmentFlag(Qt::AlignCenter));
+                    item->setData(Qt::DisplayRole, value);
+                    qtablewidget->setItem(row, i, item);
+                } else {
+                    QTableWidgetItem *item= new QTableWidgetItem(query->value(i).toString());
+                    item->setTextAlignment(Qt::AlignmentFlag(Qt::AlignCenter));
+                    qtablewidget->setItem(row, i, item);
+                }
+            }
+            ++row;
+        }
+        // 表格单元格***************************************************************************
+        // 水平表头*****************************************************************************
+        QStringList headers;
+        headers << "产品编号" << "产品类别" << "产品名称";
+        qtablewidget->setHorizontalHeaderLabels(headers);
+        headerView01_row = qtablewidget->horizontalHeader();
+        headerView01_row->setFont(*qfont03);
+        headerView01_row->setStyleSheet("");
+        headerView01_row->setStyleSheet(
+                    "QHeaderView::up-arrow {image: none;}"
+                    "QHeaderView::down-arrow {image: none;}");
+        // 水平表头*****************************************************************************
+        // 垂直表头*****************************************************************************
+        headerView01_column = qtablewidget->verticalHeader();
+        headerView01_column->hide();
+        // 垂直表头*****************************************************************************
+        // 表属性*******************************************************************************
+        qtablewidget->setFont(*qfont04);
+        qtablewidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        qtablewidget->resizeColumnsToContents();
+        qtablewidget->setSortingEnabled(true);
+        // 表属性*******************************************************************************
+    }
 }

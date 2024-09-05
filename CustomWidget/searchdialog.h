@@ -37,6 +37,7 @@ private slots:
     void RefreshInRepoTable();
     void RefreshRepoTable();
     void RefreshInRepoInfoTable();
+    void searchFromTable();
 private:
     // 字体********************************************************************************
     QFont *qfont01;

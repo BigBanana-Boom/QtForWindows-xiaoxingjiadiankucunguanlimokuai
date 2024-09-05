@@ -145,3 +145,5 @@ DISTFILES += \
 include(Frameless/frameless.pri)
 include(Xlsx/qtxlsx.pri)
 # 项目包含文件###################################################
+
+RC_ICONS = Image/BrokenRice.ico
