@@ -55,12 +55,10 @@ DoneChange::DoneChange(QWidget *parent, QSqlDatabase *db, QSqlQuery *query)
     /* WHERE ...编号 = ?，很精确了，不用再排序 */
     sqlgroup->append("UPDATE 已定表 SET 已定数量 = ? WHERE 已定编号 = ?");
     /* 数据库操作语句，不需要排序 */
-    sqlgroup->append("WITH 临时表 AS (SELECT 库存类别, 库存名称, "
-                     "SUM(存放数量) AS 存放数量_tmp "
-                     "FROM 库存表 GROUP BY 库存类别, 库存名称) "
-                     "SELECT 库存类别, 库存名称, 存放数量_tmp "
-                     "FROM 临时表 WHERE 库存类别 = ? AND 库存名称 = ?");
-    /* 不需要ORDER BY，因为只有一条记录 */
+    sqlgroup->append("SELECT 库存编号, 库存类别, 库存名称, 存放位置, 存放数量 "
+                     "FROM 库存表 WHERE 库存类别 = ? AND 库存名称 = ? "
+                     "ORDER BY 库存编号 DESC");
+    /* ORDER BY 库存编号 DESC */
     // 数据库语句***************************************************************************
 
     // 左区域*******************************************************************************
@@ -221,7 +219,7 @@ DoneChange::DoneChange(QWidget *parent, QSqlDatabase *db, QSqlQuery *query)
     leftzone->addLayout(leftzonerow4);
     leftzone->setSpacing(8);
     leftzone->setContentsMargins(QMargins(0, 4, 0, 4));
-    zone->addLayout(leftzone);
+    zone->addLayout(leftzone, 1);
 
     rightzonerow1->addWidget(qlabel05);
     rightzonerow1->addWidget(qreadonlylineedit04, 1);
@@ -231,17 +229,17 @@ DoneChange::DoneChange(QWidget *parent, QSqlDatabase *db, QSqlQuery *query)
     rightzone->addLayout(rightzonerow1);
     rightzone->addLayout(rightzonerow2);
     rightzone->addLayout(rightzonerow3);
-    rightzone->addStretch(1);
     rightzone->setSpacing(8);
     rightzone->setContentsMargins(QMargins(0, 4, 0, 4));
-    zone->addLayout(rightzone);
+    rightzone->addStretch(1);
+    zone->addLayout(rightzone, 1);
     // 总布局*******************************************************************************
 
     // 总区域*******************************************************************************
     mainLayout->addLayout(zone);
     ProcessTable();
     tableWidget01->resizeColumnsToContents();
-    mainLayout->addWidget(tableWidget01);
+    mainLayout->addWidget(tableWidget01, 1);
     // 总区域*******************************************************************************
 
     // 信号与槽函数*************************************************************************
@@ -382,7 +380,7 @@ void DoneChange::ProcessTable() {
     // 表格单元格***************************************************************************
     tableWidget01->clear();
     tableWidget01->setRowCount(0);
-    tableWidget01->setColumnCount(3);
+    tableWidget01->setColumnCount(5);
     query->prepare(sqlgroup->at(6));
     query->addBindValue(*currentproductcategory);
     query->addBindValue(*currentproductname);
@@ -390,7 +388,7 @@ void DoneChange::ProcessTable() {
     int row = 0;
     while (query->next()) {
         tableWidget01->insertRow(tableWidget01->rowCount());
-        for(int i = 0; i < 3; i++) {
+        for(int i = 0; i < 5; i++) {
             QTableWidgetItem *item= new QTableWidgetItem(query->value(i).toString());
             item->setTextAlignment(Qt::AlignmentFlag(Qt::AlignCenter));
             tableWidget01->setItem(row, i, item);
@@ -400,7 +398,8 @@ void DoneChange::ProcessTable() {
     // 表格单元格***************************************************************************
     // 水平表头*****************************************************************************
     QStringList headers;
-    headers << "库存类别" << "库存名称" << "库存存放数量";
+    headers << "库存编号" << "库存类别" << "库存名称"
+            << "库存存放位置" << "库存存放数量";
     tableWidget01->setHorizontalHeaderLabels(headers);
     tableWidget01->horizontalHeader()->setFont(*qfont01);
     // 水平表头*****************************************************************************

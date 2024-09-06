@@ -58,11 +58,11 @@ RepoAdjust::RepoAdjust(QWidget *parent,
     sqlgroup->append("SELECT 存放数量 FROM 库存表 "
                      "WHERE 库存类别 = ? AND 库存名称 = ? AND 存放位置 = ?");
     /* 不需要ORDER BY，因为只有一条记录 */
-    sqlgroup->append("SELECT 库存类别, 库存名称, 存放位置, 存放数量 FROM 库存表 "
-                     "WHERE 库存类别 = ? AND 库存名称 = ? AND "
-                     "(存放位置 = ? OR 存放位置 = ?) "
-                     "ORDER BY 存放位置");
-    /* ORDER BY 存放位置 */
+    sqlgroup->append("SELECT 库存编号, 库存类别, 库存名称, "
+                     "存放位置, 存放数量 FROM 库存表 "
+                     "WHERE 库存类别 = ? AND 库存名称 = ? "
+                     "ORDER BY 库存编号 DESC");
+    /* ORDER BY 库存编号 DESC */
     sqlgroup->append("INSERT INTO 附表3库存调整表 "
                      "(调库时间, 库存位置, 库存类别, 库存名称, 库存变化) "
                      "VALUES (?, ?, ?, ?, ?)");
@@ -191,7 +191,7 @@ RepoAdjust::RepoAdjust(QWidget *parent,
     leftzone->addLayout(leftzonerow3);
     leftzone->setSpacing(8);
     leftzone->setContentsMargins(QMargins(0, 4, 0, 4));
-    zone->addLayout(leftzone);
+    zone->addLayout(leftzone, 1);
     // 左区域*******************************************************************************
 
     // 右区域*******************************************************************************
@@ -262,17 +262,16 @@ RepoAdjust::RepoAdjust(QWidget *parent,
     rightzone->addLayout(rightzonerow1);
     rightzone->addLayout(rightzonerow2);
     rightzone->addLayout(rightzonerow3);
-    rightzone->addStretch(1);
     rightzone->setSpacing(8);
     rightzone->setContentsMargins(QMargins(0, 4, 0, 4));
-    zone->addLayout(rightzone);
+    zone->addLayout(rightzone, 1);
     // 右区域*******************************************************************************
 
     // 总区域*******************************************************************************
     mainLayout->addLayout(zone);
     ProcessTable();
     tableWidget01->resizeColumnsToContents();
-    mainLayout->addWidget(tableWidget01);
+    mainLayout->addWidget(tableWidget01, 1);
     // 总区域*******************************************************************************
 
     // 信号与槽函数*************************************************************************
@@ -290,8 +289,6 @@ RepoAdjust::RepoAdjust(QWidget *parent,
     SpinBoxSignal spinBoxSignal = &QSpinBox::valueChanged;
     connect(qspinbox01, spinBoxSignal, this, &RepoAdjust::onCurrentValueChanged);
     connect(yeschange, &QPushButton::clicked, this, &RepoAdjust::showMessage);
-    connect(tableWidget01->horizontalHeader(), &QHeaderView::sectionClicked,
-            this, &RepoAdjust::selectColumnOnHeaderClick);
     // 信号与槽函数*************************************************************************
 }
 RepoAdjust::~RepoAdjust() {
@@ -480,22 +477,19 @@ void RepoAdjust::ProcessTable() {
     // 清理以防止内存泄漏******************************************************************
     // 表格初始化***************************************************************************
     tableWidget01->clear();
-    tableWidget01->setSortingEnabled(false);
     tableWidget01->setRowCount(0);
-    tableWidget01->setColumnCount(4);
+    tableWidget01->setColumnCount(5);
     // 表格初始化***************************************************************************
     // 表格单元格***************************************************************************
     query->prepare(sqlgroup->at(5));
     query->addBindValue(*currentproductcategory);
     query->addBindValue(*currentproductname);
-    query->addBindValue(*originalrepo);
-    query->addBindValue(*laterrepo);
     query->exec();
     int row = 0;
     while (query->next()) {
         tableWidget01->insertRow(tableWidget01->rowCount());
-        for(int i = 0; i < 4; i++) {
-            if(i == 3) {
+        for(int i = 0; i < 5; i++) {
+            if(i == 4) {
                 int value = query->value(i).toInt();
                 QTableWidgetItem *item= new QTableWidgetItem();
                 item->setTextAlignment(Qt::AlignmentFlag(Qt::AlignCenter));
@@ -513,24 +507,18 @@ void RepoAdjust::ProcessTable() {
     // 表格单元格***************************************************************************
     // 水平表头*****************************************************************************
     QStringList headers;
-    headers<< "库存类别" << "库存名称" << "库存存放位置" << "库存存放数量";
+    headers << "库存编号" << "库存类别" << "库存名称" <<
+               "库存存放位置" << "库存存放数量";
     tableWidget01->setHorizontalHeaderLabels(headers);
-    headerView01_row = tableWidget01->horizontalHeader();
-    headerView01_row->setFont(*qfont01);
-    headerView01_row->setStyleSheet("");
-    headerView01_row->setStyleSheet(
-                "QHeaderView::up-arrow {image: none;}"
-                "QHeaderView::down-arrow {image: none;}");
+    tableWidget01->horizontalHeader()->setFont(*qfont01);
     // 水平表头*****************************************************************************
     // 垂直表头*****************************************************************************
-    headerView01_column = tableWidget01->verticalHeader();
-    headerView01_column->hide();
+    tableWidget01->verticalHeader()->hide();
     // 垂直表头*****************************************************************************
     // 表属性*******************************************************************************
     tableWidget01->setEditTriggers(QAbstractItemView::NoEditTriggers);
     tableWidget01->resizeColumnsToContents();
     tableWidget01->setFont(*qfont02);
-    tableWidget01->setSortingEnabled(true);
     // 表属性*******************************************************************************
 }
 void RepoAdjust::showMessage()
@@ -721,13 +709,6 @@ void RepoAdjust::RefreshRepoAdjustSlot() {
     // 启槽函数******************************************************************************
     onCurrentCategoryChanged(*currentproductcategory);
     // 启槽函数******************************************************************************
-}
-void RepoAdjust::selectColumnOnHeaderClick(int column) {
-    tableWidget01->clearSelection();
-    for (int row = 0; row < tableWidget01->rowCount(); ++row)
-    {
-        tableWidget01->item(row, column)->setSelected(true);
-    }
 }
 void RepoAdjust::onSearchButtonClicked() {
     // 新对象****************************************************************************

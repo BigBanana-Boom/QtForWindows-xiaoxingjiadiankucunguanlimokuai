@@ -82,7 +82,8 @@ InRepoChange::InRepoChange(QWidget *parent,
     sqlgroup->append("UPDATE 库存表 SET 存放数量 = ? "
                      "WHERE 存放位置 = ? AND 库存类别 = ? AND 库存名称 = ?");
     /* 数据库操作语句，不需要排序 */
-    sqlgroup->append("SELECT 库存类别, 库存名称, 存放位置, 存放数量 FROM 库存表 "
+    sqlgroup->append("SELECT 库存编号, 库存类别, 库存名称, "
+                     "存放位置, 存放数量 FROM 库存表 "
                      "WHERE 库存类别 = ? AND 库存名称 = ? AND 存放位置 = ?");
     /* 不需要ORDER BY，因为只有一条记录 */
     // 数据库语句***************************************************************************
@@ -195,7 +196,7 @@ InRepoChange::InRepoChange(QWidget *parent,
     leftzone->addLayout(leftzonerow4);
     leftzone->setSpacing(8);
     leftzone->setContentsMargins(QMargins(0, 4, 0, 4));
-    zone->addLayout(leftzone);
+    zone->addLayout(leftzone, 1);
     // 左区域********************************************************************************
 
     // 右区域********************************************************************************
@@ -257,6 +258,7 @@ InRepoChange::InRepoChange(QWidget *parent,
         *changedproductnumber = 0;
     } else {
         qspinbox01->setMinimum(1);
+        qspinbox01->setValue(*currentproductnumber);
         *changedproductnumber = qspinbox01->value();
     }
     // 填充内容*****************************************************************************
@@ -279,14 +281,14 @@ InRepoChange::InRepoChange(QWidget *parent,
     rightzone->addLayout(rightzonerow4);
     rightzone->setSpacing(8);
     rightzone->setContentsMargins(QMargins(0, 4, 0, 4));
-    zone->addLayout(rightzone);
+    zone->addLayout(rightzone, 1);
     // 右区域*******************************************************************************
 
     // 总区域*******************************************************************************
     mainLayout->addLayout(zone);
     ProcessTable();
     tableWidget01->resizeColumnsToContents();
-    mainLayout->addWidget(tableWidget01);
+    mainLayout->addWidget(tableWidget01, 1);
     // 总区域*******************************************************************************
 
     // 信号与槽函数*************************************************************************
@@ -411,6 +413,7 @@ void InRepoChange::onChangedIDChanged(const QString &text) {
         *changedproductnumber = 0;
     } else {
         qspinbox01->setMinimum(1);
+        qspinbox01->setValue(*currentproductnumber);
         *changedproductnumber = qspinbox01->value();
     }
     // 填充内容*****************************************************************************
@@ -445,7 +448,7 @@ void InRepoChange::ProcessTable() {
     // 表格单元格***************************************************************************
     tableWidget01->clear();
     tableWidget01->setRowCount(0);
-    tableWidget01->setColumnCount(4);
+    tableWidget01->setColumnCount(5);
     query->prepare(sqlgroup->at(11));
     query->addBindValue(*currentproductcategory);
     query->addBindValue(*currentproductname);
@@ -454,7 +457,7 @@ void InRepoChange::ProcessTable() {
     int row = 0;
     while (query->next()) {
         tableWidget01->insertRow(tableWidget01->rowCount());
-        for(int i = 0; i < 4; i++) {
+        for(int i = 0; i < 5; i++) {
             QTableWidgetItem *item= new QTableWidgetItem(query->value(i).toString());
             item->setTextAlignment(Qt::AlignmentFlag(Qt::AlignCenter));
             tableWidget01->setItem(row, i, item);
@@ -464,7 +467,8 @@ void InRepoChange::ProcessTable() {
     // 表格单元格***************************************************************************
     // 水平表头*****************************************************************************
     QStringList headers;
-    headers<< "库存类别" << "库存名称" << "库存存放位置" << "库存存放数量";
+    headers<< "库存编号" << "库存类别" << "库存名称" <<
+              "库存存放位置" << "库存存放数量";
     tableWidget01->setHorizontalHeaderLabels(headers);
     tableWidget01->horizontalHeader()->setFont(*qfont01);
     // 水平表头*****************************************************************************

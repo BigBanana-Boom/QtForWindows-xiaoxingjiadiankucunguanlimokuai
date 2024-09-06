@@ -140,7 +140,7 @@ Done::Done(QWidget *parent, QSqlDatabase *db, QSqlQuery *query)
                 stackedWidget->currentWidget() == doneAddWindow) {
             stackedWidget->setVisible(false);
         } else {
-            stackedWidget->setFixedHeight(235);
+            stackedWidget->setFixedHeight(280);
             stackedWidget->setVisible(true);
             stackedWidget->setCurrentWidget(doneAddWindow);
         }
@@ -152,7 +152,7 @@ Done::Done(QWidget *parent, QSqlDatabase *db, QSqlQuery *query)
                 stackedWidget->currentWidget() == doneRemoveWindow) {
             stackedWidget->setVisible(false);
         } else {
-            stackedWidget->setFixedHeight(285);
+            stackedWidget->setFixedHeight(330);
             stackedWidget->setVisible(true);
             stackedWidget->setCurrentWidget(doneRemoveWindow);
         }
@@ -164,7 +164,7 @@ Done::Done(QWidget *parent, QSqlDatabase *db, QSqlQuery *query)
                 stackedWidget->currentWidget() == doneChangeWindow) {
             stackedWidget->setVisible(false);
         } else {
-            stackedWidget->setFixedHeight(332);
+            stackedWidget->setFixedHeight(380);
             stackedWidget->setVisible(true);
             stackedWidget->setCurrentWidget(doneChangeWindow);
         }

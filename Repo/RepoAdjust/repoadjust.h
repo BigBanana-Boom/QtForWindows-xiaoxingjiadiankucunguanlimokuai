@@ -79,7 +79,6 @@ private slots:
     void onOriginalRepoChanged(const QString &text);
     void onLaterRepoChanged(const QString &text);
     void onCurrentValueChanged(int value);
-    void selectColumnOnHeaderClick(int column);
     void onSearchButtonClicked();
 private:
     // 字体*********************************************************************************
@@ -99,8 +98,6 @@ private:
     QHBoxLayout *rightzonerow1;
     QHBoxLayout *rightzonerow2;
     QHBoxLayout *rightzonerow3;
-    QHeaderView *headerView01_row;
-    QHeaderView *headerView01_column;
     QTableWidget *tableWidget01;
     // 总布局*******************************************************************************
 

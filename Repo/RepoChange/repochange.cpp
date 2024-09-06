@@ -174,7 +174,7 @@ RepoChange::RepoChange(QWidget *parent,
     leftzone->addLayout(leftzonerow4);
     leftzone->setSpacing(8);
     leftzone->setContentsMargins(QMargins(0, 4, 0, 4));
-    zone->addLayout(leftzone);
+    zone->addLayout(leftzone, 1);
     // 左区域*******************************************************************************
 
     // 右区域*******************************************************************************
@@ -234,11 +234,12 @@ RepoChange::RepoChange(QWidget *parent,
     rightzone->addStretch(1);
     rightzone->setSpacing(8);
     rightzone->setContentsMargins(QMargins(0, 4, 0, 4));
-    zone->addLayout(rightzone);
+    zone->addLayout(rightzone, 1);
     // 右区域*******************************************************************************
 
     // 总区域*******************************************************************************
     mainLayout->addLayout(zone);
+    mainLayout->addStretch(1);
     // 总区域*******************************************************************************
 
     // 信号与槽函数*************************************************************************

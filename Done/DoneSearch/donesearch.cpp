@@ -127,7 +127,8 @@ DoneSearch::DoneSearch(QWidget *parent,
     leftzone->addLayout(leftzonerow3);
     leftzone->setSpacing(8);
     leftzone->setContentsMargins(QMargins(0, 4, 0, 4));
-    zone->addLayout(leftzone);
+    // 留出来间距，显得更加美观************************************************************
+    zone->addLayout(leftzone, 1);
     // 左区域********************************************************************************
 
     // 右区域********************************************************************************
@@ -179,7 +180,8 @@ DoneSearch::DoneSearch(QWidget *parent,
     rightzone->addLayout(rightzonerow3);
     rightzone->setSpacing(8);
     rightzone->setContentsMargins(QMargins(0, 4, 0, 4));
-    zone->addLayout(rightzone);
+    zone->addLayout(rightzone, 1);
+
     // 右区域********************************************************************************
 
     // 信号和槽函数*************************************************************************

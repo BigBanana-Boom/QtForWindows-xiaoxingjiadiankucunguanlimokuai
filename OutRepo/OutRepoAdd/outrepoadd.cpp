@@ -62,8 +62,17 @@ OutRepoAdd::OutRepoAdd(QWidget *parent,
     sqlgroup->append("UPDATE 库存表 SET 存放数量 = 存放数量 - ? "
                      "WHERE 存放位置 = ? AND 库存类别 = ? AND 库存名称 = ?");
     /* 数据库操作语句，不需要排序 */
-    sqlgroup->append("SELECT 库存类别, 库存名称, 存放位置, 存放数量 FROM 库存表 "
+    sqlgroup->append("SELECT 库存编号, 库存类别, 库存名称, "
+                     "存放位置, 存放数量 FROM 库存表 "
                      "WHERE 库存类别 = ? AND 库存名称 = ? AND 存放位置 = ?");
+    /* 不需要ORDER BY，因为只有一条记录 */
+    sqlgroup->append("SELECT 库存类别 FROM 库存表 WHERE 库存编号 = ?");
+    /* 不需要ORDER BY，因为只有一条记录 */
+    sqlgroup->append("SELECT 库存名称 FROM 库存表 WHERE 库存编号 = ?");
+    /* 不需要ORDER BY，因为只有一条记录 */
+    sqlgroup->append("SELECT 存放位置 FROM 库存表 WHERE 库存编号 = ?");
+    /* 不需要ORDER BY，因为只有一条记录 */
+    sqlgroup->append("SELECT 存放数量 FROM 库存表 WHERE 库存编号 = ?");
     /* 不需要ORDER BY，因为只有一条记录 */
     // 数据库语句***************************************************************************
 
@@ -212,16 +221,16 @@ OutRepoAdd::OutRepoAdd(QWidget *parent,
     rightzone->addLayout(rightzonerow1);
     rightzone->addLayout(rightzonerow2);
     rightzone->addStretch(1);
-    zone->addLayout(rightzone, 1);
     rightzone->setSpacing(8);
     rightzone->setContentsMargins(QMargins(0, 4, 0, 4));
+    zone->addLayout(rightzone, 1);
     // 右区域*******************************************************************************
 
     // 总区域*******************************************************************************
     mainLayout->addLayout(zone);
     ProcessTable();
     tableWidget01->resizeColumnsToContents();
-    mainLayout->addWidget(tableWidget01);
+    mainLayout->addWidget(tableWidget01, 1);
     // 总区域*******************************************************************************
 
     // 信号和槽函数*************************************************************************
@@ -383,7 +392,7 @@ void OutRepoAdd::ProcessTable() {
     // 表格单元格***************************************************************************
     tableWidget01->clear();
     tableWidget01->setRowCount(0);
-    tableWidget01->setColumnCount(4);
+    tableWidget01->setColumnCount(5);
     query->prepare(sqlgroup->at(7));
     query->addBindValue(*currentproductcategory);
     query->addBindValue(*currentproductname);
@@ -392,7 +401,7 @@ void OutRepoAdd::ProcessTable() {
     int row = 0;
     while (query->next()) {
         tableWidget01->insertRow(tableWidget01->rowCount());
-        for(int i = 0; i < 4; i++) {
+        for(int i = 0; i < 5; i++) {
             QTableWidgetItem *item= new QTableWidgetItem(query->value(i).toString());
             item->setTextAlignment(Qt::AlignmentFlag(Qt::AlignCenter));
             tableWidget01->setItem(row, i, item);
@@ -402,7 +411,8 @@ void OutRepoAdd::ProcessTable() {
     // 表格单元格***************************************************************************
     // 水平表头*****************************************************************************
     QStringList headers;
-    headers<< "库存类别" << "库存名称" << "库存存放位置" << "库存存放数量";
+    headers<< "库存编号" << "库存类别" << "库存名称" <<
+              "库存存放位置" << "库存存放数量";
     tableWidget01->setHorizontalHeaderLabels(headers);
     tableWidget01->horizontalHeader()->setFont(*qfont01);
     // 水平表头*****************************************************************************
@@ -415,7 +425,6 @@ void OutRepoAdd::ProcessTable() {
     tableWidget01->setFont(*qfont02);
     // 表属性*******************************************************************************
 }
-
 void OutRepoAdd::showMessage()
 {
     query->exec(sqlgroup->at(0));
@@ -595,6 +604,62 @@ void OutRepoAdd::onSearchButtonClicked() {
     // 移动对话框***********************************************************************
     // 嗯，坏米饭************************************************************************
     searchdialog->exec();
+
+
+    // 关信号********************************************************************************
+    qcombobox01->blockSignals(true);
+    // 关信号********************************************************************************
+    // 填充内容******************************************************************************
+    query->prepare(sqlgroup->at(8));
+    query->addBindValue(*returnid);
+    query->exec();
+    if(query->next()) {
+        qcombobox01->setCurrentText(query->value(0).toString());
+        *currentproductcategory = qcombobox01->currentText();
+    }
+    // 填充内容******************************************************************************
+    // 开信号********************************************************************************
+    qcombobox01->blockSignals(false);
+    // 开信号********************************************************************************
+    // 启槽函数******************************************************************************
+    onCurrentCategoryChanged(*currentproductcategory);
+    // 启槽函数******************************************************************************
+    // 关信号********************************************************************************
+    qcombobox02->blockSignals(true);
+    // 关信号********************************************************************************
+    // 填充内容******************************************************************************
+    query->prepare(sqlgroup->at(9));
+    query->addBindValue(*returnid);
+    query->exec();
+    if(query->next()) {
+        qcombobox02->setCurrentText(query->value(0).toString());
+        *currentproductname = qcombobox02->currentText();
+    }
+    // 填充内容******************************************************************************
+    // 开信号********************************************************************************
+    qcombobox02->blockSignals(false);
+    // 开信号********************************************************************************
+    // 启槽函数******************************************************************************
+    onCurrentNameChanged(*currentproductname);
+    // 启槽函数******************************************************************************
+    // 关信号********************************************************************************
+    qcombobox03->blockSignals(true);
+    // 关信号********************************************************************************
+    // 填充内容******************************************************************************
+    query->prepare(sqlgroup->at(10));
+    query->addBindValue(*returnid);
+    query->exec();
+    if(query->next()) {
+        qcombobox03->setCurrentText(query->value(0).toString());
+        *currentrepo = qcombobox03->currentText();
+    }
+    // 填充内容******************************************************************************
+    // 开信号********************************************************************************
+    qcombobox03->blockSignals(false);
+    // 开信号********************************************************************************
+    // 启槽函数******************************************************************************
+    onCurrentRepoChanged(*currentrepo);
+    // 启槽函数******************************************************************************
     delete returnid;
     delete searchdialog;
 }
