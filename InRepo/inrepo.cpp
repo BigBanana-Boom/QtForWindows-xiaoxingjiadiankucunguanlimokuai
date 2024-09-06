@@ -32,14 +32,14 @@ InRepo::InRepo(QWidget *parent, QSqlDatabase *db, QSqlQuery *query)
                                         IRsearchingproductcategory,
                                         IRsearchingproductname,
                                         IRsearchingrepo)),
-    inrepoadd(new NormalGradientButton(this)),
-    inreporemove(new NormalGradientButton(this)),
-    inrepochange(new NormalGradientButton(this)),
-    inreposearch(new NormalGradientButton(this)),
-    inrepoexport(new NormalGradientButton(this)),
+    inrepoadd(new GradientButton(this)),
+    inreporemove(new GradientButton(this)),
+    inrepochange(new GradientButton(this)),
+    inreposearch(new GradientButton(this)),
+    inrepoexport(new GradientButton(this)),
     line(new QFrame(this)),
     tableWidget01(new QTableWidget(this)),
-    dropdowngradientbutton(new DropDownGradientButton(this)),
+    dropdowngradientbutton(new ArrowButton(this)),
     tableWidget02(new QTableWidget(this))
 {
     // 数据库语句***************************************************************************
@@ -81,23 +81,33 @@ InRepo::InRepo(QWidget *parent, QSqlDatabase *db, QSqlQuery *query)
     inrepoadd->setText("新增入库");
     inrepoadd->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     inrepoadd->setFont(*qfont02);
-    inrepoadd->setMinimumHeight(50);
+    inrepoadd->setHoverColor(QColor(240, 240, 240));
+    inrepoadd->setNormalColor(QColor(255, 255, 255));
+    inrepoadd->setCustomStyle("");
     inreporemove->setText("删除入库");
     inreporemove->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     inreporemove->setFont(*qfont02);
-    inreporemove->setMinimumHeight(50);
+    inreporemove->setHoverColor(QColor(240, 240, 240));
+    inreporemove->setNormalColor(QColor(255, 255, 255));
+    inreporemove->setCustomStyle("");
     inrepochange->setText("修改入库");
     inrepochange->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     inrepochange->setFont(*qfont02);
-    inrepochange->setMinimumHeight(50);
+    inrepochange->setHoverColor(QColor(240, 240, 240));
+    inrepochange->setNormalColor(QColor(255, 255, 255));
+    inrepochange->setCustomStyle("");
     inreposearch->setText("查找入库");
     inreposearch->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     inreposearch->setFont(*qfont02);
-    inreposearch->setMinimumHeight(50);
+    inreposearch->setHoverColor(QColor(240, 240, 240));
+    inreposearch->setNormalColor(QColor(255, 255, 255));
+    inreposearch->setCustomStyle("");
     inrepoexport->setText("导出入库");
     inrepoexport->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     inrepoexport->setFont(*qfont02);
-    inrepoexport->setMinimumHeight(50);
+    inrepoexport->setHoverColor(QColor(240, 240, 240));
+    inrepoexport->setNormalColor(QColor(255, 255, 255));
+    inrepoexport->setCustomStyle("");
     fivebutton->addWidget(inrepoadd);
     fivebutton->addWidget(inreporemove);
     fivebutton->addWidget(inrepochange);

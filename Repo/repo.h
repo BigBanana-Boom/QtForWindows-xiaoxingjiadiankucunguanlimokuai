@@ -1,8 +1,8 @@
 #ifndef REPO_H
 #define REPO_H
 
-#include "../CustomButton/normalgradientbutton.h"
-#include "../CustomButton/dropdowngradientbutton.h"
+#include "../CustomButton/gradientbutton.h"
+#include "../CustomButton/arrowbutton.h"
 #include "RepoModify/repomodify.h"
 #include "RepoAdjust/repoadjust.h"
 #include "RepoChange/repochange.h"
@@ -90,11 +90,11 @@ private:
     // 内容布局*****************************************************************************
 
     // 五个按钮*****************************************************************************
-    NormalGradientButton *repomodify;
-    NormalGradientButton *repoadjust;
-    NormalGradientButton *repochange;
-    NormalGradientButton *reposearch;
-    NormalGradientButton *repoexport;
+    GradientButton *repomodify;
+    GradientButton *repoadjust;
+    GradientButton *repochange;
+    GradientButton *reposearch;
+    GradientButton *repoexport;
     // 五个按钮*****************************************************************************
 
     // 总布局*******************************************************************************
@@ -105,7 +105,7 @@ private:
     QHeaderView *headerView01_row;
     QHeaderView *headerView01_column;
     QTableWidget *tableWidget01;
-    DropDownGradientButton *dropdowngradientbutton;
+    ArrowButton *dropdowngradientbutton;
     QHeaderView *headerView02_row;
     QHeaderView *headerView02_column;
     QTableWidget *tableWidget02;

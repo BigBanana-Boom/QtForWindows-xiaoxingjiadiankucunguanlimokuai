@@ -6,7 +6,7 @@ DoneRemoveDialog2::DoneRemoveDialog2(bool resizeEnable,
                                      QWidget *parent,
                                      int reponum,
                                      int currentproductnumber,
-                                     QVector<RepoAndCurrentNum> *ret)
+                                     QVector<RepoAndNumber> *ret)
     : QFramelessDialog(parent, resizeEnable, shadowBorder, winNativeEvent),
     qfont01(new QFont("楷体", 20, QFont::Bold)),
     qfont02(new QFont("楷体", 18, QFont::Bold)),
@@ -18,7 +18,7 @@ DoneRemoveDialog2::DoneRemoveDialog2(bool resizeEnable,
     labelIcon(new QLabel(this)),
     labelTitle(new QLabel(this)),
     closeVLayout(new QVBoxLayout()),
-    closebutton(new ExitGradientButton(this)),
+    closebutton(new CloseButton(this)),
     line(new QFrame(this)),
     contentWidget(new QWidget(this)),
     contentWidgetVLayout(new QVBoxLayout()),
@@ -44,8 +44,8 @@ DoneRemoveDialog2::DoneRemoveDialog2(bool resizeEnable,
     line2(new QFrame(this)),
     buttonWidget(new QWidget(this)),
     ButtonHLayout(new QHBoxLayout()),
-    AcceptButton(new DialogGradientButton(this)),
-    CancelButton(new DialogGradientButton(this))
+    AcceptButton(new GradientButton(this)),
+    CancelButton(new GradientButton(this))
 {
     // 总布局****************************************************************************
     setLayout(TotalVLayout);
@@ -75,9 +75,8 @@ DoneRemoveDialog2::DoneRemoveDialog2(bool resizeEnable,
     titleWidgetHLayout->addStretch(1);
     // 左侧******************************************************************************
     // 右侧******************************************************************************
-    // closebutton用的是专有的类，只这样设置就行************************************
+    closebutton->setIconSize(QSize(25, 25));
     closebutton->setFixedSize(QSize(60, 43));
-    // closebutton用的是专有的类，只这样设置就行************************************
     closeVLayout->addWidget(closebutton);
     closeVLayout->addStretch(1);
     titleWidgetHLayout->addLayout(closeVLayout);
@@ -239,7 +238,7 @@ DoneRemoveDialog2::DoneRemoveDialog2(bool resizeEnable,
         int length = inputZones.size();
         int sum = 0;
         for(int i = 0; i < length; i++) {
-            (*ret)[i].currentnum = QString::number(inputZones[i].spinBox->value());
+            (*ret)[i].number = QString::number(inputZones[i].spinBox->value());
             sum += inputZones[i].spinBox->value();
         }
         if(sum > currentproductnumber) {

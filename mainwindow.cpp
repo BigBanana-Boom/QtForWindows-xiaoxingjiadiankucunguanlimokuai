@@ -16,7 +16,7 @@ MainWindow::MainWindow(bool resizeEnable, bool shadowBorder,
       maximizedVLayout(new QVBoxLayout()),
       maximizedbutton(new GradientButton(this)),
       closeVLayout(new QVBoxLayout()),
-      closebutton(new GradientButtonWithSimpleIcon(this)),
+      closebutton(new CloseButton(this)),
       line(new QFrame(this)),
       contentWidget(new QWidget(this)),
       contentWidgetHLayout(new QHBoxLayout()),
@@ -64,9 +64,7 @@ MainWindow::MainWindow(bool resizeEnable, bool shadowBorder,
     maximizedbutton->setIcon(QIcon(":/Image/maximized.png"));
     maximizedbutton->setIconSize(QSize(40, 40));
     maximizedbutton->setFixedSize(QSize(70, 53));
-    // closebutton用的是专有的类，只这样设置就行************************************
     closebutton->setFixedSize(QSize(70, 53));
-    // closebutton用的是专有的类，只这样设置就行************************************
     minimizedVLayout->addWidget(minimizedbutton);
     minimizedVLayout->addStretch(1);
     maximizedVLayout->addWidget(maximizedbutton);
@@ -88,12 +86,8 @@ MainWindow::MainWindow(bool resizeEnable, bool shadowBorder,
     line->setFrameShape(QFrame::HLine);
     line->setFrameShadow(QFrame::Sunken);
     line->setFixedHeight(2);
-    QFile file(":/Qss/SeperateLine.qss");
-    file.open(QFile::ReadOnly | QFile::Text);
-    QTextStream in(&file);
-    QString stylesheet = in.readAll();
-    line->setStyleSheet(stylesheet);
-    file.close();
+    line->setStyleSheet("QFrame { margin-top: 0px; margin-bottom: 0px; "
+                        "border: 1px solid #bfbfbf; }");
     centralWidgetVLayout->addWidget(line);
     // 标题器件与内容器件之间的分割线**************************************************
 

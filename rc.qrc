@@ -7,7 +7,6 @@
         <file>Image/normalized.png</file>
         <file>Image/add.png</file>
         <file>Image/search.png</file>
-        <file>Qss/SeperateLine.qss</file>
         <file>Sql/CreateDoneTable.sql</file>
         <file>Sql/CreateInRepoInfoTable.sql</file>
         <file>Sql/CreateInRepoTable.sql</file>

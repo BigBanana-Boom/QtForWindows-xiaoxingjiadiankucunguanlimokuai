@@ -1,8 +1,8 @@
 #ifndef DONE_H
 #define DONE_H
 
-#include "CustomButton/normalgradientbutton.h"
-#include "CustomButton/dropdowngradientbutton.h"
+#include "CustomButton/gradientbutton.h"
+#include "CustomButton/arrowbutton.h"
 #include "DoneAdd/doneadd.h"
 #include "DoneChange/donechange.h"
 #include "DoneRemove/doneremove.h"
@@ -90,11 +90,11 @@ private:
     // 内容布局*****************************************************************************
 
     // 增删改查导***************************************************************************
-    NormalGradientButton *doneadd;
-    NormalGradientButton *doneremove;
-    NormalGradientButton *donechange;
-    NormalGradientButton *donesearch;
-    NormalGradientButton *doneexport;
+    GradientButton *doneadd;
+    GradientButton *doneremove;
+    GradientButton *donechange;
+    GradientButton *donesearch;
+    GradientButton *doneexport;
     // 增删改查导***************************************************************************
 
     // 总布局*******************************************************************************
@@ -105,7 +105,7 @@ private:
     QHeaderView *headerView01_row;
     QHeaderView *headerView01_column;
     QTableWidget *tableWidget01;
-    DropDownGradientButton *dropdowngradientbutton;
+    ArrowButton *dropdowngradientbutton;
     QHeaderView *headerView02_row;
     QHeaderView *headerView02_column;
     QTableWidget *tableWidget02;

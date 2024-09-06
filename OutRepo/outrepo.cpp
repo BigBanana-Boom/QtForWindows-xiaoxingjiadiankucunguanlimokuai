@@ -32,14 +32,14 @@ OutRepo::OutRepo(QWidget *parent, QSqlDatabase *db, QSqlQuery *query)
                                             ORsearchingproductcategory,
                                             ORsearchingproductname,
                                             ORsearchingrepo)),
-    outrepoadd(new NormalGradientButton(this)),
-    outreporemove(new NormalGradientButton(this)),
-    outrepochange(new NormalGradientButton(this)),
-    outreposearch(new NormalGradientButton(this)),
-    outrepoexport(new NormalGradientButton(this)),
+    outrepoadd(new GradientButton(this)),
+    outreporemove(new GradientButton(this)),
+    outrepochange(new GradientButton(this)),
+    outreposearch(new GradientButton(this)),
+    outrepoexport(new GradientButton(this)),
     line(new QFrame(this)),
     tableWidget01(new QTableWidget(this)),
-    dropdowngradientbutton(new DropDownGradientButton(this)),
+    dropdowngradientbutton(new ArrowButton(this)),
     tableWidget02(new QTableWidget(this))
 {
     // 数据库语句***************************************************************************
@@ -81,18 +81,33 @@ OutRepo::OutRepo(QWidget *parent, QSqlDatabase *db, QSqlQuery *query)
     outrepoadd->setText("新增出库");
     outrepoadd->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     outrepoadd->setFont(*qfont02);
+    outrepoadd->setHoverColor(QColor(240, 240, 240));
+    outrepoadd->setNormalColor(QColor(255, 255, 255));
+    outrepoadd->setCustomStyle("");
     outreporemove->setText("删除出库");
     outreporemove->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     outreporemove->setFont(*qfont02);
+    outreporemove->setHoverColor(QColor(240, 240, 240));
+    outreporemove->setNormalColor(QColor(255, 255, 255));
+    outreporemove->setCustomStyle("");
     outrepochange->setText("修改出库");
     outrepochange->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     outrepochange->setFont(*qfont02);
+    outrepochange->setHoverColor(QColor(240, 240, 240));
+    outrepochange->setNormalColor(QColor(255, 255, 255));
+    outrepochange->setCustomStyle("");
     outreposearch->setText("查找出库");
     outreposearch->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     outreposearch->setFont(*qfont02);
+    outreposearch->setHoverColor(QColor(240, 240, 240));
+    outreposearch->setNormalColor(QColor(255, 255, 255));
+    outreposearch->setCustomStyle("");
     outrepoexport->setText("导出出库");
     outrepoexport->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     outrepoexport->setFont(*qfont02);
+    outrepoexport->setHoverColor(QColor(240, 240, 240));
+    outrepoexport->setNormalColor(QColor(255, 255, 255));
+    outrepoexport->setCustomStyle("");
     fivebutton->addWidget(outrepoadd);
     fivebutton->addWidget(outreporemove);
     fivebutton->addWidget(outrepochange);

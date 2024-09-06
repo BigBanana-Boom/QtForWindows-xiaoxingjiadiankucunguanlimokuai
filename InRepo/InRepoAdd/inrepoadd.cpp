@@ -90,6 +90,8 @@ InRepoAdd::InRepoAdd(QWidget *parent,
         *currentproductcategory = "暂无";
     } else {
         QStringList stringList;
+        QString item = query->value(0).toString();
+        stringList.append(item);
         while (query->next()) {
             QString item = query->value(0).toString();
             stringList.append(item);
@@ -119,6 +121,8 @@ InRepoAdd::InRepoAdd(QWidget *parent,
         *currentproductname = "暂无";
     } else {
         QStringList stringList;
+        QString item = query->value(0).toString();
+        stringList.append(item);
         while (query->next()) {
             QString item = query->value(0).toString();
             stringList.append(item);
@@ -261,6 +265,8 @@ void InRepoAdd::onCurrentCategoryChanged(const QString &text){
         *currentproductname = "暂无";
     } else {
         QStringList stringList;
+        QString item = query->value(0).toString();
+        stringList.append(item);
         while (query->next()) {
             QString item = query->value(0).toString();
             stringList.append(item);
@@ -490,6 +496,8 @@ void InRepoAdd::RefreshInRepoAddSlot() {
         *currentproductcategory = "暂无";
     } else {
         QStringList stringList;
+        QString item = query->value(0).toString();
+        stringList.append(item);
         while (query->next()) {
             QString item = query->value(0).toString();
             stringList.append(item);

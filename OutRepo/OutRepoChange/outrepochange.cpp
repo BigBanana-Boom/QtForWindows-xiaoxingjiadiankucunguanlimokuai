@@ -259,9 +259,20 @@ OutRepoChange::OutRepoChange(QWidget *parent,
         qspinbox01->setValue(0);
         *changedproductnumber = 0;
     } else {
-        qspinbox01->setMinimum(1);
-        qspinbox01->setMaximum(*currentproductnumber);
-        qspinbox01->setValue(*currentproductnumber);
+        query->prepare(sqlgroup->at(6));
+        query->addBindValue(*currentrepo);
+        query->addBindValue(*currentproductcategory);
+        query->addBindValue(*currentproductname);
+        query->exec();
+        if(query->next()) {
+            qspinbox01->setMinimum(1);
+            qspinbox01->setMaximum(query->value(0).toInt()+*currentproductnumber);
+            qspinbox01->setValue(*currentproductnumber);
+        } else {
+            qspinbox01->setMinimum(1);
+            qspinbox01->setMaximum(*currentproductnumber);
+            qspinbox01->setValue(*currentproductnumber);
+        }
         *changedproductnumber = qspinbox01->value();
     }
     // 填充内容*****************************************************************************
@@ -407,7 +418,7 @@ void OutRepoChange::onChangedIDChanged(const QString &text) {
     // 关信号*******************************************************************************
     qspinbox01->blockSignals(true);
     // 关信号*******************************************************************************
-    // 填充内容******************************************************************
+    // 填充内容*****************************************************************************
     qspinbox01->clear();
     if(*currentID == 0) {
         qspinbox01->setMinimum(0);
@@ -415,12 +426,23 @@ void OutRepoChange::onChangedIDChanged(const QString &text) {
         qspinbox01->setValue(0);
         *changedproductnumber = 0;
     } else {
-        qspinbox01->setMinimum(1);
-        qspinbox01->setMaximum(*currentproductnumber);
-        qspinbox01->setValue(*currentproductnumber);
+        query->prepare(sqlgroup->at(6));
+        query->addBindValue(*currentrepo);
+        query->addBindValue(*currentproductcategory);
+        query->addBindValue(*currentproductname);
+        query->exec();
+        if(query->next()) {
+            qspinbox01->setMinimum(1);
+            qspinbox01->setMaximum(query->value(0).toInt()+*currentproductnumber);
+            qspinbox01->setValue(*currentproductnumber);
+        } else {
+            qspinbox01->setMinimum(1);
+            qspinbox01->setMaximum(*currentproductnumber);
+            qspinbox01->setValue(*currentproductnumber);
+        }
         *changedproductnumber = qspinbox01->value();
     }
-    // 填充内容******************************************************************
+    // 填充内容*****************************************************************************
     // 开信号*******************************************************************************
     qspinbox01->blockSignals(false);
     // 开信号*******************************************************************************

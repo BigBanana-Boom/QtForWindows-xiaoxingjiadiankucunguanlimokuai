@@ -546,7 +546,7 @@ void DoneRemove::showMessage2()
         if(query->next() && query->value(0).toInt() >= *currentproductnumber) {
             // 为新对象准备变量*****************************************************************
             repoandnumberv = new QVector<RepoAndNumber>;
-            repoandcurrentnumv = new QVector<RepoAndCurrentNum>;
+            repoandcurrentnumv = new QVector<RepoAndNumber>;
             int reponum;
             query->prepare(sqlgroup->at(12));
             query->addBindValue(*currentproductcategory);
@@ -561,9 +561,9 @@ void DoneRemove::showMessage2()
                 item.number = query->value(1).toString();
                 repoandnumberv->append(item);
 
-                RepoAndCurrentNum item2;
+                RepoAndNumber item2;
                 item2.repo = query->value(0).toString();
-                item2.currentnum = QString::number(0);
+                item2.number = QString::number(0);
                 repoandcurrentnumv->append(item2);
                 /* 靠这个来保证doneremovedialog2的打头处的仓库位置，
                  * 跟doneremovedialog2的qspinbox处的值是相同的。
@@ -604,10 +604,10 @@ void DoneRemove::showMessage2()
                 // 更新已定表***************************************************************************
                 int length = repoandcurrentnumv->size();
                 for(int i = 0; i < length; i++) {
-                    if((*repoandcurrentnumv)[i].currentnum.toInt() == 0) {}
+                    if((*repoandcurrentnumv)[i].number.toInt() == 0) {}
                     else {
                         QString currentrepo = (*repoandcurrentnumv)[i].repo;
-                        int outnumber = (*repoandcurrentnumv)[i].currentnum.toInt();
+                        int outnumber = (*repoandcurrentnumv)[i].number.toInt();
                         // 更新出库表***********************************************************************
                         query->prepare(sqlgroup->at(13));
                         query->addBindValue(QDateTime::currentDateTime());

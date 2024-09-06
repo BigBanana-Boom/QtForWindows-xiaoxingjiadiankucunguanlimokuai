@@ -1,8 +1,8 @@
 #ifndef INREPO_H
 #define INREPO_H
 
-#include "CustomButton/normalgradientbutton.h"
-#include "CustomButton/dropdowngradientbutton.h"
+#include "CustomButton/gradientbutton.h"
+#include "CustomButton/arrowbutton.h"
 #include "InRepoAdd/inrepoadd.h"
 #include "InRepoChange/inrepochange.h"
 #include "InRepoRemove/inreporemove.h"
@@ -88,11 +88,11 @@ private:
     // 内容布局*****************************************************************************
 
     // 增删改查导***************************************************************************
-    NormalGradientButton *inrepoadd;
-    NormalGradientButton *inreporemove;
-    NormalGradientButton *inrepochange;
-    NormalGradientButton *inreposearch;
-    NormalGradientButton *inrepoexport;
+    GradientButton *inrepoadd;
+    GradientButton *inreporemove;
+    GradientButton *inrepochange;
+    GradientButton *inreposearch;
+    GradientButton *inrepoexport;
     // 增删改查导***************************************************************************
 
     // 总布局*******************************************************************************
@@ -103,7 +103,7 @@ private:
     QHeaderView *headerView01_row;
     QHeaderView *headerView01_column;
     QTableWidget *tableWidget01;
-    DropDownGradientButton *dropdowngradientbutton;
+    ArrowButton *dropdowngradientbutton;
     QHeaderView *headerView02_row;
     QHeaderView *headerView02_column;
     QTableWidget *tableWidget02;

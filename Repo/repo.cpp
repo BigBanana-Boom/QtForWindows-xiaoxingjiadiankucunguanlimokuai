@@ -35,14 +35,14 @@ Repo::Repo(QWidget *parent,
                                     Rsearchingproductcategory,
                                     Rsearchingproductname,
                                     Rsearchingrepo)),
-    repomodify(new NormalGradientButton(this)),
-    repoadjust(new NormalGradientButton(this)),
-    repochange(new NormalGradientButton(this)),
-    reposearch(new NormalGradientButton(this)),
-    repoexport(new NormalGradientButton(this)),
+    repomodify(new GradientButton(this)),
+    repoadjust(new GradientButton(this)),
+    repochange(new GradientButton(this)),
+    reposearch(new GradientButton(this)),
+    repoexport(new GradientButton(this)),
     line(new QFrame(this)),
     tableWidget01(new QTableWidget(this)),
-    dropdowngradientbutton(new DropDownGradientButton(this)),
+    dropdowngradientbutton(new ArrowButton(this)),
     tableWidget02(new QTableWidget(this))
 {
     // 数据库语句***************************************************************************
@@ -68,18 +68,33 @@ Repo::Repo(QWidget *parent,
     repomodify->setText("库存盘点");
     repomodify->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     repomodify->setFont(*qfont02);
+    repomodify->setHoverColor(QColor(240, 240, 240));
+    repomodify->setNormalColor(QColor(255, 255, 255));
+    repomodify->setCustomStyle("");
     repoadjust->setText("库存转存");
     repoadjust->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     repoadjust->setFont(*qfont02);
+    repoadjust->setHoverColor(QColor(240, 240, 240));
+    repoadjust->setNormalColor(QColor(255, 255, 255));
+    repoadjust->setCustomStyle("");
     repochange->setText("库存修改");
     repochange->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     repochange->setFont(*qfont02);
+    repochange->setHoverColor(QColor(240, 240, 240));
+    repochange->setNormalColor(QColor(255, 255, 255));
+    repochange->setCustomStyle("");
     reposearch->setText("库存查找");
     reposearch->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     reposearch->setFont(*qfont02);
+    reposearch->setHoverColor(QColor(240, 240, 240));
+    reposearch->setNormalColor(QColor(255, 255, 255));
+    reposearch->setCustomStyle("");
     repoexport->setText("库存导出");
     repoexport->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     repoexport->setFont(*qfont02);
+    repoexport->setHoverColor(QColor(240, 240, 240));
+    repoexport->setNormalColor(QColor(255, 255, 255));
+    repoexport->setCustomStyle("");
     fivebutton->addWidget(repomodify);
     fivebutton->addWidget(repoadjust);
     fivebutton->addWidget(repochange);

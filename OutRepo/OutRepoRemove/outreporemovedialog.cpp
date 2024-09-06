@@ -15,7 +15,7 @@ OutRepoRemoveDialog::OutRepoRemoveDialog(bool resizeEnable,
     labelIcon(new QLabel(this)),
     labelTitle(new QLabel(this)),
     closeVLayout(new QVBoxLayout()),
-    closebutton(new ExitGradientButton(this)),
+    closebutton(new CloseButton(this)),
     line(new QFrame(this)),
     contentWidget(new QWidget(this)),
     contentWidgetVLayout(new QVBoxLayout()),
@@ -42,8 +42,8 @@ OutRepoRemoveDialog::OutRepoRemoveDialog(bool resizeEnable,
     line2(new QFrame(this)),
     buttonWidget(new QWidget(this)),
     ButtonHLayout(new QHBoxLayout()),
-    AcceptButton(new DialogGradientButton(this)),
-    CancelButton(new DialogGradientButton(this))
+    AcceptButton(new GradientButton(this)),
+    CancelButton(new GradientButton(this))
 {
     // 总布局****************************************************************************
     setLayout(TotalVLayout);
@@ -73,9 +73,8 @@ OutRepoRemoveDialog::OutRepoRemoveDialog(bool resizeEnable,
     titleWidgetHLayout->addStretch(1);
     // 左侧******************************************************************************
     // 右侧******************************************************************************
-    // closebutton用的是专有的类，只这样设置就行************************************
+    closebutton->setIconSize(QSize(25, 25));
     closebutton->setFixedSize(QSize(60, 43));
-    // closebutton用的是专有的类，只这样设置就行************************************
     closeVLayout->addWidget(closebutton);
     closeVLayout->addStretch(1);
     titleWidgetHLayout->addLayout(closeVLayout);

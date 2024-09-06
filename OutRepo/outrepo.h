@@ -1,8 +1,8 @@
 #ifndef OUTREPO_H
 #define OUTREPO_H
 
-#include "../CustomButton/normalgradientbutton.h"
-#include "../CustomButton/dropdowngradientbutton.h"
+#include "../CustomButton/gradientbutton.h"
+#include "../CustomButton/arrowbutton.h"
 #include "OutRepoAdd/outrepoadd.h"
 #include "OutRepoChange/outrepochange.h"
 #include "OutRepoRemove/outreporemove.h"
@@ -90,11 +90,11 @@ private:
     // 内容布局*****************************************************************************
 
     // 增删改查导***************************************************************************
-    NormalGradientButton *outrepoadd;
-    NormalGradientButton *outreporemove;
-    NormalGradientButton *outrepochange;
-    NormalGradientButton *outreposearch;
-    NormalGradientButton *outrepoexport;
+    GradientButton *outrepoadd;
+    GradientButton *outreporemove;
+    GradientButton *outrepochange;
+    GradientButton *outreposearch;
+    GradientButton *outrepoexport;
     // 增删改查导***************************************************************************
 
     // 总布局*******************************************************************************
@@ -105,7 +105,7 @@ private:
     QHeaderView *headerView01_row;
     QHeaderView *headerView01_column;
     QTableWidget *tableWidget01;
-    DropDownGradientButton *dropdowngradientbutton;
+    ArrowButton *dropdowngradientbutton;
     QHeaderView *headerView02_row;
     QHeaderView *headerView02_column;
     QTableWidget *tableWidget02;

@@ -2,7 +2,6 @@
 #define DONEREMOVE_H
 
 #include "../MethodClass/refreshrepotableid.h"
-#include "../CustomStruct/repoandcurrentnum.h"
 #include "../CustomStruct/repoandnumber.h"
 #include "doneremovedialog.h"
 #include "doneremovedialog2.h"
@@ -36,7 +35,7 @@ public:
     ~DoneRemove();
 
     // 设为public，因为这个变量要被其它类给修改
-    QVector<RepoAndCurrentNum> *repoandcurrentnumv;
+    QVector<RepoAndNumber> *repoandcurrentnumv;
     int *returnid;
     // 设为public，因为这个变量要被其它类给修改
 signals:

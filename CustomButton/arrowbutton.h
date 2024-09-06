@@ -1,29 +1,24 @@
-#ifndef GRADIENTBUTTON_H
-#define GRADIENTBUTTON_H
+#ifndef ARROWBUTTON_H
+#define ARROWBUTTON_H
 
-#include <QPushButton>
+#include <QToolButton>
 #include <QTimer>
 #include <QColor>
+#include <QCoreApplication>
 #include <QDateTime>
 #include <QEvent>
 
-class GradientButton : public QPushButton
+class ArrowButton : public QToolButton
 {
     Q_OBJECT
 public:
-    // 构造函数***************************************************************************
-    explicit GradientButton(QWidget *parent = nullptr);
-    ~GradientButton();
-    // 构造函数***************************************************************************
+    explicit ArrowButton(QWidget *parent = nullptr);
+    ~ArrowButton();
 
     // 设置背景颜色***********************************************************************
-    void setNormalColor(const QColor &color);
-    void setHoverColor(const QColor &color);
+    void setNormalFormat(const QColor &backgroundcolor, QColor &bordercolor);
+    void setHoverFormat(const QColor &backgroundcolor, QColor &bordercolor);
     // 设置背景颜色***********************************************************************
-
-    // 设置样式***************************************************************************
-    void setCustomStyle(QString customstyle);
-    // 设置样式***************************************************************************
 protected:
     // 重载函数****************************************************************************
     void enterEvent(QEvent *event) override;
@@ -35,15 +30,18 @@ private slots:
     // 动画过渡***************************************************************************
 private:
     // 按钮背景颜色***********************************************************************
-    QColor normalColor;
-    QColor hoverColor;
-    QColor currentColor;
-    QColor targetColor;
+    QColor normalBackgroundColor;
+    QColor hoverBackgroundColor;
+    QColor currentBackgroundColor;
+    QColor targetBackgroundColor;
     // 按钮背景颜色***********************************************************************
 
-    // 按钮样式***************************************************************************
-    QString *buttonstyle;
-    // 按钮样式***************************************************************************
+    // 按钮边框颜色***********************************************************************
+    QColor normalBorderColor;
+    QColor hoverBorderColor;
+    QColor currentBorderColor;
+    QColor targetBorderColor;
+    // 按钮边框颜色***********************************************************************
 
     // 定时器与过渡次数*******************************************************************
     QTimer *gradientTimer;
@@ -52,4 +50,4 @@ private:
     // 定时器与过渡次数*******************************************************************
 };
 
-#endif // GRADIENTBUTTON_H
+#endif // ARROWBUTTON_H

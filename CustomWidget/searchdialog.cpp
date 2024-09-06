@@ -18,19 +18,19 @@ SearchDialog::SearchDialog(bool resizeEnable,
       labelIcon(new QLabel(this)),
       labelTitle(new QLabel(this)),
       closeVLayout(new QVBoxLayout()),
-      closebutton(new ExitGradientButton(this)),
+      closebutton(new CloseButton(this)),
       line(new QFrame(this)),
       contentWidget(new QWidget(this)),
       contentWidgetVLayout(new QVBoxLayout()),
       contentWidgetTitle(new QLabel(this)),
       qlineedit(new QLineEdit(this)),
-      yesbutton(new DialogGradientButton(this)),
+      yesbutton(new GradientButton(this)),
       rowOneHLayout(new QHBoxLayout()),
       qtablewidget(new QTableWidget(this)),
       line2(new QFrame(this)),
       buttonWidget(new QWidget(this)),
       ButtonHLayout(new QHBoxLayout()),
-      AcceptButton(new DialogGradientButton(this)),
+      AcceptButton(new GradientButton(this)),
       db(db),
       query(query),
       sqlgroup(new QStringList()),
@@ -80,7 +80,7 @@ SearchDialog::SearchDialog(bool resizeEnable,
     titleWidgetHLayout->addStretch(1);
     // 左侧******************************************************************************
     // 右侧******************************************************************************
-    // closebutton用的是专有的类，只这样设置就行************************************
+    closebutton->setIconSize(QSize(25, 25));
     closebutton->setFixedSize(QSize(60, 43));
     // closebutton用的是专有的类，只这样设置就行************************************
     closeVLayout->addWidget(closebutton);

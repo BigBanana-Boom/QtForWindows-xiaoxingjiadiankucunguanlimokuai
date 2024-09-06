@@ -21,12 +21,9 @@ CONFIG(debug, debug|release){
 
 # C++源文件####################################################
 SOURCES += \
-    CustomButton/dialoggradientbutton.cpp \
-    CustomButton/dropdowngradientbutton.cpp \
-    CustomButton/exitgradientbutton.cpp \
-    CustomButton/normalgradientbutton.cpp \
+    CustomButton/arrowbutton.cpp \
+    CustomButton/closebutton.cpp \
     CustomButton/gradientbutton.cpp \
-    CustomButton/gradientbuttonwithsimpleicon.cpp \
     CustomWidget/searchdialog.cpp \
     CustomWidget/simpledialog.cpp \
     Done/done.cpp \
@@ -38,7 +35,6 @@ SOURCES += \
     Done/DoneChange/donechange.cpp \
     Done/DoneChange/donechangedialog.cpp \
     Done/DoneSearch/donesearch.cpp \
-    EventFilter/eventfilterformainwindow.cpp \
     InRepo/inrepo.cpp \
     InRepo/InRepoAdd/inrepoadd.cpp \
     InRepo/InRepoAdd/inrepoadddialog.cpp \
@@ -47,6 +43,12 @@ SOURCES += \
     InRepo/InRepoChange/inrepochange.cpp \
     InRepo/InRepoChange/inrepochangedialog.cpp \
     InRepo/InRepoSearch/inreposearch.cpp \
+    ModifyRepo/modifyrepo.cpp \
+    ModifyRepo/AddInRepoInfo/addinrepoinfo.cpp \
+    ModifyRepo/AddRepo/addrepo.cpp \
+    ModifyRepo/AddRepoInfo/addrepoinfo.cpp \
+    ModifyRepo/ClearInRepo/clearinrepo.cpp \
+    ModifyRepo/ClearOutRepo/clearoutrepo.cpp \
     OutRepo/outrepo.cpp \
     OutRepo/OutRepoAdd/outrepoadd.cpp \
     OutRepo/OutRepoAdd/outrepoadddialog.cpp \
@@ -64,21 +66,16 @@ SOURCES += \
     Repo/RepoSearch/reposearch.cpp \
     MethodClass/chinesesort.cpp \
     MethodClass/refreshrepotableid.cpp \
-    ModifyRepo/modifyrepo.cpp \
     main.cpp \
     mainwindow.cpp
 # C++源文件####################################################
 
 # 头文件#######################################################
 HEADERS += \
-    CustomButton/dialoggradientbutton.h \
-    CustomButton/dropdowngradientbutton.h \
-    CustomButton/exitgradientbutton.h \
-    CustomButton/normalgradientbutton.h \
+    CustomButton/arrowbutton.h \
+    CustomButton/closebutton.h \
     CustomButton/gradientbutton.h \
-    CustomButton/gradientbuttonwithsimpleicon.h \
     CustomStruct/inputzone.h \
-    CustomStruct/repoandcurrentnum.h \
     CustomStruct/repoandnumber.h \
     CustomWidget/searchdialog.h \
     CustomWidget/simpledialog.h \
@@ -91,7 +88,6 @@ HEADERS += \
     Done/DoneChange/donechange.h \
     Done/DoneChange/donechangedialog.h \
     Done/DoneSearch/donesearch.h \
-    EventFilter/eventfilterformainwindow.h \
     OutRepo/outrepo.h \
     OutRepo/OutRepoAdd/outrepoadd.h \
     OutRepo/OutRepoAdd/outrepoadddialog.h \
@@ -108,6 +104,12 @@ HEADERS += \
     InRepo/InRepoChange/inrepochange.h \
     InRepo/InRepoChange/inrepochangedialog.h \
     InRepo/InRepoSearch/inreposearch.h \
+    ModifyRepo/modifyrepo.h \
+    ModifyRepo/AddInRepoInfo/addinrepoinfo.h \
+    ModifyRepo/AddRepo/addrepo.h \
+    ModifyRepo/AddRepoInfo/addrepoinfo.h \
+    ModifyRepo/ClearInRepo/clearinrepo.h \
+    ModifyRepo/ClearOutRepo/clearoutrepo.h \
     Repo/repo.h \
     Repo/RepoModify/repomodify.h \
     Repo/RepoAdjust/repoadjust.h \
@@ -117,7 +119,6 @@ HEADERS += \
     Repo/RepoSearch/reposearch.h \
     MethodClass/chinesesort.h \
     MethodClass/refreshrepotableid.h \
-    ModifyRepo/modifyrepo.h \
     mainwindow.h
 # 头文件#######################################################
 
@@ -139,8 +140,3 @@ include(Xlsx/qtxlsx.pri)
 # .exe文件的图标##################################################
 RC_ICONS = Image/BrokenRice.ico
 # .exe文件的图标##################################################
-
-# 添加动态链接库##################################################
-LIBS += -luser32
-LIBS += -ldwmapi
-# 添加动态链接库##################################################

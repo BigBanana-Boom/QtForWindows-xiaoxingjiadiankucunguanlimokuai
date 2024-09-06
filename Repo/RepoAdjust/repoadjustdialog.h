@@ -2,8 +2,8 @@
 #define REPOADJUSTDIALOG_H
 
 #include "qframelessdialog.h"
-#include "../CustomButton/dialoggradientbutton.h"
-#include "../CustomButton/exitgradientbutton.h"
+#include "../CustomButton/gradientbutton.h"
+#include "../CustomButton/closebutton.h"
 #include <QDialog>
 #include <QFile>
 #include <QLabel>
@@ -45,7 +45,7 @@ private:
     QLabel *labelTitle;
     // 右上方小大关按钮布局**************************************************************
     QVBoxLayout *closeVLayout;
-    ExitGradientButton *closebutton;
+    CloseButton *closebutton;
     // 右上方小大关按钮布局**************************************************************
     // 标题器件及内容*********************************************************************
 
@@ -96,8 +96,8 @@ private:
     // 按钮器件及内容**********************************************************************
     QWidget *buttonWidget;
     QHBoxLayout *ButtonHLayout;
-    DialogGradientButton *AcceptButton;
-    DialogGradientButton *CancelButton;
+    GradientButton *AcceptButton;
+    GradientButton *CancelButton;
     // 按钮器件及内容**********************************************************************
 };
 

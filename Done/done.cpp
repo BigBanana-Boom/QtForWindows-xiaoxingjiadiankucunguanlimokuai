@@ -31,14 +31,14 @@ Done::Done(QWidget *parent, QSqlDatabase *db, QSqlQuery *query)
                                         Dsearchingdatetime02,
                                         Dsearchingproductcategory,
                                         Dsearchingproductname)),
-      doneadd(new NormalGradientButton(this)),
-      doneremove(new NormalGradientButton(this)),
-      donechange(new NormalGradientButton(this)),
-      donesearch(new NormalGradientButton(this)),
-      doneexport(new NormalGradientButton(this)),
+      doneadd(new GradientButton(this)),
+      doneremove(new GradientButton(this)),
+      donechange(new GradientButton(this)),
+      donesearch(new GradientButton(this)),
+      doneexport(new GradientButton(this)),
       line(new QFrame(this)),
       tableWidget01(new QTableWidget(this)),
-      dropdowngradientbutton(new DropDownGradientButton(this)),
+      dropdowngradientbutton(new ArrowButton(this)),
       tableWidget02(new QTableWidget(this))
 {
     // 数据库语句***************************************************************************
@@ -77,18 +77,33 @@ Done::Done(QWidget *parent, QSqlDatabase *db, QSqlQuery *query)
     doneadd->setText("新增已定");
     doneadd->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     doneadd->setFont(*qfont02);
+    doneadd->setHoverColor(QColor(240, 240, 240));
+    doneadd->setNormalColor(QColor(255, 255, 255));
+    doneadd->setCustomStyle("");
     doneremove->setText("删除已定");
     doneremove->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     doneremove->setFont(*qfont02);
+    doneremove->setHoverColor(QColor(240, 240, 240));
+    doneremove->setNormalColor(QColor(255, 255, 255));
+    doneremove->setCustomStyle("");
     donechange->setText("修改已定");
     donechange->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     donechange->setFont(*qfont02);
+    donechange->setHoverColor(QColor(240, 240, 240));
+    donechange->setNormalColor(QColor(255, 255, 255));
+    donechange->setCustomStyle("");
     donesearch->setText("查找已定");
     donesearch->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     donesearch->setFont(*qfont02);
+    donesearch->setHoverColor(QColor(240, 240, 240));
+    donesearch->setNormalColor(QColor(255, 255, 255));
+    donesearch->setCustomStyle("");
     doneexport->setText("导出已定");
     doneexport->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     doneexport->setFont(*qfont02);
+    doneexport->setHoverColor(QColor(240, 240, 240));
+    doneexport->setNormalColor(QColor(255, 255, 255));
+    doneexport->setCustomStyle("");
     fivebutton->addWidget(doneadd);
     fivebutton->addWidget(doneremove);
     fivebutton->addWidget(donechange);

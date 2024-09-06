@@ -8,7 +8,7 @@
 #include <QSqlError>
 #include "qframelessmainwindow.h"
 #include "CustomButton/gradientbutton.h"
-#include "CustomButton/gradientbuttonwithsimpleicon.h"
+#include "CustomButton/closebutton.h"
 #include "Done/done.h"
 #include "InRepo/inrepo.h"
 #include "ModifyRepo/modifyrepo.h"
@@ -55,7 +55,7 @@ private:
     QVBoxLayout *maximizedVLayout;
     GradientButton *maximizedbutton;
     QVBoxLayout *closeVLayout;
-    GradientButtonWithSimpleIcon *closebutton;
+    CloseButton *closebutton;
     // 右上方小大关按钮布局**************************************************************
     // 标题器件及内容*********************************************************************
 

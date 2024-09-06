@@ -2,8 +2,8 @@
 #define SEARCHDIALOG_H
 
 #include "qframelessdialog.h"
-#include "CustomButton/dialoggradientbutton.h"
-#include "CustomButton/exitgradientbutton.h"
+#include "CustomButton/gradientbutton.h"
+#include "CustomButton/closebutton.h"
 #include <QDialog>
 #include <QFile>
 #include <QHeaderView>
@@ -59,7 +59,7 @@ private:
     QLabel *labelTitle;
     // 右上方小大关按钮布局**************************************************************
     QVBoxLayout *closeVLayout;
-    ExitGradientButton *closebutton;
+    CloseButton *closebutton;
     // 右上方小大关按钮布局**************************************************************
     // 标题器件及内容*********************************************************************
 
@@ -75,7 +75,7 @@ private:
     // 标题*********************************************************************************
     // 第一行******************************************************************************
     QLineEdit *qlineedit;
-    DialogGradientButton *yesbutton;
+    GradientButton *yesbutton;
     QHBoxLayout *rowOneHLayout;
     // 第一行******************************************************************************
     // 表格********************************************************************************
@@ -90,7 +90,7 @@ private:
     // 按钮器件及内容**********************************************************************
     QWidget *buttonWidget;
     QHBoxLayout *ButtonHLayout;
-    DialogGradientButton *AcceptButton;
+    GradientButton *AcceptButton;
     // 按钮器件及内容**********************************************************************
 
     // 数据库连接***************************************************************************

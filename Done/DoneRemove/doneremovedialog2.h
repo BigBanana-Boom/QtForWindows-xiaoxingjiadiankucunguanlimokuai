@@ -3,10 +3,9 @@
 
 #include "qframelessdialog.h"
 #include "../MethodClass/refreshrepotableid.h"
-#include "../CustomButton/dialoggradientbutton.h"
-#include "../CustomButton/exitgradientbutton.h"
+#include "../CustomButton/gradientbutton.h"
+#include "../CustomButton/closebutton.h"
 #include "../CustomStruct/inputzone.h"
-#include "../CustomStruct/repoandcurrentnum.h"
 #include "../CustomStruct/repoandnumber.h"
 #include <QDialog>
 #include <QFile>
@@ -36,7 +35,7 @@ public:
                                QWidget *parent = nullptr,
                                int reponum = 0,
                                int currentproductnumber = 0,
-                               QVector<RepoAndCurrentNum> *ret = nullptr);
+                               QVector<RepoAndNumber> *ret = nullptr);
     ~DoneRemoveDialog2();
     void setDoneRemove2ID(QString id);
     void setDoneRemove2DateTime(QString datetime);
@@ -65,7 +64,7 @@ private:
     QLabel *labelTitle;
     // 右上方小大关按钮布局**************************************************************
     QVBoxLayout *closeVLayout;
-    ExitGradientButton *closebutton;
+    CloseButton *closebutton;
     // 右上方小大关按钮布局**************************************************************
     // 标题器件及内容*********************************************************************
 
@@ -125,8 +124,8 @@ private:
     // 按钮器件及内容**********************************************************************
     QWidget *buttonWidget;
     QHBoxLayout *ButtonHLayout;
-    DialogGradientButton *AcceptButton;
-    DialogGradientButton *CancelButton;
+    GradientButton *AcceptButton;
+    GradientButton *CancelButton;
     // 按钮器件及内容**********************************************************************
 };
 
