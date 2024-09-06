@@ -189,6 +189,10 @@ SearchDialog::SearchDialog(bool resizeEnable,
     connect(AcceptButton, &QPushButton::clicked, this, [this]() {
         accept();
     });
+    // 选中表1******************************************************************************
+    connect(headerView01_row, &QHeaderView::sectionClicked,
+             this, &SearchDialog::selectColumnOnHeaderClickForTable01);
+    // 选中表1******************************************************************************
     // 信号与槽**************************************************************************
 }
 SearchDialog::~SearchDialog() {
@@ -886,4 +890,11 @@ void SearchDialog::onItemClicked(QTableWidgetItem *item) {
     QString firstColumnValue = qtablewidget->item(row, 0)->text();
     *returnid = firstColumnValue.toInt();
     close();
+}
+void SearchDialog::selectColumnOnHeaderClickForTable01(int column) {
+    qtablewidget->clearSelection();
+    for (int row = 0; row < qtablewidget->rowCount(); ++row)
+    {
+        qtablewidget->item(row, column)->setSelected(true);
+    }
 }

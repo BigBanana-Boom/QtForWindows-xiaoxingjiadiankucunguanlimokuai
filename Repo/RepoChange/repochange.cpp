@@ -342,7 +342,7 @@ void RepoChange::onChangedIDChanged(const QString &text) {
         qspinbox01->setValue(0);
         *changedproductnumber = 0;
     } else {
-        qspinbox01->setMinimum(1);
+        qspinbox01->setMinimum(0);
         qspinbox01->setMaximum(9999);
         qspinbox01->setValue(*currentproductnumber);
         *changedproductnumber = qspinbox01->value();

@@ -39,6 +39,7 @@ private slots:
     void RefreshInRepoInfoTable();
     void searchFromTable();
     void onItemClicked(QTableWidgetItem *item);
+    void selectColumnOnHeaderClickForTable01(int column);
 private:
     // 字体********************************************************************************
     QFont *qfont01;
